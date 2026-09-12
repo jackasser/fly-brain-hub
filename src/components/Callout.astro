@@ -1,0 +1,11 @@
+---
+interface Props {
+  tone?: 'notice' | 'info';
+  class?: string;
+}
+const { tone = 'info', class: extra = '' } = Astro.props;
+---
+
+<p class={`callout callout--${tone} ${extra}`.trim()} role={tone === 'notice' ? 'note' : undefined}>
+  <slot />
+</p>

@@ -1,0 +1,73 @@
+---
+import '../styles/global.css';
+import Header from '../components/Header.astro';
+import Footer from '../components/Footer.astro';
+import AdSlot from '../components/AdSlot.astro';
+import { alternates, canonical } from '../lib/seo';
+import { isAdsEnabled, type AdEnv } from '../lib/ads';
+import { localePath, stripLocale, t, type Locale } from '../i18n';
+
+interface Props {
+  locale: Locale;
+  title: string;
+  description: string;
+  /** Current path; may be locale-prefixed or not. */
+  path: string;
+  jsonLd?: Record<string, unknown>;
+  ogType?: 'website' | 'article';
+}
+
+const { locale, title, description, jsonLd, ogType = 'website' } = Astro.props;
+const bare = stripLocale(Astro.props.path);
+const here = localePath(locale, bare);
+const site = (Astro.site ?? new URL('https://example.com')).toString();
+const canon = canonical(site, here);
+const alts = alternates(site, bare);
+const siteName = t(locale, 'site.name');
+const fullTitle = title === siteName ? `${siteName} — ${t(locale, 'site.tagline')}` : `${title} · ${siteName}`;
+const env = import.meta.env as unknown as AdEnv;
+const adsOn = isAdsEnabled(env);
+---
+
+<!doctype html>
+<html lang={locale}>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>{fullTitle}</title>
+    <meta name="description" content={description} />
+    <link rel="canonical" href={canon} />
+    {alts.map((a) => <link rel="alternate" hreflang={a.hreflang} href={a.href} />)}
+    <link rel="alternate" type="application/rss+xml" title={siteName} href={localePath(locale, '/rss.xml')} />
+    <link rel="sitemap" href="/sitemap-index.xml" />
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+    <meta property="og:site_name" content={siteName} />
+    <meta property="og:title" content={fullTitle} />
+    <meta property="og:description" content={description} />
+    <meta property="og:url" content={canon} />
+    <meta property="og:type" content={ogType} />
+    <meta property="og:locale" content={locale === 'ja' ? 'ja_JP' : 'en_US'} />
+    <meta name="twitter:card" content="summary" />
+    {jsonLd && <script is:inline type="application/ld+json" set:html={JSON.stringify(jsonLd)} />}
+    {
+      adsOn && (
+        <script
+          is:inline
+          async
+          src={`https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=${env.PUBLIC_ADSENSE_CLIENT}`}
+          crossorigin="anonymous"
+        />
+      )
+    }
+  </head>
+  <body>
+    <Header locale={locale} path={here} />
+    <div class="container">
+      <AdSlot name="leaderboard" locale={locale} />
+    </div>
+    <main class="container" id="main">
+      <slot />
+    </main>
+    <Footer locale={locale} />
+  </body>
+</html>

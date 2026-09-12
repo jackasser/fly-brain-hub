@@ -1,0 +1,133 @@
+---
+import { CATEGORIES, CATEGORY_META, DATASET_IDS, DATASET_LABELS } from '../lib/taxonomy';
+import { t, type Locale } from '../i18n';
+
+interface Props {
+  locale: Locale;
+  /** id of the ProjectGrid element whose cards get filtered */
+  gridId: string;
+}
+const { locale, gridId } = Astro.props;
+---
+
+<form
+  class="search"
+  data-search
+  data-grid={gridId}
+  data-locale={locale}
+  data-results={t(locale, 'search.results')}
+  data-none={t(locale, 'search.none')}
+  role="search"
+>
+  <div class="search__row">
+    <label class="visually-hidden" for="search-q">{t(locale, 'search.label')}</label>
+    <input id="search-q" name="q" type="search" placeholder={t(locale, 'search.placeholder')} autocomplete="off" />
+    <label class="visually-hidden" for="search-category">{t(locale, 'search.category')}</label>
+    <select id="search-category" name="category">
+      <option value="">{t(locale, 'search.category')}: {t(locale, 'search.all')}</option>
+      {CATEGORIES.map((c) => <option value={c}>{CATEGORY_META[c].label[locale]}</option>)}
+    </select>
+    <label class="visually-hidden" for="search-dataset">{t(locale, 'search.dataset')}</label>
+    <select id="search-dataset" name="dataset">
+      <option value="">{t(locale, 'search.dataset')}: {t(locale, 'search.all')}</option>
+      {DATASET_IDS.map((d) => <option value={d}>{DATASET_LABELS[d]}</option>)}
+    </select>
+    <label class="visually-hidden" for="search-tag">{t(locale, 'search.tag')}</label>
+    <select id="search-tag" name="tag">
+      <option value="">{t(locale, 'search.tag')}: {t(locale, 'search.all')}</option>
+    </select>
+    <button type="button" class="search__clear" data-clear>{t(locale, 'search.clear')}</button>
+  </div>
+  <p class="search__status" data-status aria-live="polite"></p>
+</form>
+
+<script>
+  import Fuse from 'fuse.js';
+  import type { SearchItem } from '../lib/projects';
+
+  const KEYS = ['q', 'category', 'dataset', 'tag'] as const;
+  type Key = (typeof KEYS)[number];
+
+  async function init(form: HTMLFormElement) {
+    // NOTE: a form control named "dataset" shadows form.dataset, so read attributes explicitly.
+    const attr = (k: string) => form.getAttribute(`data-${k}`) ?? '';
+    const grid = document.getElementById(attr('grid'));
+    if (!grid) return;
+    const cards = [...grid.querySelectorAll<HTMLElement>('[data-id]')];
+    const ads = [...grid.querySelectorAll<HTMLElement>('.ad')];
+    const status = form.querySelector<HTMLElement>('[data-status]')!;
+    const locale = attr('locale') === 'ja' ? 'ja' : 'en';
+
+    const res = await fetch('/search-index.json');
+    const items = (await res.json()) as SearchItem[];
+    const byId = new Map(items.map((i) => [i.id, i]));
+    const fuse = new Fuse(items, {
+      keys: [
+        { name: 'name', weight: 3 },
+        { name: 'tags', weight: 2 },
+        { name: `description_${locale}`, weight: 1 },
+      ],
+      threshold: 0.35,
+      ignoreLocation: true,
+      minMatchCharLength: 2,
+    });
+
+    const field = (k: Key) => form.elements.namedItem(k) as HTMLInputElement | HTMLSelectElement;
+
+    // tag options from the index, most used first
+    const tagCounts = new Map<string, number>();
+    for (const i of items) for (const t of i.tags) tagCounts.set(t, (tagCounts.get(t) ?? 0) + 1);
+    const tagSelect = field('tag') as HTMLSelectElement;
+    for (const [tag, n] of [...tagCounts].sort((a, b) => b[1] - a[1] || a[0].localeCompare(b[0]))) {
+      tagSelect.append(new Option(`${tag} (${n})`, tag));
+    }
+
+    // restore from URL
+    const params = new URLSearchParams(location.search);
+    for (const k of KEYS) {
+      const v = params.get(k);
+      if (v) field(k).value = v;
+    }
+
+    function apply() {
+      const q = field('q').value.trim();
+      const cat = field('category').value;
+      const ds = field('dataset').value;
+      const tag = field('tag').value;
+      const matched = q ? new Set(fuse.search(q).map((r) => r.item.id)) : null;
+      let n = 0;
+      for (const card of cards) {
+        const item = byId.get(card.dataset.id ?? '');
+        const ok =
+          !!item &&
+          (!matched || matched.has(item.id)) &&
+          (!cat || item.category === cat) &&
+          (!ds || item.datasets.includes(ds)) &&
+          (!tag || item.tags.includes(tag));
+        card.hidden = !ok;
+        if (ok) n++;
+      }
+      const filtering = Boolean(q || cat || ds || tag);
+      for (const ad of ads) ad.hidden = filtering;
+      status.textContent = n ? `${n} ${attr('results')}` : attr('none');
+      const next = new URLSearchParams();
+      if (q) next.set('q', q);
+      if (cat) next.set('category', cat);
+      if (ds) next.set('dataset', ds);
+      if (tag) next.set('tag', tag);
+      const qs = next.toString();
+      history.replaceState(null, '', qs ? `${location.pathname}?${qs}` : location.pathname);
+    }
+
+    form.addEventListener('input', apply);
+    form.addEventListener('submit', (e) => e.preventDefault());
+    form.querySelector('[data-clear]')?.addEventListener('click', () => {
+      for (const k of KEYS) field(k).value = '';
+      apply();
+    });
+    apply();
+  }
+
+  const form = document.querySelector<HTMLFormElement>('form[data-search]');
+  if (form) init(form);
+</script>

@@ -1,0 +1,38 @@
+{
+  "name": "fly-brain-hub",
+  "type": "module",
+  "version": "0.0.1",
+  "engines": {
+    "node": ">=22.12.0"
+  },
+  "scripts": {
+    "dev": "astro dev",
+    "build": "astro build",
+    "preview": "astro preview",
+    "astro": "astro",
+    "test": "vitest run",
+    "test:watch": "vitest",
+    "test:dist": "vitest run --config vitest.dist.config.ts",
+    "test:e2e": "playwright test",
+    "check": "astro sync && astro check && vitest run",
+    "verify": "npm run check && npm run build && npm run test:dist && npm run test:e2e",
+    "linkcheck": "linkinator dist --recurse --skip \"^https?://(?!127\\.0\\.0\\.1)\"",
+    "refresh-stars": "node scripts/refresh-stars.mjs"
+  },
+  "dependencies": {
+    "@astrojs/rss": "^4.0.19",
+    "@astrojs/sitemap": "^3.7.4",
+    "astro": "^7.3.2",
+    "fuse.js": "^7.5.0"
+  },
+  "allowScripts": {
+    "esbuild": true
+  },
+  "devDependencies": {
+    "@astrojs/check": "^0.9.10",
+    "@playwright/test": "^1.63.0",
+    "linkinator": "^8.1.0",
+    "typescript": "^6.0.3",
+    "vitest": "^5.0.0"
+  }
+}

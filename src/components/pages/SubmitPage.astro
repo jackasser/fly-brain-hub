@@ -1,0 +1,85 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import { GITHUB_URL, SUBMIT_ISSUE_URL } from '../../lib/site';
+import { CATEGORIES, CATEGORY_META } from '../../lib/taxonomy';
+import { localePath, t, type Locale } from '../../i18n';
+
+interface Props {
+  locale: Locale;
+}
+const { locale } = Astro.props;
+const title = t(locale, 'submit.title');
+---
+
+<BaseLayout locale={locale} title={title} description={title} path="/submit">
+  <article class="section prose">
+    <h1>{title}</h1>
+    {
+      locale === 'ja' ? (
+        <>
+          <p>
+            ハエの脳・神経系に関するプロジェクトなら、データセット・ツール・シミュレーション・ゲーム・記事のどれでも歓迎です。掲載は GitHub の Issue
+            テンプレートから受け付けています（アカウント不要のフォームは用意していません）。
+          </p>
+          <p>
+            <a class="btn" href={SUBMIT_ISSUE_URL} rel="noopener">
+              GitHub で投稿する ↗
+            </a>
+          </p>
+          <h2>書いてほしいこと</h2>
+          <ul>
+            <li>プロジェクト名と公式 URL（リポジトリがあればその URL も）</li>
+            <li>カテゴリ: {CATEGORIES.map((c) => CATEGORY_META[c].label.ja).join(' / ')}</li>
+            <li>使っているコネクトームデータ（MaleCNS、FlyWire、hemibrain など）</li>
+            <li>作者・機関、ライセンス、公開時期</li>
+            <li>2〜3 文の説明（英語か日本語、どちらかで可。もう一方はこちらで書きます）</li>
+            <li>上記を確認できるページの URL（README、論文、公式サイトなど）</li>
+          </ul>
+          <h2>掲載の基準</h2>
+          <ul>
+            <li>公開されていて、リンク先で内容が確認できること</li>
+            <li>説明はこちらで自分の言葉に書き直します。転載はしません</li>
+            <li>暗号資産系は「情報のみ」として掲載し、紹介リンクは載せません</li>
+            <li>データセット本体はリンクのみで、当サイトでは配布しません</li>
+          </ul>
+          <p>
+            ご自身のプロジェクトの掲載内容を修正・削除したい場合も、同じ <a href={GITHUB_URL}>リポジトリ</a>の Issue からご連絡ください。
+            <a href={localePath(locale, '/contact')}>お問い合わせ</a>ページも参照してください。
+          </p>
+        </>
+      ) : (
+        <>
+          <p>
+            Anything built on the fly brain or nervous system is welcome: datasets, tools, simulations, games, articles.
+            Submissions go through a GitHub issue template (there is no account-free form).
+          </p>
+          <p>
+            <a class="btn" href={SUBMIT_ISSUE_URL} rel="noopener">
+              Submit on GitHub ↗
+            </a>
+          </p>
+          <h2>What to include</h2>
+          <ul>
+            <li>Project name and official URL (plus the repository URL if there is one)</li>
+            <li>Category: {CATEGORIES.map((c) => CATEGORY_META[c].label.en).join(' / ')}</li>
+            <li>Which connectome data it uses (MaleCNS, FlyWire, hemibrain, …)</li>
+            <li>Author or organisation, license, release date</li>
+            <li>A two- or three-sentence description in English or Japanese (we write the other language)</li>
+            <li>URLs where the above can be verified (README, paper, official site)</li>
+          </ul>
+          <h2>Listing criteria</h2>
+          <ul>
+            <li>Publicly available, and verifiable at the linked pages</li>
+            <li>We rewrite descriptions in our own words; nothing is pasted</li>
+            <li>Crypto projects are listed for information only, without referral links</li>
+            <li>Datasets are linked, never redistributed here</li>
+          </ul>
+          <p>
+            To correct or remove an entry about your own project, open an issue in the same
+            <a href={GITHUB_URL}> repository</a>, or see the <a href={localePath(locale, '/contact')}>contact page</a>.
+          </p>
+        </>
+      )
+    }
+  </article>
+</BaseLayout>

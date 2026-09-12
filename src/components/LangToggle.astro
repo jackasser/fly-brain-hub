@@ -1,0 +1,16 @@
+---
+import { otherLocale, otherLocalePath, t, type Locale } from '../i18n';
+
+interface Props {
+  locale: Locale;
+  /** Current URL path, possibly already locale-prefixed. */
+  path: string;
+}
+
+const { locale, path } = Astro.props;
+const target = otherLocale(locale);
+---
+
+<a class="lang-toggle" href={otherLocalePath(path)} hreflang={target} lang={target} aria-label={t(locale, 'lang.switchAria')}>
+  {t(locale, 'lang.switch')}
+</a>

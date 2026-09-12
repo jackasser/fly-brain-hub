@@ -1,0 +1,107 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import { localePath, t, type Locale } from '../../i18n';
+
+interface Props {
+  locale: Locale;
+}
+const { locale } = Astro.props;
+const title = t(locale, 'privacy.title');
+const updated = '2026-09-12';
+---
+
+<BaseLayout locale={locale} title={title} description={title} path="/privacy">
+  <article class="section prose">
+    <h1>{title}</h1>
+    {
+      locale === 'ja' ? (
+        <>
+          <p class="card__org">最終更新: {updated}</p>
+          <p>
+            本ポリシーは Fly Brain Hub（以下「当サイト」）が、閲覧者の情報をどのように扱うかを説明するものです。当サイトは静的なウェブサイトで、会員登録やフォームによる個人情報の収集は行っていません。
+          </p>
+          <h2>広告配信（Google AdSense）</h2>
+          <p>
+            当サイトは第三者配信の広告サービス「Google AdSense」を利用することがあります。Google
+            などの第三者配信事業者は、閲覧者の興味に応じた広告を表示するために Cookie（DoubleClick Cookie
+            を含む）を使用し、当サイトや他のサイトへの過去のアクセス情報を利用することがあります。
+          </p>
+          <p>
+            パーソナライズ広告は、Google の
+            <a href="https://www.google.com/settings/ads" rel="noopener">広告設定</a>
+            （https://www.google.com/settings/ads）で無効にできます。第三者配信事業者の Cookie 利用は
+            <a href="https://www.aboutads.info/choices/" rel="noopener">www.aboutads.info</a> でも無効にできます。
+            Google の広告における情報の利用については
+            <a href="https://policies.google.com/technologies/ads" rel="noopener">Google のポリシーと規約</a>
+            を参照してください。
+          </p>
+          <p>
+            EU・英国・スイスからの閲覧者には、Google が提供する同意管理メッセージが表示される場合があります。同意しない場合、パーソナライズされていない広告のみが表示されます。
+          </p>
+          <h2>Cookie</h2>
+          <p>
+            当サイト自体は、閲覧者を識別する Cookie を発行しません。Cookie
+            は上記の広告配信のために第三者が発行するものだけです。ブラウザの設定で Cookie を拒否できますが、その場合も当サイトの閲覧に支障はありません。
+          </p>
+          <h2>アクセス解析</h2>
+          <p>
+            当サイトは現在、Google アナリティクスなどのアクセス解析ツールを使用していません。ホスティング事業者（Vercel）がサービス運用のためにアクセスログを保持することがあります。導入した場合は本ポリシーを更新します。
+          </p>
+          <h2>外部リンク</h2>
+          <p>
+            当サイトは外部サイト（GitHub、研究機関のサイト、X など）へリンクしています。リンク先での情報の扱いは各サイトのポリシーに従います。
+          </p>
+          <h2>お問い合わせ</h2>
+          <p>
+            本ポリシーに関する質問は<a href={localePath(locale, '/contact')}>お問い合わせページ</a>からご連絡ください。
+          </p>
+        </>
+      ) : (
+        <>
+          <p class="card__org">Last updated: {updated}</p>
+          <p>
+            This policy explains how Fly Brain Hub ("the site") handles information about its visitors. The site is a
+            static website: there are no accounts and no forms that collect personal data.
+          </p>
+          <h2>Advertising (Google AdSense)</h2>
+          <p>
+            The site may use Google AdSense, a third-party advertising service. Third-party vendors, including Google,
+            use cookies (including the DoubleClick cookie) to serve ads based on a visitor's prior visits to this site
+            and to other websites.
+          </p>
+          <p>
+            You can opt out of personalised advertising in Google's
+            <a href="https://www.google.com/settings/ads" rel="noopener"> Ads Settings</a>
+            (https://www.google.com/settings/ads). You can also opt out of some third-party vendors' cookies at
+            <a href="https://www.aboutads.info/choices/" rel="noopener"> www.aboutads.info</a>. See
+            <a href="https://policies.google.com/technologies/ads" rel="noopener"> how Google uses information</a> from
+            sites that use its services.
+          </p>
+          <p>
+            Visitors in the EU, UK and Switzerland may see a consent message provided by Google. Without consent, only
+            non-personalised ads are shown.
+          </p>
+          <h2>Cookies</h2>
+          <p>
+            The site itself sets no cookies that identify you. The only cookies are those set by the advertising vendors
+            described above. You can refuse cookies in your browser; the site works without them.
+          </p>
+          <h2>Analytics</h2>
+          <p>
+            The site does not currently use Google Analytics or any other analytics tool. The hosting provider (Vercel)
+            may keep access logs to operate the service. If analytics are added, this policy will be updated.
+          </p>
+          <h2>External links</h2>
+          <p>
+            The site links to external sites (GitHub, research institutions, X and others). Their handling of your
+            data is governed by their own policies.
+          </p>
+          <h2>Contact</h2>
+          <p>
+            Questions about this policy can be sent through the <a href={localePath(locale, '/contact')}>contact page</a>.
+          </p>
+        </>
+      )
+    }
+  </article>
+</BaseLayout>

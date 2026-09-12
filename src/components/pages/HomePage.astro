@@ -1,0 +1,64 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import ProjectGrid from '../ProjectGrid.astro';
+import { loadProjects } from '../../lib/load';
+import { countByCategory, featured, latest } from '../../lib/projects';
+import { CATEGORIES, CATEGORY_META } from '../../lib/taxonomy';
+import { localePath, t, type Locale } from '../../i18n';
+
+interface Props {
+  locale: Locale;
+}
+const { locale } = Astro.props;
+const projects = await loadProjects();
+const counts = countByCategory(projects);
+const picks = featured(projects).slice(0, 6);
+const fresh = latest(projects, 6);
+---
+
+<BaseLayout locale={locale} title={t(locale, 'site.name')} description={t(locale, 'site.description')} path="/">
+  <section class="hero">
+    <h1>{t(locale, 'home.heroTitle')}</h1>
+    <p>{t(locale, 'home.heroBody')}</p>
+    <div class="hero__actions">
+      <a class="btn" href={localePath(locale, '/projects')}>{t(locale, 'home.viewAll')} ({projects.length})</a>
+      <a class="btn btn--ghost" href={localePath(locale, '/datasets')}>{t(locale, 'nav.datasets')}</a>
+    </div>
+  </section>
+
+  <section class="section" aria-labelledby="h-categories">
+    <div class="section__head"><h2 id="h-categories">{t(locale, 'home.categories')}</h2></div>
+    <div class="cat-grid">
+      {
+        CATEGORIES.map((c) => (
+          <a class="cat" href={localePath(locale, `/category/${c}`)}>
+            <span class="cat__title">
+              {CATEGORY_META[c].label[locale]}
+              <span class="cat__count">{counts[c]}</span>
+            </span>
+            <p class="cat__blurb">{CATEGORY_META[c].blurb[locale]}</p>
+          </a>
+        ))
+      }
+    </div>
+  </section>
+
+  {
+    picks.length > 0 && (
+      <section class="section" aria-labelledby="h-featured">
+        <div class="section__head">
+          <h2 id="h-featured">{t(locale, 'home.featured')}</h2>
+        </div>
+        <ProjectGrid projects={picks} locale={locale} />
+      </section>
+    )
+  }
+
+  <section class="section" aria-labelledby="h-latest">
+    <div class="section__head">
+      <h2 id="h-latest">{t(locale, 'home.latest')}</h2>
+      <a href={localePath(locale, '/projects')}>{t(locale, 'home.viewAll')} →</a>
+    </div>
+    <ProjectGrid projects={fresh} locale={locale} />
+  </section>
+</BaseLayout>

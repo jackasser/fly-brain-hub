@@ -1,0 +1,93 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import { GITHUB_URL } from '../../lib/site';
+import { localePath, t, type Locale } from '../../i18n';
+
+interface Props {
+  locale: Locale;
+}
+const { locale } = Astro.props;
+const title = t(locale, 'about.title');
+---
+
+<BaseLayout locale={locale} title={title} description={t(locale, 'site.description')} path="/about">
+  <article class="section prose">
+    <h1>{title}</h1>
+    {
+      locale === 'ja' ? (
+        <>
+          <p>
+            Fly Brain Hub は、ショウジョウバエ（<i>Drosophila melanogaster</i>）の脳・神経系に関するプロジェクトを世界中から集め、ジャンル別に一覧・検索できるようにした独立運営のまとめサイトです。
+            対象はコネクトーム（配線図）のデータセット、それを動かすシミュレーション、物理シミュレーション上の身体モデル、解析ツール、そして 2026 年 9 月に MaleCNS
+            が公開されてから急増した「ハエ脳が X をやる」系のデモまでです。
+          </p>
+          <h2>編集方針</h2>
+          <ol>
+            <li>
+              <strong>一次ソースを読んで確認した項目だけ載せます。</strong>
+              各エントリの下部に「確認した出典」として、実際に読んだページの URL を並べています。
+            </li>
+            <li>
+              <strong>説明文は自分の言葉で書きます。</strong> README やツイート、記事の本文を転載しません。スクリーンショットも転載しません。
+            </li>
+            <li>
+              <strong>データは再配布しません。</strong> ここにあるのはリンクと説明だけで、データセット本体は各提供元にあります。ライセンスはエントリごとに表示します。
+            </li>
+            <li>
+              <strong>暗号資産系のプロジェクトは「情報のみ」として掲載します。</strong> 推奨せず、紹介リンクも置きません。
+            </li>
+          </ol>
+          <h2>運営者</h2>
+          <p>
+            日本在住の個人開発者が運営しています。掲載している研究機関・企業・開発者とは無関係です。誤りの指摘や掲載依頼は
+            <a href={localePath(locale, '/submit')}>投稿ページ</a>か <a href={GITHUB_URL}>GitHub</a> からお願いします。
+          </p>
+          <h2>広告について</h2>
+          <p>
+            運営費をまかなうため、ページに広告を表示することがあります。広告の配信と Cookie の扱いは
+            <a href={localePath(locale, '/privacy')}>プライバシーポリシー</a>に書いています。
+          </p>
+        </>
+      ) : (
+        <>
+          <p>
+            Fly Brain Hub is an independent directory of projects built on the brain and nervous system of the fruit fly,
+            <i> Drosophila melanogaster</i>. It covers connectome datasets, the simulations that run them, physics-simulated
+            bodies, analysis tools, and the wave of "the fly brain can play X" demos that followed the September 2026
+            release of the MaleCNS connectome. Everything is browsable by category and searchable by name, tag or
+            description.
+          </p>
+          <h2>Editorial policy</h2>
+          <ol>
+            <li>
+              <strong>Only facts read from primary sources are listed.</strong> Each entry ends with the pages we
+              actually read, under "Sources checked".
+            </li>
+            <li>
+              <strong>Descriptions are written in our own words.</strong> We do not paste README text, tweets, article
+              copy or screenshots.
+            </li>
+            <li>
+              <strong>No data is redistributed.</strong> This site holds links and descriptions; datasets stay with
+              their owners, and the license of each is shown on its entry.
+            </li>
+            <li>
+              <strong>Crypto projects are listed for information only.</strong> No endorsement, no referral links.
+            </li>
+          </ol>
+          <h2>Who runs this</h2>
+          <p>
+            An independent developer based in Japan. The site is not affiliated with any of the labs, companies or
+            developers listed. Corrections and new entries are welcome via the
+            <a href={localePath(locale, '/submit')}> submission page</a> or <a href={GITHUB_URL}>GitHub</a>.
+          </p>
+          <h2>Advertising</h2>
+          <p>
+            To cover hosting costs the site may show ads. How ads are served and how cookies are used is described in
+            the <a href={localePath(locale, '/privacy')}>privacy policy</a>.
+          </p>
+        </>
+      )
+    }
+  </article>
+</BaseLayout>

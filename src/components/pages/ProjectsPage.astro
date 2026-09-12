@@ -1,0 +1,22 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import ProjectGrid from '../ProjectGrid.astro';
+import SearchProjects from '../SearchProjects.astro';
+import { loadProjects } from '../../lib/load';
+import { t, type Locale } from '../../i18n';
+
+interface Props {
+  locale: Locale;
+}
+const { locale } = Astro.props;
+const projects = await loadProjects();
+---
+
+<BaseLayout locale={locale} title={t(locale, 'projects.title')} description={t(locale, 'projects.intro')} path="/projects">
+  <section class="section">
+    <h1>{t(locale, 'projects.title')}</h1>
+    <p class="prose">{t(locale, 'projects.intro')}</p>
+    <SearchProjects locale={locale} gridId="project-grid" />
+    <ProjectGrid projects={projects} locale={locale} id="project-grid" />
+  </section>
+</BaseLayout>

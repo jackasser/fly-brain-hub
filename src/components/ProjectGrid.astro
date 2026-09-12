@@ -1,0 +1,32 @@
+---
+import AdSlot from './AdSlot.astro';
+import ProjectCard from './ProjectCard.astro';
+import type { Project } from '../lib/schema';
+import { INFEED_EVERY, type AdEnv } from '../lib/ads';
+import type { Locale } from '../i18n';
+
+interface Props {
+  projects: Project[];
+  locale: Locale;
+  /** Test overrides; see AdSlot. */
+  env?: AdEnv;
+  dev?: boolean;
+  /** Attribute hook for the client-side search island. */
+  id?: string;
+}
+
+const { projects, locale, env, dev, id } = Astro.props;
+---
+
+<div class="grid" id={id}>
+  {
+    projects.map((project, i) => (
+      <>
+        <ProjectCard project={project} locale={locale} />
+        {(i + 1) % INFEED_EVERY === 0 && i + 1 < projects.length && (
+          <AdSlot name="infeed" env={env} dev={dev} locale={locale} />
+        )}
+      </>
+    ))
+  }
+</div>

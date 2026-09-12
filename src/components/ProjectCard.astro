@@ -1,0 +1,41 @@
+---
+import Badge from './Badge.astro';
+import Callout from './Callout.astro';
+import type { Project } from '../lib/schema';
+import { CATEGORY_META, DATASET_LABELS } from '../lib/taxonomy';
+import { localePath, t, type Locale } from '../i18n';
+
+interface Props {
+  project: Project;
+  locale: Locale;
+}
+
+const { project, locale } = Astro.props;
+const meta = CATEGORY_META[project.category];
+const description = locale === 'ja' ? project.description_ja : project.description_en;
+const detailHref = localePath(locale, `/projects/${project.id}`);
+const categoryHref = localePath(locale, `/category/${project.category}`);
+const starsFmt = project.stars !== undefined ? new Intl.NumberFormat(locale === 'ja' ? 'ja-JP' : 'en-US').format(project.stars) : null;
+---
+
+<article class="card" data-id={project.id} data-category={project.category}>
+  <header class="card__head">
+    <Badge tone="category" href={categoryHref}>{meta.label[locale]}</Badge>
+    {project.status === 'archived' && <Badge tone="muted">{t(locale, 'status.archived')}</Badge>}
+  </header>
+  <h3 class="card__title"><a href={detailHref}>{project.name}</a></h3>
+  <p class="card__org">{project.org}</p>
+  <p class="card__desc">{description}</p>
+  {meta.notice && <Callout tone="notice">{meta.notice[locale]}</Callout>}
+  <footer class="card__foot">
+    {project.datasets.map((d) => (
+      <Badge tone="dataset" href={localePath(locale, `/projects/${d}`)}>{DATASET_LABELS[d]}</Badge>
+    ))}
+    {project.license && <span class="card__meta" title={t(locale, 'project.license')}>{project.license}</span>}
+    {starsFmt && (
+      <span class="card__meta" title={t(locale, 'project.stars')}>
+        ★ {starsFmt}
+      </span>
+    )}
+  </footer>
+</article>

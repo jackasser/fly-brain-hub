@@ -1,0 +1,57 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import { CONTACT_EMAIL, GITHUB_URL } from '../../lib/site';
+import { localePath, t, type Locale } from '../../i18n';
+
+interface Props {
+  locale: Locale;
+}
+const { locale } = Astro.props;
+const title = t(locale, 'contact.title');
+const issues = `${GITHUB_URL}/issues`;
+---
+
+<BaseLayout locale={locale} title={title} description={title} path="/contact">
+  <article class="section prose">
+    <h1>{title}</h1>
+    {
+      locale === 'ja' ? (
+        <>
+          <p>誤りの指摘、掲載依頼、削除依頼、広告に関する質問は次の方法で受け付けています。</p>
+          <ul>
+            <li>
+              <strong>GitHub Issues</strong>（推奨）: <a href={issues}>{issues}</a>
+            </li>
+            <li>
+              <strong>プロジェクトの掲載依頼</strong>: <a href={localePath(locale, '/submit')}>投稿ページ</a>の手順に従ってください。
+            </li>
+            {CONTACT_EMAIL && (
+              <li>
+                <strong>メール</strong>: <a href={`mailto:${CONTACT_EMAIL}`}>{CONTACT_EMAIL}</a>
+              </li>
+            )}
+          </ul>
+          <p>掲載されている研究者・開発者ご本人からの修正依頼は優先して対応します。</p>
+        </>
+      ) : (
+        <>
+          <p>Corrections, listing requests, removal requests and questions about advertising are welcome through:</p>
+          <ul>
+            <li>
+              <strong>GitHub Issues</strong> (preferred): <a href={issues}>{issues}</a>
+            </li>
+            <li>
+              <strong>Submitting a project</strong>: follow the steps on the <a href={localePath(locale, '/submit')}>submission page</a>.
+            </li>
+            {CONTACT_EMAIL && (
+              <li>
+                <strong>Email</strong>: <a href={`mailto:${CONTACT_EMAIL}`}>{CONTACT_EMAIL}</a>
+              </li>
+            )}
+          </ul>
+          <p>Correction requests from the researchers and developers listed here are handled first.</p>
+        </>
+      )
+    }
+  </article>
+</BaseLayout>

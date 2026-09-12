@@ -1,0 +1,81 @@
+name: Submit a project / プロジェクトを投稿
+description: Propose a new entry for Fly Brain Hub. / Fly Brain Hub への掲載を提案する。
+title: "[submit] <project name>"
+labels: [submission]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Thanks! Fill in what you can. We verify every field against the URLs you give before listing.
+        ありがとうございます。分かる範囲で結構です。掲載前に、書いてもらった URL で各項目を確認します。
+  - type: input
+    id: name
+    attributes:
+      label: Project name / プロジェクト名
+    validations:
+      required: true
+  - type: input
+    id: url
+    attributes:
+      label: Official URL / 公式 URL
+    validations:
+      required: true
+  - type: input
+    id: repo
+    attributes:
+      label: Repository URL / リポジトリ URL
+  - type: dropdown
+    id: category
+    attributes:
+      label: Category / カテゴリ
+      options:
+        - connectome — Datasets & Connectomes / データセット・コネクトーム
+        - simulation — Simulation & Emulation / シミュレーション
+        - body — Body Models & Physics / 身体モデル・物理
+        - demo — Demos & Games / デモ・ゲーム
+        - tool — Tools & Libraries / ツール・ライブラリ
+        - media — Media & Explainers / 解説・報道
+        - crypto — Crypto (informational) / 暗号資産（情報のみ）
+    validations:
+      required: true
+  - type: checkboxes
+    id: datasets
+    attributes:
+      label: Connectome data used / 使用データ
+      options:
+        - label: MaleCNS
+        - label: FlyWire (FAFB)
+        - label: hemibrain
+        - label: MANC
+        - label: BANC
+        - label: FANC
+        - label: Optic lobe
+        - label: Larval CNS
+  - type: input
+    id: org
+    attributes:
+      label: Author / organisation, region / 作者・機関、地域
+  - type: input
+    id: license
+    attributes:
+      label: License, release date / ライセンス、公開時期
+  - type: textarea
+    id: description
+    attributes:
+      label: Description (2–3 sentences, EN or JA) / 説明（2〜3 文、英語か日本語）
+    validations:
+      required: true
+  - type: textarea
+    id: sources
+    attributes:
+      label: URLs where this can be verified / 確認できる URL
+      description: README, paper, official page… one per line. / README・論文・公式ページなど、1 行に 1 つ。
+    validations:
+      required: true
+  - type: checkboxes
+    id: confirm
+    attributes:
+      label: Confirmation / 確認
+      options:
+        - label: I understand descriptions will be rewritten and no data will be redistributed. / 説明文は書き直され、データは再配布されないことを理解しました。
+          required: true

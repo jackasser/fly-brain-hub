@@ -1,0 +1,160 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import AdSlot from '../AdSlot.astro';
+import Badge from '../Badge.astro';
+import Callout from '../Callout.astro';
+import ProjectGrid from '../ProjectGrid.astro';
+import { loadProjects } from '../../lib/load';
+import { usedBy } from '../../lib/projects';
+import type { Project } from '../../lib/schema';
+import { jsonLd } from '../../lib/seo';
+import { CATEGORY_META, DATASET_LABELS } from '../../lib/taxonomy';
+import { localePath, t, type Locale } from '../../i18n';
+
+interface Props {
+  locale: Locale;
+  project: Project;
+}
+const { locale, project } = Astro.props;
+const all = await loadProjects();
+const meta = CATEGORY_META[project.category];
+const description = locale === 'ja' ? project.description_ja : project.description_en;
+const dependents = project.category === 'connectome' ? usedBy(all, project.id) : [];
+const fmt = new Intl.NumberFormat(locale === 'ja' ? 'ja-JP' : 'en-US');
+const host = (u: string) => new URL(u).hostname.replace(/^www\./, '');
+---
+
+<BaseLayout
+  locale={locale}
+  title={project.name}
+  description={description}
+  path={`/projects/${project.id}`}
+  jsonLd={jsonLd(project, locale) as unknown as Record<string, unknown>}
+  ogType="article"
+>
+  <article class="section">
+    <p>
+      <Badge tone="category" href={localePath(locale, `/category/${project.category}`)}>{meta.label[locale]}</Badge>
+      {project.status === 'archived' && <Badge tone="muted">{t(locale, 'status.archived')}</Badge>}
+    </p>
+    <h1>{project.name}</h1>
+    <p class="card__org">{project.org}</p>
+
+    <div class="detail">
+      <div>
+        <p class="prose" style="font-size:1.05rem">{description}</p>
+        {meta.notice && <Callout tone="notice">{meta.notice[locale]}</Callout>}
+
+        <p class="hero__actions">
+          <a class="btn" href={project.url} rel="noopener">{t(locale, 'project.official')} ↗</a>
+          {
+            project.repoUrl && project.repoUrl !== project.url && (
+              <a class="btn btn--ghost" href={project.repoUrl} rel="noopener">
+                {t(locale, 'project.repo')} ↗
+              </a>
+            )
+          }
+        </p>
+
+        {
+          project.tags.length > 0 && (
+            <p class="tags">
+              {project.tags.map((tag) => (
+                <Badge tone="tag" href={`${localePath(locale, '/projects')}?tag=${encodeURIComponent(tag)}`}>
+                  #{tag}
+                </Badge>
+              ))}
+            </p>
+          )
+        }
+
+        <section class="sources">
+          <h2>{t(locale, 'project.sources')}</h2>
+          <p class="card__org">{t(locale, 'project.sourcesNote')}</p>
+          <ul>
+            {
+              project.sourceRefs.map((ref) => (
+                <li>
+                  <a href={ref} rel="noopener nofollow">
+                    {host(ref)}
+                  </a>{' '}
+                  <span class="card__org">{ref}</span>
+                </li>
+              ))
+            }
+          </ul>
+        </section>
+      </div>
+
+      <aside>
+        <dl class="facts">
+          <dt>{t(locale, 'project.org')}</dt>
+          <dd>{project.org}</dd>
+          {
+            project.region && (
+              <>
+                <dt>{t(locale, 'project.region')}</dt>
+                <dd>{project.region}</dd>
+              </>
+            )
+          }
+          {
+            project.datasets.length > 0 && (
+              <>
+                <dt>{t(locale, 'project.datasets')}</dt>
+                <dd class="tags">
+                  {project.datasets.map((d) => (
+                    <Badge tone="dataset" href={localePath(locale, `/projects/${d}`)}>
+                      {DATASET_LABELS[d]}
+                    </Badge>
+                  ))}
+                </dd>
+              </>
+            )
+          }
+          <dt>{t(locale, 'project.license')}</dt>
+          <dd>{project.license ?? '—'}</dd>
+          {
+            project.language && (
+              <>
+                <dt>{t(locale, 'project.language')}</dt>
+                <dd>{project.language}</dd>
+              </>
+            )
+          }
+          <dt>{t(locale, 'project.date')}</dt>
+          <dd>{project.date}</dd>
+          {
+            project.stars !== undefined && (
+              <>
+                <dt>{t(locale, 'project.stars')}</dt>
+                <dd>
+                  ★ {fmt.format(project.stars)}
+                  {project.starsUpdatedAt && <span class="card__org"> ({project.starsUpdatedAt})</span>}
+                </dd>
+              </>
+            )
+          }
+          <dt>{t(locale, 'project.status')}</dt>
+          <dd>{t(locale, project.status === 'active' ? 'status.active' : 'status.archived')}</dd>
+          <dt>{t(locale, 'project.added')}</dt>
+          <dd>{project.addedAt}</dd>
+        </dl>
+        <AdSlot name="sidebar" locale={locale} />
+      </aside>
+    </div>
+
+    {
+      dependents.length > 0 && (
+        <section class="section" aria-labelledby="h-usedby">
+          <div class="section__head">
+            <h2 id="h-usedby">
+              {t(locale, 'datasets.usedBy')}: {dependents.length} {t(locale, 'datasets.projects')}
+            </h2>
+          </div>
+          <ProjectGrid projects={dependents} locale={locale} />
+        </section>
+      )
+    }
+  </article>
+</BaseLayout>

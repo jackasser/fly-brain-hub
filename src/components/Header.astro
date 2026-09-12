@@ -1,0 +1,38 @@
+---
+import LangToggle from './LangToggle.astro';
+import { localePath, stripLocale, t, type Locale } from '../i18n';
+
+interface Props {
+  locale: Locale;
+  path: string;
+}
+
+const { locale, path } = Astro.props;
+const bare = stripLocale(path);
+const items: { href: string; key: 'nav.projects' | 'nav.datasets' | 'nav.about' | 'nav.submit' }[] = [
+  { href: '/projects', key: 'nav.projects' },
+  { href: '/datasets', key: 'nav.datasets' },
+  { href: '/about', key: 'nav.about' },
+  { href: '/submit', key: 'nav.submit' },
+];
+const isCurrent = (href: string) => bare === href || bare.startsWith(`${href}/`);
+---
+
+<header class="site-header">
+  <div class="container site-header__inner">
+    <a class="brand" href={localePath(locale, '/')}>
+      <span class="brand__mark" aria-hidden="true"></span>
+      {t(locale, 'site.name')}
+    </a>
+    <nav class="nav" aria-label="Main">
+      {
+        items.map((item) => (
+          <a href={localePath(locale, item.href)} aria-current={isCurrent(item.href) ? 'page' : undefined}>
+            {t(locale, item.key)}
+          </a>
+        ))
+      }
+    </nav>
+    <LangToggle locale={locale} path={path} />
+  </div>
+</header>

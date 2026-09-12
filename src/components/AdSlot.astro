@@ -1,0 +1,48 @@
+---
+import { isAdsEnabled, resolveSlot, SLOT_MIN_HEIGHT, type AdEnv, type SlotName } from '../lib/ads';
+import { t, type Locale } from '../i18n';
+
+interface Props {
+  name: SlotName;
+  /** Override for tests; defaults to import.meta.env. */
+  env?: AdEnv;
+  /** Override for tests; defaults to import.meta.env.DEV. */
+  dev?: boolean;
+  locale?: Locale;
+}
+
+const { name, locale = 'en' } = Astro.props;
+const env: AdEnv = Astro.props.env ?? (import.meta.env as unknown as AdEnv);
+const dev: boolean = Astro.props.dev ?? import.meta.env.DEV;
+const enabled = isAdsEnabled(env);
+const slot = resolveSlot(name, env);
+const minHeight = SLOT_MIN_HEIGHT[name];
+---
+
+{
+  enabled ? (
+    <div class={`ad ad--${name}`} style={`min-height:${minHeight}px`}>
+      <ins
+        class="adsbygoogle"
+        style="display:block"
+        data-ad-client={slot.client}
+        data-ad-slot={slot.slot}
+        data-ad-format={slot.format}
+        data-ad-layout-key={slot.layoutKey}
+        data-full-width-responsive="true"
+      />
+      <script is:inline>
+        (window.adsbygoogle = window.adsbygoogle || []).push({});
+      </script>
+    </div>
+  ) : dev ? (
+    <div
+      class={`ad ad--${name} ad--placeholder`}
+      data-ad-placeholder={name}
+      style={`min-height:${minHeight}px`}
+      aria-hidden="true"
+    >
+      {t(locale, 'ad.placeholder')} · {name}
+    </div>
+  ) : null
+}

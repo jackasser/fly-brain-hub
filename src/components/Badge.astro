@@ -1,0 +1,11 @@
+---
+interface Props {
+  tone?: 'category' | 'dataset' | 'tag' | 'muted';
+  href?: string;
+  class?: string;
+}
+const { tone = 'muted', href, class: extra = '' } = Astro.props;
+const cls = `badge badge--${tone} ${extra}`.trim();
+---
+
+{href ? <a class={cls} href={href}><slot /></a> : <span class={cls}><slot /></span>}

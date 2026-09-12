@@ -1,0 +1,13 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import { localePath, t } from '../i18n';
+const locale = 'en';
+---
+
+<BaseLayout locale={locale} title={t(locale, 'notfound.title')} description={t(locale, 'notfound.body')} path="/404">
+  <section class="section prose">
+    <h1>404 · {t(locale, 'notfound.title')} / {t('ja', 'notfound.title')}</h1>
+    <p>{t(locale, 'notfound.body')} <a href={localePath('en', '/projects')}>→ Projects</a></p>
+    <p lang="ja">{t('ja', 'notfound.body')} <a href={localePath('ja', '/projects')}>→ プロジェクト一覧</a></p>
+  </section>
+</BaseLayout>

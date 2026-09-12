@@ -1,0 +1,28 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import Callout from '../Callout.astro';
+import ProjectGrid from '../ProjectGrid.astro';
+import { loadProjects } from '../../lib/load';
+import { byCategory } from '../../lib/projects';
+import { CATEGORY_META, type Category } from '../../lib/taxonomy';
+import { t, type Locale } from '../../i18n';
+
+interface Props {
+  locale: Locale;
+  category: Category;
+}
+const { locale, category } = Astro.props;
+const meta = CATEGORY_META[category];
+const projects = byCategory(await loadProjects(), category);
+---
+
+<BaseLayout locale={locale} title={meta.label[locale]} description={meta.blurb[locale]} path={`/category/${category}`}>
+  <section class="section">
+    <p class="card__org">{t(locale, 'category.title')}</p>
+    <h1>{meta.label[locale]}</h1>
+    <p class="prose">{meta.blurb[locale]}</p>
+    {meta.notice && <Callout tone="notice">{meta.notice[locale]}</Callout>}
+    <p class="search__status">{projects.length} {t(locale, 'count.projects')}</p>
+    <ProjectGrid projects={projects} locale={locale} />
+  </section>
+</BaseLayout>

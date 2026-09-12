@@ -1,0 +1,23 @@
+---
+import { localePath, t, type Locale } from '../i18n';
+
+interface Props {
+  locale: Locale;
+}
+const { locale } = Astro.props;
+const year = new Date().getFullYear();
+---
+
+<footer class="site-footer">
+  <div class="container">
+    <nav aria-label="Footer">
+      <a href={localePath(locale, '/about')}>{t(locale, 'footer.about')}</a>
+      <a href={localePath(locale, '/privacy')}>{t(locale, 'footer.privacy')}</a>
+      <a href={localePath(locale, '/contact')}>{t(locale, 'footer.contact')}</a>
+      <a href={localePath(locale, '/submit')}>{t(locale, 'footer.submit')}</a>
+      <a href={localePath(locale, '/rss.xml')}>{t(locale, 'footer.rss')}</a>
+    </nav>
+    <p>{t(locale, 'footer.note')}</p>
+    <p>© {year} {t(locale, 'site.name')}</p>
+  </div>
+</footer>
