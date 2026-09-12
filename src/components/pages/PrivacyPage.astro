@@ -1,6 +1,7 @@
 ---
 import BaseLayout from '../../layouts/BaseLayout.astro';
 import { localePath, t, type Locale } from '../../i18n';
+import { analyticsConfig, type AnalyticsEnv } from '../../lib/analytics';
 
 interface Props {
   locale: Locale;
@@ -8,6 +9,7 @@ interface Props {
 const { locale } = Astro.props;
 const title = t(locale, 'privacy.title');
 const updated = '2026-09-12';
+const analytics = analyticsConfig(import.meta.env as unknown as AnalyticsEnv);
 ---
 
 <BaseLayout locale={locale} title={title} description={title} path="/privacy">
@@ -50,9 +52,26 @@ const updated = '2026-09-12';
             <a href="https://x.com/privacy" rel="noopener">X のプライバシーポリシー</a>を参照してください。一覧ページのサムネイルは画像のみで、スクリプトは読み込みません。
           </p>
           <h2>アクセス解析</h2>
-          <p>
-            当サイトは現在、Google アナリティクスなどのアクセス解析ツールを使用していません。ホスティング事業者（Vercel）がサービス運用のためにアクセスログを保持することがあります。導入した場合は本ポリシーを更新します。
-          </p>
+          {analytics.vercel && (
+            <p>
+              当サイトは Vercel Web Analytics を利用して、ページビュー数・参照元・国・端末種別などを集計しています。この仕組みは Cookie
+              を使わず、IP アドレスなど個人を特定できる情報を保存しません（訪問者の識別はページ閲覧時に生成される一時的なハッシュで行われ、24 時間で失効します）。詳細は
+              <a href="https://vercel.com/docs/analytics/privacy-policy" rel="noopener">Vercel Web Analytics のプライバシー説明</a>を参照してください。
+            </p>
+          )}
+          {analytics.gaId && (
+            <p>
+              当サイトは Google アナリティクス（GA4）も利用しています。Google アナリティクスは Cookie を使用して利用状況を収集します。EU・英国・スイスからの閲覧者については、同意が得られるまで計測用 Cookie を使用しません。収集されたデータの扱いは
+              <a href="https://policies.google.com/technologies/partner-sites" rel="noopener">Google のポリシー</a>に従い、
+              <a href="https://tools.google.com/dlpage/gaoptout" rel="noopener">オプトアウト アドオン</a>で無効化できます。
+            </p>
+          )}
+          {!analytics.vercel && !analytics.gaId && (
+            <p>
+              当サイトは現在、Google アナリティクスなどのアクセス解析ツールを使用していません。導入した場合は本ポリシーを更新します。
+            </p>
+          )}
+          <p>ホスティング事業者（Vercel）がサービス運用のためにアクセスログを保持することがあります。</p>
           <h2>外部リンク</h2>
           <p>
             当サイトは外部サイト（GitHub、研究機関のサイト、X など）へリンクしています。リンク先での情報の扱いは各サイトのポリシーに従います。
@@ -100,10 +119,26 @@ const updated = '2026-09-12';
             only and load no X script.
           </p>
           <h2>Analytics</h2>
-          <p>
-            The site does not currently use Google Analytics or any other analytics tool. The hosting provider (Vercel)
-            may keep access logs to operate the service. If analytics are added, this policy will be updated.
-          </p>
+          {analytics.vercel && (
+            <p>
+              The site uses Vercel Web Analytics to count page views and aggregate referrers, countries and device types.
+              It sets no cookies and stores no personally identifiable data such as IP addresses; visitors are
+              distinguished by a temporary hash that expires after 24 hours. See
+              <a href="https://vercel.com/docs/analytics/privacy-policy" rel="noopener"> Vercel's privacy notes for Web Analytics</a>.
+            </p>
+          )}
+          {analytics.gaId && (
+            <p>
+              The site also uses Google Analytics (GA4), which uses cookies to collect usage data. For visitors in the
+              EU, UK and Switzerland, no measurement cookies are set until consent is given. Google's handling of the
+              data is described in <a href="https://policies.google.com/technologies/partner-sites" rel="noopener">Google's policy</a>;
+              the <a href="https://tools.google.com/dlpage/gaoptout" rel="noopener">opt-out add-on</a> disables it.
+            </p>
+          )}
+          {!analytics.vercel && !analytics.gaId && (
+            <p>The site does not currently use Google Analytics or any other analytics tool. If analytics are added, this policy will be updated.</p>
+          )}
+          <p>The hosting provider (Vercel) may keep access logs to operate the service.</p>
           <h2>External links</h2>
           <p>
             The site links to external sites (GitHub, research institutions, X and others). Their handling of your

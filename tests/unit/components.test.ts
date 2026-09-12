@@ -168,6 +168,34 @@ describe('R-11 covers', () => {
   });
 });
 
+describe('R-13 analytics', () => {
+  const base = { locale: 'en', title: 'x', description: 'y', path: '/about', adEnv: {}, dev: false } as const;
+  it('AC-13-2 emits Vercel insights only when enabled, GA only with an id, nothing on ad-free pages', async () => {
+    const off = await container.renderToString(BaseLayout, { props: { ...base, analyticsEnv: {} }, slots: { default: 'hi' } });
+    expect(off).not.toContain('/_vercel/insights/script.js');
+    expect(off).not.toContain('googletagmanager');
+    const vercel = await container.renderToString(BaseLayout, {
+      props: { ...base, analyticsEnv: { PUBLIC_VERCEL_ANALYTICS: '1' } },
+      slots: { default: 'hi' },
+    });
+    expect(vercel).toContain('src="/_vercel/insights/script.js"');
+    expect(vercel).toContain('window.va');
+    expect(vercel).not.toContain('googletagmanager');
+    const ga = await container.renderToString(BaseLayout, {
+      props: { ...base, analyticsEnv: { PUBLIC_GA_MEASUREMENT_ID: 'G-TEST1234' } },
+      slots: { default: 'hi' },
+    });
+    expect(ga).toContain('https://www.googletagmanager.com/gtag/js?id=G-TEST1234');
+    expect(ga).toContain("analytics_storage:'denied'");
+    const notFound = await container.renderToString(BaseLayout, {
+      props: { ...base, path: '/404', ads: false, analyticsEnv: { PUBLIC_VERCEL_ANALYTICS: '1', PUBLIC_GA_MEASUREMENT_ID: 'G-TEST1234' } },
+      slots: { default: 'hi' },
+    });
+    expect(notFound).not.toContain('/_vercel/insights');
+    expect(notFound).not.toContain('googletagmanager');
+  });
+});
+
 describe('R-11 X post media', () => {
   it('AC-11-13 play badge on video posters; official X embed on detail pages', async () => {
     const xp = project({

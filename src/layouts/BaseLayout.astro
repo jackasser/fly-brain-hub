@@ -5,6 +5,7 @@ import Footer from '../components/Footer.astro';
 import AdSlot from '../components/AdSlot.astro';
 import { alternates, canonical, serializeJsonLd } from '../lib/seo';
 import { isAdsEnabled, type AdEnv } from '../lib/ads';
+import { analyticsConfig, VERCEL_INSIGHTS_SRC, type AnalyticsEnv } from '../lib/analytics';
 import { localePath, stripLocale, t, type Locale } from '../i18n';
 
 interface Props {
@@ -21,6 +22,7 @@ interface Props {
   alternatesEnabled?: boolean;
   /** Test overrides. */
   adEnv?: AdEnv;
+  analyticsEnv?: AnalyticsEnv;
   dev?: boolean;
 }
 
@@ -35,6 +37,8 @@ const siteName = t(locale, 'site.name');
 const fullTitle = title === siteName ? `${siteName} — ${t(locale, 'site.tagline')}` : `${title} · ${siteName}`;
 const env: AdEnv = Astro.props.adEnv ?? (import.meta.env as unknown as AdEnv);
 const adsOn = ads && isAdsEnabled(env);
+// Analytics follow the same page gate as ads: never on the 404 page.
+const analytics = ads ? analyticsConfig(Astro.props.analyticsEnv ?? (import.meta.env as unknown as AnalyticsEnv)) : { vercel: false, gaId: null };
 ---
 
 <!doctype html>
@@ -61,6 +65,24 @@ const adsOn = ads && isAdsEnabled(env);
     <meta name="twitter:card" content="summary_large_image" />
     <meta name="twitter:image" content={ogImage} />
     {jsonLd && <script is:inline type="application/ld+json" set:html={serializeJsonLd(jsonLd)} />}
+    {
+      analytics.vercel && (
+        <>
+          <script is:inline>
+            window.va = window.va || function () { (window.vaq = window.vaq || []).push(arguments); };
+          </script>
+          <script is:inline defer src={VERCEL_INSIGHTS_SRC} />
+        </>
+      )
+    }
+    {
+      analytics.gaId && (
+        <>
+          <script is:inline async src={`https://www.googletagmanager.com/gtag/js?id=${analytics.gaId}`} />
+          <script is:inline set:html={`window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments)}gtag('consent','default',{analytics_storage:'denied',ad_storage:'denied',ad_user_data:'denied',ad_personalization:'denied',region:['AT','BE','BG','HR','CY','CZ','DK','EE','FI','FR','DE','GR','HU','IE','IT','LV','LT','LU','MT','NL','PL','PT','RO','SK','SI','ES','SE','IS','LI','NO','GB','CH']});gtag('js',new Date());gtag('config','${analytics.gaId}',{anonymize_ip:true});`} />
+        </>
+      )
+    }
     {
       adsOn && (
         <script

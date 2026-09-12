@@ -62,6 +62,13 @@ GitHub の `repoUrl` を持つエントリの `stars` / `starsUpdatedAt` だけ�
 | `PUBLIC_ADSENSE_INFEED_LAYOUT_KEY` | in-feed ユニットの layout key |
 | `PUBLIC_GITHUB_REPO` | `owner/repo`。投稿ページの Issue リンク先。未設定だと `OWNER/fly-brain-hub` というプレースホルダになる |
 | `PUBLIC_CONTACT_EMAIL` | 任意。設定すると Contact ページにメールアドレスを出す |
+| `PUBLIC_VERCEL_ANALYTICS` | `1` で Vercel Web Analytics のスクリプトを全ページ（404 除く）に出す。Vercel 側で `vercel project web-analytics` を実行して有効化しておく。Cookie なし |
+| `PUBLIC_GA_MEASUREMENT_ID` | 任意。`G-…` を入れると GA4 も有効。EU/UK/CH は Consent Mode の既定 denied |
+
+## アクセス解析を見る
+
+Vercel ダッシュボード → プロジェクト `fly-brain-hub` → **Analytics** タブ。ページ別・参照元別・国別・端末別が見られる。
+Claude Code からは Vercel 連携の `get_web_analytics`（count / aggregate）で同じデータを取得できる。
 
 ## 広告（AdSense）を有効にするまで
 

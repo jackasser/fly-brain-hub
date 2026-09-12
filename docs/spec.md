@@ -272,6 +272,20 @@
 | AC-12-2 | `FlyHero` が `role="img"`、`data-hero="fly"`、脳の要素（`data-part="brain"`）と目（`data-part="eye"` × 2）を含む inline SVG を描画し、`aria-label` がロケールで変わる | `components.test.ts` |
 | AC-12-3 | ビルド後の `index.html` と `ja/index.html` に `data-hero="fly"` がある | `dist.test.ts` |
 
+## R-13 アクセス解析（2026-09-12 ユーザー指示）
+
+- 既定は **Vercel Web Analytics**（Cookie を使わず、個人を特定しないページビュー集計）。環境変数 `PUBLIC_VERCEL_ANALYTICS=1` のときだけ、全ページの `<head>` に `window.va` の初期化と `<script defer src="/_vercel/insights/script.js">` を出す。Vercel 側でプロジェクトの Web Analytics を有効にしておく。
+- **Google Analytics 4 は任意**。`PUBLIC_GA_MEASUREMENT_ID`（`G-` で始まる ID）が設定されたときだけ gtag を出す。GA は Cookie を使うため、EU/UK/CH 向けは AdSense と同じ CMP の同意信号に従わせる（Consent Mode の既定は `analytics_storage: denied`）。
+- どちらも 404 ページには出さない（R-07 と同じ `ads={false}` 相当の扱い）。
+- Privacy ページは有効な解析手段に応じて文言が変わる（未設定なら「使用していません」、Vercel なら Cookie なしの集計である旨、GA なら Cookie と Google のポリシーへのリンク）。
+- 集計の閲覧は Vercel ダッシュボード（Analytics タブ）か、Claude の Vercel 連携 `get_web_analytics` で行う。
+
+| AC | Given / When / Then | テスト |
+|---|---|---|
+| AC-13-1 | `analyticsConfig(env)` は `PUBLIC_VERCEL_ANALYTICS` が真値のときだけ `vercel: true`、`PUBLIC_GA_MEASUREMENT_ID` が `G-…` 形式のときだけ `gaId` を返す | `analytics.test.ts` |
+| AC-13-2 | `BaseLayout` は Vercel 有効時に `/_vercel/insights/script.js` を、GA 有効時に `googletagmanager.com/gtag/js?id=` と Consent Mode の既定 denied を出し、無効時はどちらも出さない。`ads={false}`（404）では出さない | `components.test.ts` |
+| AC-13-3 | ビルド後、`PUBLIC_VERCEL_ANALYTICS` 設定時は 404 以外の全 HTML に insights スクリプトがあり Privacy に「Vercel Web Analytics」がある。未設定時はどの HTML にも無く、Privacy は「使用していません」 | `dist.test.ts` |
+
 ## 非スコープ（初期公開では作らない）
 
 サムネイル画像、アクセス解析、OG 画像の自動生成、投稿フォームのバックエンド、ユーザー登録、コメント。
