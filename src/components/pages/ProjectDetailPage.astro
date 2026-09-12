@@ -3,6 +3,7 @@ import BaseLayout from '../../layouts/BaseLayout.astro';
 import AdSlot from '../AdSlot.astro';
 import Badge from '../Badge.astro';
 import Callout from '../Callout.astro';
+import CoverMedia from '../CoverMedia.astro';
 import ProjectGrid from '../ProjectGrid.astro';
 import { loadProjects } from '../../lib/load';
 import { usedBy } from '../../lib/projects';
@@ -42,6 +43,7 @@ const host = (u: string) => new URL(u).hostname.replace(/^www\./, '');
 
     <div class="detail">
       <div>
+        <CoverMedia project={project} locale={locale} />
         <p class="prose" style="font-size:1.05rem">{description}</p>
         {meta.notice && <Callout tone="notice">{meta.notice[locale]}</Callout>}
 

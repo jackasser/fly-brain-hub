@@ -4,6 +4,8 @@ import AdSlot from '../../src/components/AdSlot.astro';
 import ProjectCard from '../../src/components/ProjectCard.astro';
 import ProjectGrid from '../../src/components/ProjectGrid.astro';
 import LangToggle from '../../src/components/LangToggle.astro';
+import CoverMedia from '../../src/components/CoverMedia.astro';
+import FlyHero from '../../src/components/FlyHero.astro';
 import type { Project } from '../../src/lib/schema';
 
 const project = (over: Partial<Project> = {}): Project => ({
@@ -106,6 +108,52 @@ describe('R-04 ProjectGrid', () => {
     const html = await container.renderToString(ProjectGrid, { props: { projects, locale: 'en', env: {}, dev: false } });
     expect(html).not.toContain('adsbygoogle');
     expect(html).not.toContain('data-ad-placeholder');
+  });
+});
+
+describe('R-11 covers', () => {
+  it('AC-11-5 ProjectCard picks GitHub preview, inline SVG or YouTube thumbnail', async () => {
+    const gh = await container.renderToString(ProjectCard, {
+      props: { project: project({ repoUrl: 'https://github.com/o/r' }), locale: 'en' },
+    });
+    expect(gh).toContain('class="card__cover');
+    expect(gh).toContain('src="https://opengraph.githubassets.com/sample/o/r"');
+    expect(gh).toContain('loading="lazy"');
+    const gen = await container.renderToString(ProjectCard, { props: { project: project(), locale: 'en' } });
+    expect(gen).toContain('class="card__cover');
+    expect(gen).toContain('<svg');
+    expect(gen).not.toContain('<img');
+    const yt = await container.renderToString(ProjectCard, {
+      props: { project: project({ video: 'https://youtu.be/dQw4w9WgXcQ' }), locale: 'ja' },
+    });
+    expect(yt).toContain('src="https://i.ytimg.com/vi/dQw4w9WgXcQ/hqdefault.jpg"');
+  });
+
+  it('AC-11-6 CoverMedia embeds YouTube on detail pages and falls back to the cover otherwise', async () => {
+    const withVideo = await container.renderToString(CoverMedia, {
+      props: { project: project({ video: 'https://www.youtube.com/watch?v=dQw4w9WgXcQ' }), locale: 'en' },
+    });
+    expect(withVideo).toContain('https://www.youtube-nocookie.com/embed/dQw4w9WgXcQ');
+    expect(withVideo).toContain('<iframe');
+    const noVideo = await container.renderToString(CoverMedia, {
+      props: { project: project({ repoUrl: 'https://github.com/o/r' }), locale: 'en' },
+    });
+    expect(noVideo).not.toContain('<iframe');
+    expect(noVideo).toContain('opengraph.githubassets.com/sample/o/r');
+  });
+});
+
+describe('R-12 FlyHero', () => {
+  it('AC-12-2 renders a fly face with a glowing brain and localized label', async () => {
+    const en = await container.renderToString(FlyHero, { props: { locale: 'en' } });
+    expect(en).toContain('<svg');
+    expect(en).toContain('role="img"');
+    expect(en).toContain('data-hero="fly"');
+    expect((en.match(/data-part="eye"/g) ?? []).length).toBe(2);
+    expect(en).toContain('data-part="brain"');
+    expect(en).toMatch(/aria-label="[^"]*fruit fly[^"]*"/i);
+    const ja = await container.renderToString(FlyHero, { props: { locale: 'ja' } });
+    expect(ja).toMatch(/aria-label="[^"]*ハエ[^"]*"/);
   });
 });
 

@@ -1,0 +1,31 @@
+---
+import Cover from './Cover.astro';
+import type { Project } from '../lib/schema';
+import { youtubeId } from '../lib/media';
+import type { Locale } from '../i18n';
+
+interface Props {
+  project: Project;
+  locale: Locale;
+}
+
+const { project } = Astro.props;
+const vid = youtubeId(project.video);
+---
+
+{
+  vid ? (
+    <div class="media media--video">
+      <iframe
+        src={`https://www.youtube-nocookie.com/embed/${vid}`}
+        title={project.name}
+        loading="lazy"
+        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+        referrerpolicy="strict-origin-when-cross-origin"
+        allowfullscreen
+      />
+    </div>
+  ) : (
+    <Cover project={project} class="media media--cover" eager />
+  )
+}

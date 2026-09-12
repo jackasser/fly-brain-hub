@@ -1,6 +1,7 @@
 ---
 import BaseLayout from '../../layouts/BaseLayout.astro';
 import ProjectGrid from '../ProjectGrid.astro';
+import FlyHero from '../FlyHero.astro';
 import { loadProjects } from '../../lib/load';
 import { countByCategory, featured, latest } from '../../lib/projects';
 import { CATEGORIES, CATEGORY_META } from '../../lib/taxonomy';
@@ -17,12 +18,17 @@ const fresh = latest(projects, 6);
 ---
 
 <BaseLayout locale={locale} title={t(locale, 'site.name')} description={t(locale, 'site.description')} path="/">
-  <section class="hero">
-    <h1>{t(locale, 'home.heroTitle')}</h1>
-    <p>{t(locale, 'home.heroBody')}</p>
-    <div class="hero__actions">
-      <a class="btn" href={localePath(locale, '/projects')}>{t(locale, 'home.viewAll')} ({projects.length})</a>
-      <a class="btn btn--ghost" href={localePath(locale, '/datasets')}>{t(locale, 'nav.datasets')}</a>
+  <section class="hero hero--split">
+    <div class="hero__art">
+      <FlyHero locale={locale} />
+    </div>
+    <div class="hero__text">
+      <h1>{t(locale, 'home.heroTitle')}</h1>
+      <p>{t(locale, 'home.heroBody')}</p>
+      <div class="hero__actions">
+        <a class="btn" href={localePath(locale, '/projects')}>{t(locale, 'home.viewAll')} ({projects.length})</a>
+        <a class="btn btn--ghost" href={localePath(locale, '/datasets')}>{t(locale, 'nav.datasets')}</a>
+      </div>
     </div>
   </section>
 

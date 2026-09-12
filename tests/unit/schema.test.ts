@@ -46,6 +46,14 @@ describe('R-01 project schema', () => {
     expect(projectSchema.parse(noRegion).region).toBeUndefined();
   });
 
+  it('AC-11-4 image/thumbnail require imageCredit; video must be a YouTube URL', () => {
+    expect(() => projectSchema.parse({ ...valid, image: 'https://img.example/a.png' })).toThrow();
+    expect(projectSchema.parse({ ...valid, image: 'https://img.example/a.png', imageCredit: 'c' }).image).toBe('https://img.example/a.png');
+    expect(() => projectSchema.parse({ ...valid, thumbnail: '/thumbs/a.webp' })).toThrow();
+    expect(() => projectSchema.parse({ ...valid, video: 'https://vimeo.com/1' })).toThrow();
+    expect(projectSchema.parse({ ...valid, video: 'https://youtu.be/dQw4w9WgXcQ' }).video).toBe('https://youtu.be/dQw4w9WgXcQ');
+  });
+
   it('AC-01-5 rejects empty sourceRefs', () => {
     expect(() => projectSchema.parse({ ...valid, sourceRefs: [] })).toThrow();
   });

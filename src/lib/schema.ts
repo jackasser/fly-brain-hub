@@ -25,10 +25,19 @@ export const projectSchema = z
     description_en: z.string().min(60).max(600),
     description_ja: z.string().min(40).max(600),
     thumbnail: z.string().startsWith('/thumbs/').optional(),
+    video: url
+      .refine((v) => /^https?:\/\/(www\.|m\.)?(youtube\.com|youtu\.be|youtube-nocookie\.com)\//i.test(v), 'video must be a YouTube URL')
+      .optional(),
+    image: url.optional(),
+    imageCredit: z.string().min(1).optional(),
     featured: z.boolean().default(false),
     sourceRefs: z.array(url).min(1),
   })
-  .strict();
+  .strict()
+  .refine((p) => !(p.image || p.thumbnail) || Boolean(p.imageCredit), {
+    message: 'imageCredit is required when image or thumbnail is set',
+    path: ['imageCredit'],
+  });
 
 export type Project = z.infer<typeof projectSchema>;
 export type ProjectInput = z.input<typeof projectSchema>;

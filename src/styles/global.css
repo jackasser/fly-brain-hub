@@ -222,6 +222,39 @@ pre code {
   font-size: 1.05rem;
 }
 
+.hero--split {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: var(--space-5);
+  align-items: center;
+}
+
+.hero__art {
+  display: flex;
+  justify-content: center;
+  max-width: 100%;
+}
+
+.hero__art svg {
+  width: min(100%, 18rem);
+}
+
+@media (min-width: 960px) {
+  .hero--split {
+    grid-template-columns: minmax(0, 3fr) minmax(0, 2fr);
+    gap: var(--space-7);
+  }
+
+  .hero__art {
+    order: 2;
+    justify-content: flex-end;
+  }
+
+  .hero__art svg {
+    width: min(100%, 26rem);
+  }
+}
+
 .hero__actions {
   display: flex;
   gap: var(--space-3);
@@ -325,6 +358,68 @@ pre code {
 
 .card__meta {
   white-space: nowrap;
+}
+
+/* covers */
+.card__coverlink {
+  display: block;
+  margin: calc(-1 * var(--space-4)) calc(-1 * var(--space-4)) var(--space-1);
+  border-radius: var(--radius-l) var(--radius-l) 0 0;
+  overflow: hidden;
+}
+
+.card__cover,
+.media--cover {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 2 / 1;
+  background: var(--bg-sunk);
+  overflow: hidden;
+}
+
+.card__cover img,
+.card__cover svg,
+.media--cover img,
+.media--cover svg {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.card__cover [hidden],
+.media--cover [hidden] {
+  display: none !important;
+}
+
+.cover__credit {
+  position: absolute;
+  right: 0.4rem;
+  bottom: 0.3rem;
+  font-size: 0.65rem;
+  color: #fff;
+  background: rgb(0 0 0 / 0.5);
+  padding: 0.05rem 0.4rem;
+  border-radius: var(--radius-s);
+}
+
+.media {
+  margin-bottom: var(--space-4);
+  border-radius: var(--radius-l);
+  overflow: hidden;
+  border: 1px solid var(--line);
+}
+
+.media--video {
+  aspect-ratio: 16 / 9;
+  background: #000;
+}
+
+.media--video iframe {
+  display: block;
+  width: 100%;
+  height: 100%;
+  border: 0;
 }
 
 /* badges */

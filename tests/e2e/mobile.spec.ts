@@ -23,6 +23,22 @@ test('cards stack in one column at 390px', async ({ page }) => {
   expect(boxes[1].y).toBeGreaterThan(boxes[0].y + boxes[0].height - 1);
 });
 
+test('AC-11-8 covers never exceed the card width at 390px', async ({ page }) => {
+  await page.goto('/projects');
+  const bad = await page.locator('#project-grid article.card').evaluateAll((cards) =>
+    cards
+      .map((c) => {
+        const cover = c.querySelector('.card__cover') as HTMLElement | null;
+        if (!cover) return `${c.getAttribute('data-id')}: no cover`;
+        const cw = c.getBoundingClientRect().width;
+        const w = cover.getBoundingClientRect().width;
+        return w > cw + 0.5 ? `${c.getAttribute('data-id')}: ${w} > ${cw}` : null;
+      })
+      .filter(Boolean),
+  );
+  expect(bad).toEqual([]);
+});
+
 test('AC-10-2 dark and light schemes paint different backgrounds', async ({ page }) => {
   await page.emulateMedia({ colorScheme: 'light' });
   await page.goto('/');

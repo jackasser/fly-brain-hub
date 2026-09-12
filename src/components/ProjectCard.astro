@@ -1,6 +1,7 @@
 ---
 import Badge from './Badge.astro';
 import Callout from './Callout.astro';
+import Cover from './Cover.astro';
 import type { Project } from '../lib/schema';
 import { CATEGORY_META, DATASET_LABELS } from '../lib/taxonomy';
 import { localePath, t, type Locale } from '../i18n';
@@ -19,6 +20,9 @@ const starsFmt = project.stars !== undefined ? new Intl.NumberFormat(locale === 
 ---
 
 <article class="card" data-id={project.id} data-category={project.category}>
+  <a class="card__coverlink" href={detailHref} tabindex="-1" aria-hidden="true">
+    <Cover project={project} />
+  </a>
   <header class="card__head">
     <Badge tone="category" href={categoryHref}>{meta.label[locale]}</Badge>
     {project.status === 'archived' && <Badge tone="muted">{t(locale, 'status.archived')}</Badge>}

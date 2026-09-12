@@ -1,0 +1,154 @@
+---
+import type { Locale } from '../i18n';
+
+interface Props {
+  locale: Locale;
+}
+const { locale } = Astro.props;
+const label =
+  locale === 'ja'
+    ? 'ハエ（ショウジョウバエ）を正面から見た顔。複眼の間で脳のニューロン網が光っている'
+    : 'A fruit fly seen head-on, with its brain glowing between the compound eyes';
+
+// Brain network (deterministic, hand-placed): central brain + two optic lobes.
+const nodes = [
+  [300, 232], [268, 250], [332, 250], [284, 285], [316, 285], [300, 268], [256, 296], [344, 296],
+  [300, 312], [278, 325], [322, 325], [212, 262], [196, 290], [220, 310], [388, 262], [404, 290], [380, 310],
+] as const;
+const edges: [number, number][] = [
+  [0, 1], [0, 2], [1, 3], [2, 4], [3, 5], [4, 5], [3, 6], [4, 7], [5, 8], [6, 9], [7, 10], [8, 9], [8, 10],
+  [1, 11], [11, 12], [12, 13], [13, 6], [2, 14], [14, 15], [15, 16], [16, 7], [11, 13], [14, 16],
+];
+---
+
+<svg
+  class="fly-hero"
+  viewBox="0 0 600 560"
+  role="img"
+  aria-label={label}
+  data-hero="fly"
+  xmlns="http://www.w3.org/2000/svg"
+>
+  <defs>
+    <linearGradient id="fh-head" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#d9a468" />
+      <stop offset="1" stop-color="#7b4a1d" />
+    </linearGradient>
+    <radialGradient id="fh-eye" cx="0.38" cy="0.32" r="0.8">
+      <stop offset="0" stop-color="#ff7a5c" />
+      <stop offset="0.45" stop-color="#c8341f" />
+      <stop offset="1" stop-color="#5a1108" />
+    </radialGradient>
+    <pattern id="fh-facets" width="14" height="12.2" patternUnits="userSpaceOnUse">
+      <circle cx="3.5" cy="3" r="2.6" fill="#000" fill-opacity="0.22" />
+      <circle cx="10.5" cy="9.1" r="2.6" fill="#000" fill-opacity="0.22" />
+    </pattern>
+    <radialGradient id="fh-brainglow" cx="0.5" cy="0.5" r="0.5">
+      <stop offset="0" stop-color="#7ff0e0" stop-opacity="0.95" />
+      <stop offset="0.6" stop-color="#2cc4b2" stop-opacity="0.55" />
+      <stop offset="1" stop-color="#0f766e" stop-opacity="0" />
+    </radialGradient>
+    <filter id="fh-blur" x="-40%" y="-40%" width="180%" height="180%">
+      <feGaussianBlur stdDeviation="9" />
+    </filter>
+    <filter id="fh-soft" x="-20%" y="-20%" width="140%" height="140%">
+      <feGaussianBlur stdDeviation="1.6" />
+    </filter>
+  </defs>
+
+  <!-- bristles -->
+  <g stroke="#3b2410" stroke-width="3" stroke-linecap="round" fill="none" opacity="0.9">
+    <path d="M250 96 L236 58" /><path d="M270 86 L262 46" /><path d="M300 80 L300 40" /><path d="M330 86 L338 46" />
+    <path d="M350 96 L364 58" /><path d="M214 118 L190 92" /><path d="M386 118 L410 92" />
+  </g>
+
+  <!-- head capsule -->
+  <ellipse cx="300" cy="286" rx="206" ry="200" fill="url(#fh-head)" />
+  <ellipse cx="300" cy="200" rx="120" ry="70" fill="#f1c88e" fill-opacity="0.35" />
+
+  <!-- ocelli -->
+  <g fill="#f7c257" stroke="#5a2f0a" stroke-width="2">
+    <circle cx="300" cy="126" r="8" /><circle cx="282" cy="146" r="7" /><circle cx="318" cy="146" r="7" />
+  </g>
+
+  <!-- compound eyes -->
+  <g data-part="eye">
+    <ellipse cx="178" cy="262" rx="96" ry="130" transform="rotate(-9 178 262)" fill="url(#fh-eye)" stroke="#3b0f07" stroke-width="3" />
+    <ellipse cx="178" cy="262" rx="96" ry="130" transform="rotate(-9 178 262)" fill="url(#fh-facets)" />
+    <ellipse cx="146" cy="196" rx="26" ry="40" transform="rotate(-9 146 196)" fill="#fff" fill-opacity="0.22" />
+  </g>
+  <g data-part="eye">
+    <ellipse cx="422" cy="262" rx="96" ry="130" transform="rotate(9 422 262)" fill="url(#fh-eye)" stroke="#3b0f07" stroke-width="3" />
+    <ellipse cx="422" cy="262" rx="96" ry="130" transform="rotate(9 422 262)" fill="url(#fh-facets)" />
+    <ellipse cx="390" cy="196" rx="26" ry="40" transform="rotate(9 390 196)" fill="#fff" fill-opacity="0.22" />
+  </g>
+
+  <!-- brain: glowing through the cuticle -->
+  <g data-part="brain" transform="translate(300 283) scale(1.2) translate(-300 -283)">
+    <ellipse cx="300" cy="278" rx="96" ry="62" fill="url(#fh-brainglow)" filter="url(#fh-blur)" />
+    <ellipse cx="212" cy="286" rx="34" ry="42" fill="url(#fh-brainglow)" filter="url(#fh-blur)" opacity="0.9" />
+    <ellipse cx="388" cy="286" rx="34" ry="42" fill="url(#fh-brainglow)" filter="url(#fh-blur)" opacity="0.9" />
+    <path
+      d="M236 246c14-26 44-36 64-34c20-2 50 8 64 34c18 20 14 58-4 74c-16 16-42 22-60 20c-18 2-44-4-60-20c-18-16-22-54-4-74z"
+      fill="#5fd3c5"
+      fill-opacity="0.22"
+      stroke="#8ff5e6"
+      stroke-opacity="0.6"
+      stroke-width="1.5"
+    />
+    <g stroke="#c7fff6" stroke-width="1.6" stroke-opacity="0.75" fill="none" filter="url(#fh-soft)">
+      {edges.map(([a, b]) => <line x1={nodes[a][0]} y1={nodes[a][1]} x2={nodes[b][0]} y2={nodes[b][1]} />)}
+    </g>
+    <g fill="#ffffff">
+      {nodes.map(([x, y], i) => (
+        <circle class="fly-hero__node" cx={x} cy={y} r={i < 11 ? 4.2 : 3.2} style={`animation-delay:${(i * 0.37) % 3}s`} />
+      ))}
+    </g>
+  </g>
+
+  <!-- antennae -->
+  <g stroke="#3b2410" stroke-width="2.5" stroke-linecap="round" fill="#9b6330">
+    <circle cx="268" cy="372" r="15" /><circle cx="332" cy="372" r="15" />
+    <ellipse cx="262" cy="396" rx="11" ry="14" /><ellipse cx="338" cy="396" rx="11" ry="14" />
+    <g fill="none" stroke-width="2">
+      <path d="M262 384 L232 366 M262 380 L226 376 M262 388 L230 392" />
+      <path d="M338 384 L368 366 M338 380 L374 376 M338 388 L370 392" />
+    </g>
+  </g>
+
+  <!-- proboscis -->
+  <path d="M282 410h36v54c0 18 22 26 22 44c0 14-10 24-40 24s-40-10-40-24c0-18 22-26 22-44z" fill="#8a5326" stroke="#3b2410" stroke-width="2.5" />
+  <ellipse cx="300" cy="520" rx="46" ry="22" fill="#a96a35" stroke="#3b2410" stroke-width="2.5" />
+  <path d="M262 520h76" stroke="#3b2410" stroke-width="2" />
+</svg>
+
+<style>
+  .fly-hero {
+    width: 100%;
+    height: auto;
+    max-width: 30rem;
+    display: block;
+    filter: drop-shadow(0 18px 40px rgb(0 0 0 / 0.25));
+  }
+
+  .fly-hero__node {
+    animation: fly-hero-pulse 3s ease-in-out infinite;
+    transform-origin: center;
+  }
+
+  @keyframes fly-hero-pulse {
+    0%,
+    100% {
+      opacity: 0.55;
+    }
+    50% {
+      opacity: 1;
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .fly-hero__node {
+      animation: none;
+    }
+  }
+</style>

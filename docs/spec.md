@@ -8,7 +8,7 @@
 ## 0. 編集方針（誠実さの契約）
 
 1. **一次ソースを取得して確認した項目だけ掲載する。** 各エントリは `sourceRefs`（確認した URL）を 1 件以上持つ。
-2. **説明文は自分の言葉で書く。** README・ツイート本文・記事の転載をしない。スクリーンショットの転載・ホットリンクもしない。
+2. **説明文は自分の言葉で書く。** README・ツイート本文・記事の転載をしない。画像は R-11 の 3 種（プラットフォームが埋め込み用に配信するプレビュー画像、YouTube の公式埋め込み、自作の生成カバー）だけを使い、記事や README のスクリーンショットを複製・ホットリンクしない。
 3. **データは再配布しない。** リンクと説明だけ。データのライセンス（例: FlyWire 由来は CC BY-NC 4.0、MaleCNS / BANC は CC BY 4.0）を `license` 欄に明記する。
 4. **暗号資産（memecoin）系は「情報のみ・推奨なし・紹介リンクなし」の注記を常に表示する。**
 5. 初期公開は 30〜40 エントリ。
@@ -47,7 +47,10 @@
 | status | `active` \| `archived` | | 既定 `active` |
 | description_en | string | ✔ | 60〜600 文字 |
 | description_ja | string | ✔ | 40〜600 文字 |
-| thumbnail | string | | `/thumbs/` で始まる |
+| thumbnail | string | | `/thumbs/` で始まる。`imageCredit` 必須 |
+| video | URL | | YouTube の URL（R-11） |
+| image | URL | | 外部のプレビュー画像。`imageCredit` 必須（R-11） |
+| imageCredit | string | | 画像の出どころ・権利表示 |
 | featured | boolean | | 既定 `false` |
 | sourceRefs | URL[] | ✔ | 1 件以上 |
 
@@ -202,6 +205,46 @@
 |---|---|---|
 | AC-10-1 | 390×844 で `/` `/projects` `/projects/flybody` を開くと `scrollWidth <= clientWidth` | `e2e/mobile.spec.ts` |
 | AC-10-2 | `colorScheme: dark` と `light` で `body` の背景色が異なる | `e2e/mobile.spec.ts` |
+
+## R-11 カードと詳細ページの視覚要素（2026-09-12 ユーザー指示「カードに画像か動画を」）
+
+全カードに 2:1 のカバーを出す。優先順位:
+
+| 順 | 条件 | カバー | 出どころ |
+|---|---|---|---|
+| 1 | `thumbnail` あり | その画像（`/thumbs/` のローカルファイル、`imageCredit` 必須） | 自前 |
+| 2 | `video` あり（YouTube URL） | `https://i.ytimg.com/vi/<id>/hqdefault.jpg`。詳細ページでは YouTube の公式埋め込み（`youtube-nocookie.com`）を表示 | YouTube が埋め込み用に配信 |
+| 3 | `image` あり（外部 URL、`imageCredit` 必須） | その画像 | 提供元が公開しているプレビュー画像 |
+| 4 | `repoUrl` が GitHub | `https://opengraph.githubassets.com/<id>/<owner>/<repo>`（GitHub のソーシャルプレビュー） | GitHub が埋め込み用に生成 |
+| 5 | それ以外 | 生成カバー: `id` から決定的に作るニューロン網の SVG。カテゴリ色、プロジェクト名入り | 自作 |
+
+- 外部画像は `loading="lazy"`、`referrerpolicy="no-referrer"`、読み込み失敗時は生成カバーに差し替える（`onerror`）。
+- 生成カバーは同じ `id` なら常に同じ図（ビルドの再現性）。
+- 追加フィールド: `video`（YouTube の URL）、`image`（URL）、`imageCredit`（string）。`image` または `thumbnail` があるとき `imageCredit` 必須。
+
+| AC | Given / When / Then | テスト |
+|---|---|---|
+| AC-11-1 | `coverFor()` が上の優先順位どおりに `kind` と `src` を返す | `media.test.ts` |
+| AC-11-2 | `youtubeId()` が watch / youtu.be / shorts / embed の各 URL から ID を取り、それ以外は null | `media.test.ts` |
+| AC-11-3 | `generatedCover(id, category, name)` が同じ入力で同じ SVG を返し、`<svg` で始まりカテゴリ色を含む | `media.test.ts` |
+| AC-11-4 | `image` があって `imageCredit` が無いエントリはスキーマで失敗する | `schema.test.ts` |
+| AC-11-5 | `ProjectCard` は GitHub リポジトリで `opengraph.githubassets.com` の `<img>` を、リポジトリ無しで inline `<svg>` を、`video` ありで `i.ytimg.com` の `<img>` を描画する | `components.test.ts` |
+| AC-11-6 | 詳細ページは `video` があるとき `youtube-nocookie.com/embed/<id>` の iframe を出す | `components.test.ts` |
+| AC-11-7 | ビルド後、`projects/index.html` の全カードに `.card__cover` がある | `dist.test.ts` |
+| AC-11-8 | 390px 幅でカバー画像がカード幅を超えない | `e2e/mobile.spec.ts` |
+
+## R-12 ハエの顔と脳のビジュアル（2026-09-12 ユーザー指示「ファビコンはハエの顔、トップにハエの顔と脳」）
+
+- `public/favicon.svg` はハエの顔（複眼 2 つ・単眼・触角）を単純化した自作 SVG。`<title>` に "fly" を含む。
+- トップページの hero に、正面から見たハエの顔と、その中で光る脳（中枢脳＋左右の視葉のニューロン網）を描いた自作 inline SVG（`FlyHero.astro`）を置く。`role="img"` と両言語の `aria-label`。
+- 脳のノードは CSS で弱く明滅する。`prefers-reduced-motion: reduce` では止める。
+- 390px 幅では hero の絵が本文の上に 1 列で収まり、横スクロールを出さない（AC-10-1 で担保）。
+
+| AC | Given / When / Then | テスト |
+|---|---|---|
+| AC-12-1 | `favicon.svg` が存在し、`<title>` に fly を含み、複眼を表す要素（`data-part="eye"`）が 2 つある | `dist.test.ts` |
+| AC-12-2 | `FlyHero` が `role="img"`、`data-hero="fly"`、脳の要素（`data-part="brain"`）と目（`data-part="eye"` × 2）を含む inline SVG を描画し、`aria-label` がロケールで変わる | `components.test.ts` |
+| AC-12-3 | ビルド後の `index.html` と `ja/index.html` に `data-hero="fly"` がある | `dist.test.ts` |
 
 ## 非スコープ（初期公開では作らない）
 
