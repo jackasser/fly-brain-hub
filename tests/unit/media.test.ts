@@ -39,6 +39,11 @@ describe('R-11 media', () => {
       kind: 'image',
       src: 'https://img.example/a.png',
       credit: 'c',
+      videoPoster: false,
+    });
+    expect(coverFor({ ...base, image: 'https://pbs.twimg.com/x.jpg', imageCredit: 'c', imageKind: 'video-poster' })).toMatchObject({
+      kind: 'image',
+      videoPoster: true,
     });
     expect(coverFor({ ...base, image: 'https://img.example/a.png', imageCredit: 'c', video: 'https://youtu.be/dQw4w9WgXcQ' })).toEqual({
       kind: 'youtube',

@@ -51,6 +51,7 @@
 | video | URL | | YouTube の URL（R-11） |
 | image | URL | | 外部のプレビュー画像。`imageCredit` 必須（R-11） |
 | imageCredit | string | | 画像の出どころ・権利表示 |
+| imageKind | `photo` \| `video-poster` | | `image` が動画のポスターなら `video-poster`（カードに再生バッジ） |
 | featured | boolean | | 既定 `false` |
 | sourceRefs | URL[] | ✔ | 1 件以上 |
 
@@ -111,7 +112,7 @@
 | `/` | hero、`featured` エントリ（**全件**、`sortProjects` 順）、`addedAt` 降順の新着 6 件、カテゴリ格子（件数付き） |
 | `/projects` | 全エントリのカード一覧（SSR 済み）。上に検索 UI（R-05） |
 | `/category/<slug>` | そのカテゴリのカード一覧。`crypto` は注記を先頭に出す |
-| `/projects/<id>` | 順に: 名前・作者 → 説明（ロケール別）と公式・リポジトリリンク → 画像または動画（R-11） → タグ → 出典（sourceRefs）一覧。右カラムに org / region / license / language / date / stars / status とデータセットへのリンク |
+| `/projects/<id>` | 順に: 名前・作者 → 説明（ロケール別）と公式・リポジトリリンク（**外部リンクは新しいタブで開く**: `target="_blank" rel="noopener noreferrer"`。出典リンクも同様） → 画像または動画（R-11） → タグ → 出典（sourceRefs）一覧。右カラムに org / region / license / language / date / stars / status とデータセットへのリンク |
 | `/datasets` | `connectome` エントリの一覧と「使っているプロジェクト数」 |
 
 カードは name、カテゴリバッジ、データセットバッジ、説明（ロケール別）、license、stars（あれば）を出し、`crypto` は注記を出す。
@@ -123,6 +124,7 @@
 | AC-04-3 | `ProjectGrid` に 13 件渡すと、6 件目と 12 件目の直後に in-feed 広告枠が入る（広告有効時） | `components.test.ts` |
 | AC-04-4 | ビルド後、全エントリ × 両ロケールの `projects/<id>/index.html`、全カテゴリの `category/<slug>/index.html`、`datasets/index.html`、`projects/index.html` が存在する | `dist.test.ts` |
 | AC-04-5 | 詳細ページに `sourceRefs` の各 URL がリンクとして含まれる | `dist.test.ts` |
+| AC-04-7 | 詳細ページの公式サイト・リポジトリ・出典のリンクは `target="_blank"` と `rel` に `noopener` を持つ（2026-09-12 ユーザー指示） | `dist.test.ts` |
 | AC-04-6 | `/datasets` の各データセット行に、それを `datasets` で参照するエントリ数が表示される | `dist.test.ts` |
 
 ## R-05 検索
@@ -186,7 +188,7 @@
 ## R-08 法務・投稿ページ
 
 - `/about`：サイトの目的、編集方針（第 0 章）、運営者。
-- `/privacy`：Google AdSense の利用、Cookie（DoubleClick）、パーソナライズ広告のオプトアウト（`https://www.google.com/settings/ads`）、EU/UK/CH では Google 認定の同意管理（CMP）による同意メッセージが出ること（同意の選択に応じて広告が制限または非表示になる、と**断定せずに**書く）、アクセス解析の有無、問い合わせ先。
+- `/privacy`：X（Twitter）の投稿を公式ウィジェットで埋め込むページがあり、その際 X のスクリプトと Cookie が読み込まれること。Google AdSense の利用、Cookie（DoubleClick）、パーソナライズ広告のオプトアウト（`https://www.google.com/settings/ads`）、EU/UK/CH では Google 認定の同意管理（CMP）による同意メッセージが出ること（同意の選択に応じて広告が制限または非表示になる、と**断定せずに**書く）、アクセス解析の有無、問い合わせ先。
 - `/contact`：連絡手段（GitHub Issues とメール）。
 - `/submit`：投稿手順と、`submit-project.yml` テンプレートを指す prefilled issue URL。
 - 4 ページとも両ロケール。フッターから常にリンク。
@@ -194,7 +196,7 @@
 | AC | Given / When / Then | テスト |
 |---|---|---|
 | AC-08-1 | ビルド後、`about privacy contact submit` × 両ロケールの HTML が存在する | `dist.test.ts` |
-| AC-08-2 | `privacy/index.html` に `AdSense` `Cookie` `google.com/settings/ads` が含まれる | `dist.test.ts` |
+| AC-08-2 | `privacy/index.html` に `AdSense` `Cookie` `google.com/settings/ads` と X の埋め込みについての記述（EN: `embedded posts from X` / JA: `X の投稿`）が含まれる | `dist.test.ts` |
 | AC-08-3 | `submit/index.html` に `issues/new?template=submit-project.yml` を含むリンクがある | `dist.test.ts` |
 | AC-08-4 | 全 HTML のフッターに `/privacy` へのリンクがある | `dist.test.ts` |
 
@@ -231,6 +233,7 @@
 | 1 | `thumbnail` あり | その画像（`/thumbs/` のローカルファイル、`imageCredit` 必須） | 自前 |
 | 2 | `video` あり（YouTube URL） | `https://i.ytimg.com/vi/<id>/hqdefault.jpg`。詳細ページでは YouTube の公式埋め込み（`youtube-nocookie.com`）を表示 | YouTube が埋め込み用に配信 |
 | 3 | `image` あり（https の外部 URL、`imageCredit` 必須） | その画像 | 提供元が公開しているプレビュー画像、または**寛容なライセンス（MIT / Apache-2.0 / BSD / CC-BY / GPL）のリポジトリ README に置かれたデモ画像・GIF**。`imageCredit` にリポジトリとライセンスを書く |
+| 3b | `url` が X（Twitter）の投稿で、投稿に写真か動画がある | X の配信 CDN（`pbs.twimg.com`）から取った写真、または動画のポスター画像。`scripts/fetch-x-media.mjs` が `image` `imageKind`（`photo` / `video-poster`）`imageCredit`（`@handle on X`）を書き込む。カードは `video-poster` のとき再生バッジを重ねる。詳細ページは X 公式の埋め込み（`platform.twitter.com/widgets.js`）で投稿そのものを表示する | X が埋め込み用に配信 |
 | 4 | `repoUrl` が GitHub | `https://opengraph.githubassets.com/<id>/<owner>/<repo>`（GitHub のソーシャルプレビュー） | GitHub が埋め込み用に生成 |
 | 5 | それ以外 | 生成カバー: `id` から決定的に作るニューロン網の SVG。カテゴリ色、プロジェクト名入り。**ビルド時に `/covers/<id>.svg` として出力し `<img>` で参照する**（inline にしない） | 自作 |
 
@@ -247,6 +250,10 @@
 | AC-11-4 | `image` があって `imageCredit` が無いエントリはスキーマで失敗する | `schema.test.ts` |
 | AC-11-5 | `ProjectCard` は GitHub リポジトリで `opengraph.githubassets.com` の `<img>` を、リポジトリ無しで `/covers/<id>.svg` の `<img>` を、`video` ありで `i.ytimg.com` の `<img>` を描画する。inline `<svg` は含まない | `components.test.ts` |
 | AC-11-9 | ビルド後、生成カバー対象の各エントリに `covers/<id>.svg` が存在し `<svg` で始まる | `dist.test.ts` |
+| AC-11-10 | `xStatusId()` が x.com / twitter.com の status URL から ID を取り、それ以外は null | `x-media.test.ts` |
+| AC-11-11 | `pickXMedia()` は動画ならポスター、写真なら 1 枚目を `pbs.twimg.com` に限って選ぶ | `x-media.test.ts` |
+| AC-11-12 | `updateXMedia()` は X 投稿のエントリだけに `image` `imageKind` `imageCredit` を書き、既に `image` があるものと X 以外は変えない | `x-media.test.ts` |
+| AC-11-13 | `ProjectCard` は `imageKind: video-poster` のとき再生バッジ（`data-play`）を出し、`CoverMedia` は `url` が X の投稿なら公式埋め込み（`twitter-tweet` と widgets.js）を出す | `components.test.ts` |
 | AC-11-6 | 詳細ページは `video` があるとき `youtube-nocookie.com/embed/<id>` の iframe を出す | `components.test.ts` |
 | AC-11-7 | ビルド後、`projects/index.html` の全カードに `.card__cover` がある | `dist.test.ts` |
 | AC-11-8 | 390px 幅でカバー画像がカード幅を超えない | `e2e/mobile.spec.ts` |

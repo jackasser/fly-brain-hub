@@ -1086,6 +1086,9 @@
     "addedAt": "2026-09-12",
     "description_en": "A short video posted on X by @_lyraaaa_ showing a simulated MaleCNS v1.0 fly brain hooked up to Beat Saber. It carries the highest view count Know Your Meme lists for the September 2026 wave, roughly 22 million views and 84,800 likes, and IBTimes quotes the caption as \"the fly brain can play beat saber\". The coverage fetched describes only the video, not how neurons were mapped to the controllers, so the pipeline cannot be checked from these sources.",
     "description_ja": "@_lyraaaa_が X に投稿した短い動画で、MaleCNS v1.0 のシミュレーション脳を Beat Saber に接続した様子を映している。Know Your Meme が 2026 年 9 月のブームで挙げる中では最多の約 2,200 万回再生・8.48 万いいねで、IBTimes は投稿文を「the fly brain can play beat saber」と引用している。参照した記事はいずれも動画の内容のみを扱い、ニューロンをコントローラー入力にどう対応付けたかは説明していないため、仕組みはこれらの情報源からは確認できない。",
+    "image": "https://pbs.twimg.com/amplify_video_thumb/2097526768739737600/img/ciBu9rPeJEMJZdA2.jpg",
+    "imageKind": "video-poster",
+    "imageCredit": "@_lyraaaa_ on X (video poster, 2026-09-12)",
     "sourceRefs": [
       "https://knowyourmeme.com/memes/fly-brain-simulations-fruit-fly-brain-mapped",
       "https://www.ibtimes.co.uk/fruit-fly-neural-network-gaming-experiments-1819013"
@@ -1116,6 +1119,9 @@
     "starsUpdatedAt": "2026-09-12",
     "description_en": "Jessica Paquette's proof-of-concept that pipes Super Mario 64 frames (from a decompiled SM64 build) into a simulated visual system of a ~100k-neuron MaleCNS v1.0 model and reads controller inputs off named descending neurons: DNg100 for movement, a DNa02/DNg13 difference for steering, DNp01/DNp10 bursts for jumping. There is no learning or reward signal, and the README says the fly mostly walks into walls and gets stuck; the author calls it 100% vibe coded. Covered by Gizmodo on 2026-09-08.",
     "description_ja": "Jessica Paquette による概念実証。逆コンパイル版 SM64 の画面を約 10 万ニューロンの MaleCNS v1.0 モデルの視覚系に流し込み、特定の下行ニューロン（移動は DNg100、旋回は DNa02/DNg13 の差分、ジャンプは DNp01/DNp10 のバースト）からコントローラー入力を読み出す。学習や報酬は一切なく、README にはハエは主に壁にぶつかって動けなくなると書かれている。作者いわく「100% vibe coded」。2026-09-08 に Gizmodo が紹介。",
+    "image": "https://pbs.twimg.com/amplify_video_thumb/2097003650820485124/img/85z_Zbx7QDpKHi_i.jpg",
+    "imageKind": "video-poster",
+    "imageCredit": "@barrelshifter on X (video poster, 2026-09-12)",
     "sourceRefs": [
       "https://gizmodo.com/google-mapped-a-fruit-flys-brain-now-its-playing-doom-and-super-mario-64-2000808616",
       "https://github.com/ornata/fly"
@@ -1142,6 +1148,9 @@
     "addedAt": "2026-09-12",
     "description_en": "A video post by Alex Wormuth (@nftechie_), the same creator behind the earlier Doom livestream, in which a simulated fly brain is given $100 and its neural activity is used to trigger buy and sell orders on Coinbase, with dopamine neurons stimulated whenever the fly makes a profit. Know Your Meme reports about 3.4 million views and 28,500 likes. The coverage fetched describes only the video and its caption, not the code, the neuron-to-order mapping or any trading outcome.",
     "description_ja": "先に Doom の配信を行った Alex Wormuth（@nftechie_）による動画投稿。シミュレーションしたハエの脳に 100 ドルを持たせ、その神経活動で Coinbase の売買を決定し、利益が出るとドーパミンニューロンを刺激するという内容。Know Your Meme によれば約 340 万回再生・2.85 万いいね。参照した記事は動画と投稿文の内容のみを扱っており、コードやニューロンと注文の対応付け、取引の結果には触れていない。",
+    "image": "https://pbs.twimg.com/amplify_video_thumb/2097893699925458948/img/LOeUzu35T_s5f70k.jpg",
+    "imageKind": "video-poster",
+    "imageCredit": "@nftechie_ on X (video poster, 2026-09-12)",
     "sourceRefs": [
       "https://knowyourmeme.com/memes/fly-brain-simulations-fruit-fly-brain-mapped",
       "https://gizmodo.com/google-mapped-a-fruit-flys-brain-now-its-playing-doom-and-super-mario-64-2000808616"
@@ -1166,6 +1175,9 @@
     "addedAt": "2026-09-12",
     "description_en": "A joke-toned video post by @alright_mark presenting a simulated fly-brain system attempting the \"ultimate test\" of parallel parking a car. Know Your Meme reports roughly 1.5 million views and 16,000 likes for the 2026-09-10 post. The coverage fetched describes only the video and its caption, not the underlying setup or which connectome data, if any, is simulated.",
     "description_ja": "@alright_markによるネタ寄りの動画投稿で、ハエの脳のシミュレーションに「究極のテスト」として縦列駐車をさせる内容。Know Your Meme によれば 2026-09-10 の投稿で約 150 万回再生・1.6 万いいね。参照した記事は動画と投稿文の内容のみを扱っており、内部の構成やどのコネクトームデータを使っているのか（使っているとすれば）は説明していない。",
+    "image": "https://pbs.twimg.com/amplify_video_thumb/2098085723404410881/img/apXD6OH-VI4TCnA9.jpg",
+    "imageKind": "video-poster",
+    "imageCredit": "@alright_mark on X (video poster, 2026-09-12)",
     "sourceRefs": [
       "https://knowyourmeme.com/memes/fly-brain-simulations-fruit-fly-brain-mapped"
     ]

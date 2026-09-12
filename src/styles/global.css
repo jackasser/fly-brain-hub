@@ -464,6 +464,41 @@ pre code {
   display: none !important;
 }
 
+.cover__play {
+  position: absolute;
+  inset: 0;
+  display: grid;
+  place-items: center;
+  font-size: 2.2rem;
+  color: #fff;
+  text-shadow: 0 2px 12px rgb(0 0 0 / 0.6);
+  pointer-events: none;
+}
+
+.cover__play::before {
+  content: '';
+  position: absolute;
+  width: 4rem;
+  height: 4rem;
+  border-radius: 50%;
+  background: rgb(0 0 0 / 0.45);
+  z-index: -1;
+}
+
+.media--x {
+  border: 0;
+  background: transparent;
+}
+
+.media--x .twitter-tweet {
+  margin: 0 auto;
+}
+
+/* Hide the static poster once the official widget has rendered. */
+.media--x:has(.twitter-tweet-rendered) .media--x-poster {
+  display: none;
+}
+
 .cover__credit {
   position: absolute;
   right: 0.4rem;

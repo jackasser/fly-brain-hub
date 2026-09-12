@@ -168,6 +168,28 @@ describe('R-11 covers', () => {
   });
 });
 
+describe('R-11 X post media', () => {
+  it('AC-11-13 play badge on video posters; official X embed on detail pages', async () => {
+    const xp = project({
+      url: 'https://x.com/lyra/status/1',
+      image: 'https://pbs.twimg.com/amplify_video_thumb/1/img/a.jpg',
+      imageCredit: '@lyra on X (video poster, 2026-09-12)',
+      imageKind: 'video-poster',
+    });
+    const card = await container.renderToString(ProjectCard, { props: { project: xp, locale: 'en' } });
+    expect(card).toContain('src="https://pbs.twimg.com/amplify_video_thumb/1/img/a.jpg"');
+    expect(card).toContain('data-play');
+    const plain = await container.renderToString(ProjectCard, { props: { project: project({ repoUrl: 'https://github.com/o/r' }), locale: 'en' } });
+    expect(plain).not.toContain('data-play');
+    const detail = await container.renderToString(CoverMedia, { props: { project: xp, locale: 'ja' } });
+    expect(detail).toContain('class="twitter-tweet"');
+    expect(detail).toContain('https://platform.twitter.com/widgets.js');
+    expect(detail).toContain('href="https://x.com/lyra/status/1"');
+    const gh = await container.renderToString(CoverMedia, { props: { project: project({ repoUrl: 'https://github.com/o/r' }), locale: 'en' } });
+    expect(gh).not.toContain('twitter-tweet');
+  });
+});
+
 describe('R-12 FlyHero', () => {
   it('AC-12-2 renders a fly face with a glowing brain and localized label', async () => {
     const en = await container.renderToString(FlyHero, { props: { locale: 'en' } });

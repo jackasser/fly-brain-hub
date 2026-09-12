@@ -32,6 +32,7 @@ export const projectSchema = z
     video: httpsUrl.refine((v) => youtubeId(v) !== null, 'video must be a YouTube URL with a valid video id').optional(),
     image: httpsUrl.optional(),
     imageCredit: z.string().min(1).optional(),
+    imageKind: z.enum(['photo', 'video-poster']).optional(),
     featured: z.boolean().default(false),
     sourceRefs: z.array(httpUrl).min(1),
   })

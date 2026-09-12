@@ -13,6 +13,7 @@ const { project, class: extra = 'card__cover', eager = false } = Astro.props;
 const cover = coverFor(project);
 const fallback = generatedCoverPath(project.id);
 const external = cover.kind !== 'generated';
+const play = (cover.kind === 'image' && cover.videoPoster) || cover.kind === 'youtube';
 ---
 
 <div class={extra} data-cover={cover.kind}>
@@ -26,5 +27,6 @@ const external = cover.kind !== 'generated';
     referrerpolicy={external ? 'no-referrer' : undefined}
     onerror={external ? `this.onerror=null;this.src='${fallback}';this.removeAttribute('referrerpolicy')` : undefined}
   />
+  {play && <span class="cover__play" data-play aria-hidden="true">▶</span>}
   {'credit' in cover && cover.credit && <span class="cover__credit">{cover.credit}</span>}
 </div>

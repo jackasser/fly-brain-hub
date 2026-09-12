@@ -47,10 +47,10 @@ const host = (u: string) => new URL(u).hostname.replace(/^www\./, '');
         {meta.notice && <Callout tone="notice">{meta.notice[locale]}</Callout>}
 
         <p class="hero__actions">
-          <a class="btn" href={project.url} rel="noopener">{t(locale, 'project.official')} ↗</a>
+          <a class="btn" href={project.url} target="_blank" rel="noopener noreferrer">{t(locale, 'project.official')} ↗</a>
           {
             project.repoUrl && project.repoUrl !== project.url && (
-              <a class="btn btn--ghost" href={project.repoUrl} rel="noopener">
+              <a class="btn btn--ghost" href={project.repoUrl} target="_blank" rel="noopener noreferrer">
                 {t(locale, 'project.repo')} ↗
               </a>
             )
@@ -78,7 +78,7 @@ const host = (u: string) => new URL(u).hostname.replace(/^www\./, '');
             {
               project.sourceRefs.map((ref) => (
                 <li>
-                  <a href={ref} rel="noopener nofollow">
+                  <a href={ref} target="_blank" rel="noopener noreferrer nofollow">
                     {host(ref)}
                   </a>{' '}
                   <span class="card__org">{ref}</span>

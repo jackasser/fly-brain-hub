@@ -4,7 +4,7 @@ import { CATEGORY_META, type Category } from './taxonomy';
 export type Cover =
   | { kind: 'thumbnail'; src: string; credit: string }
   | { kind: 'youtube'; src: string; videoId: string }
-  | { kind: 'image'; src: string; credit: string }
+  | { kind: 'image'; src: string; credit: string; videoPoster: boolean }
   | { kind: 'github'; src: string }
   | { kind: 'generated'; src: string };
 
@@ -28,6 +28,13 @@ export function youtubeId(url: string | undefined): string | null {
   return null;
 }
 
+/** "https://x.com/user/status/123" (or twitter.com) -> "123", else null. */
+export function xStatusId(url: string | undefined): string | null {
+  if (!url) return null;
+  const m = /^https?:\/\/(?:www\.|mobile\.)?(?:x|twitter)\.com\/[^/]+\/status\/(\d+)/i.exec(url);
+  return m ? m[1] : null;
+}
+
 export function githubRepo(url: string | undefined): string | null {
   if (!url) return null;
   const m = /^https?:\/\/github\.com\/([^/\s]+)\/([^/\s#?]+)/i.exec(url);
@@ -43,7 +50,7 @@ export function coverFor(p: Project): Cover {
   if (p.thumbnail) return { kind: 'thumbnail', src: p.thumbnail, credit: p.imageCredit ?? '' };
   const vid = youtubeId(p.video);
   if (vid) return { kind: 'youtube', src: `https://i.ytimg.com/vi/${vid}/hqdefault.jpg`, videoId: vid };
-  if (p.image) return { kind: 'image', src: p.image, credit: p.imageCredit ?? '' };
+  if (p.image) return { kind: 'image', src: p.image, credit: p.imageCredit ?? '', videoPoster: p.imageKind === 'video-poster' };
   const repo = githubRepo(p.repoUrl);
   if (repo) return { kind: 'github', src: `https://opengraph.githubassets.com/${p.id}/${repo}` };
   return { kind: 'generated', src: generatedCoverPath(p.id) };

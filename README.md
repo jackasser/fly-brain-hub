@@ -33,6 +33,15 @@ npm run linkcheck    # dist/ の内部リンク
 2. `npm run check` を通す（不正なデータはここで落ちる）
 3. `npm run build && npm run test:dist`
 
+### X 投稿のサムネイル
+
+```powershell
+node scripts/fetch-x-media.mjs        # url が X の投稿のエントリに image / imageKind / imageCredit を書く（既に image があれば触らない）
+node scripts/fetch-x-media.mjs --force
+```
+
+取得元は X の配信 CDN（公式埋め込みウィジェットが読む JSON）。保存するのは `pbs.twimg.com` の画像 URL だけで、詳細ページでは投稿を X 公式ウィジェットで埋め込む。
+
 ### スター数の更新
 
 ```powershell

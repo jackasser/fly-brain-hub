@@ -1,7 +1,7 @@
 ---
 import Cover from './Cover.astro';
 import type { Project } from '../lib/schema';
-import { youtubeId } from '../lib/media';
+import { xStatusId, youtubeId } from '../lib/media';
 import type { Locale } from '../i18n';
 
 interface Props {
@@ -9,8 +9,9 @@ interface Props {
   locale: Locale;
 }
 
-const { project } = Astro.props;
+const { project, locale } = Astro.props;
 const vid = youtubeId(project.video);
+const xId = vid ? null : xStatusId(project.url);
 ---
 
 {
@@ -24,6 +25,14 @@ const vid = youtubeId(project.video);
         referrerpolicy="strict-origin-when-cross-origin"
         allowfullscreen
       />
+    </div>
+  ) : xId ? (
+    <div class="media media--x">
+      <Cover project={project} class="media--cover media--x-poster" eager />
+      <blockquote class="twitter-tweet" data-dnt="true" data-lang={locale}>
+        <a href={project.url}>{project.url}</a>
+      </blockquote>
+      <script is:inline async src="https://platform.twitter.com/widgets.js" charset="utf-8" />
     </div>
   ) : (
     <Cover project={project} class="media media--cover" eager />
