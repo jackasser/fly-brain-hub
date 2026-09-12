@@ -21,7 +21,7 @@ const isCurrent = (href: string) => bare === href || bare.startsWith(`${href}/`)
 <header class="site-header">
   <div class="container site-header__inner">
     <a class="brand" href={localePath(locale, '/')}>
-      <span class="brand__mark" aria-hidden="true"></span>
+      <img class="brand__mark" src="/favicon.svg" alt="" width="24" height="24" aria-hidden="true" />
       {t(locale, 'site.name')}
     </a>
     <nav class="nav" aria-label="Main">

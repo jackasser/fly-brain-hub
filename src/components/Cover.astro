@@ -1,6 +1,6 @@
 ---
 import type { Project } from '../lib/schema';
-import { coverFor, generatedCover } from '../lib/media';
+import { coverFor, generatedCoverPath } from '../lib/media';
 
 interface Props {
   project: Project;
@@ -11,27 +11,20 @@ interface Props {
 
 const { project, class: extra = 'card__cover', eager = false } = Astro.props;
 const cover = coverFor(project);
-const fallback = generatedCover(project.id, project.category, project.name);
-const alt = project.name;
+const fallback = generatedCoverPath(project.id);
+const external = cover.kind !== 'generated';
 ---
 
-{
-  cover.kind === 'generated' ? (
-    <div class={extra} data-cover="generated" set:html={cover.svg} />
-  ) : (
-    <div class={extra} data-cover={cover.kind}>
-      <img
-        src={cover.src}
-        alt={alt}
-        width="1200"
-        height="600"
-        loading={eager ? 'eager' : 'lazy'}
-        decoding="async"
-        referrerpolicy="no-referrer"
-        onerror="this.hidden=true;this.nextElementSibling.hidden=false"
-      />
-      <div hidden set:html={fallback} />
-      {'credit' in cover && cover.credit && <span class="cover__credit">{cover.credit}</span>}
-    </div>
-  )
-}
+<div class={extra} data-cover={cover.kind}>
+  <img
+    src={cover.src}
+    alt={project.name}
+    width="1200"
+    height="600"
+    loading={eager ? 'eager' : 'lazy'}
+    decoding="async"
+    referrerpolicy={external ? 'no-referrer' : undefined}
+    onerror={external ? `this.onerror=null;this.src='${fallback}';this.removeAttribute('referrerpolicy')` : undefined}
+  />
+  {'credit' in cover && cover.credit && <span class="cover__credit">{cover.credit}</span>}
+</div>

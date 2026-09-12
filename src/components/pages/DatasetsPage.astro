@@ -18,7 +18,7 @@ const usage = datasetUsage(all);
     <h1>{t(locale, 'datasets.title')}</h1>
     <p class="prose">{t(locale, 'datasets.intro')}</p>
     <div class="table-wrap">
-      <table>
+      <table class="datasets">
         <thead>
           <tr>
             <th>{t(locale, 'nav.datasets')}</th>
@@ -38,9 +38,9 @@ const usage = datasetUsage(all);
                   </a>
                 </td>
                 <td>{d.org}</td>
-                <td>{d.date}</td>
-                <td>{d.license ?? '—'}</td>
-                <td data-dataset={d.id} data-used-by={usage.get(d.id) ?? 0}>
+                <td class="nowrap">{d.date}</td>
+                <td class="nowrap">{d.license ?? '—'}</td>
+                <td class="nowrap num" data-dataset={d.id} data-used-by={usage.get(d.id) ?? 0}>
                   {usage.get(d.id) ?? 0} {t(locale, 'datasets.projects')}
                 </td>
               </tr>

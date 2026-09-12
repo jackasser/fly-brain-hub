@@ -31,13 +31,21 @@ export function jsonLd(project: Project, locale: Locale): JsonLd {
   return out;
 }
 
+/** JSON for an inline <script type="application/ld+json">: `<` is escaped so data can never close the tag. */
+export function serializeJsonLd(value: unknown): string {
+  return JSON.stringify(value).replace(/</g, '\\u003c');
+}
+
 export interface Alternate {
   hreflang: 'en' | 'ja' | 'x-default';
   href: string;
 }
 
+/** Absolute URL without a trailing slash (except the site root), matching the sitemap. */
 function absolute(site: string, path: string): string {
-  return new URL(path, site.endsWith('/') ? site : `${site}/`).toString();
+  const u = new URL(path, site.endsWith('/') ? site : `${site}/`);
+  if (u.pathname !== '/' && u.pathname.endsWith('/')) u.pathname = u.pathname.replace(/[/]+$/, '');
+  return u.toString();
 }
 
 /** hreflang alternates for a locale-agnostic (or localised) path. */

@@ -1,15 +1,19 @@
 import { z } from 'astro/zod';
+import { youtubeId } from './media';
 import { CATEGORIES, DATASET_IDS } from './taxonomy';
 
-const url = z.url();
+/** http(s) only: `javascript:` / `data:` / `ftp:` never become links. */
+const httpUrl = z.url().refine((v) => /^https?:\/\//i.test(v), 'only http(s) URLs are allowed');
+/** Embedded media must be https so it loads on the https site. */
+const httpsUrl = z.url().refine((v) => /^https:\/\//i.test(v), 'only https URLs are allowed');
 const isoDate = z.string().regex(/^\d{4}-\d{2}-\d{2}$/, 'expected YYYY-MM-DD');
 
 export const projectSchema = z
   .object({
     id: z.string().regex(/^[a-z0-9-]+$/, 'id must be a lowercase slug'),
     name: z.string().min(2),
-    url,
-    repoUrl: url.optional(),
+    url: httpUrl,
+    repoUrl: httpUrl.optional(),
     category: z.enum(CATEGORIES),
     tags: z.array(z.string().min(1)).default([]),
     datasets: z.array(z.enum(DATASET_IDS)).default([]),
@@ -25,13 +29,11 @@ export const projectSchema = z
     description_en: z.string().min(60).max(600),
     description_ja: z.string().min(40).max(600),
     thumbnail: z.string().startsWith('/thumbs/').optional(),
-    video: url
-      .refine((v) => /^https?:\/\/(www\.|m\.)?(youtube\.com|youtu\.be|youtube-nocookie\.com)\//i.test(v), 'video must be a YouTube URL')
-      .optional(),
-    image: url.optional(),
+    video: httpsUrl.refine((v) => youtubeId(v) !== null, 'video must be a YouTube URL with a valid video id').optional(),
+    image: httpsUrl.optional(),
     imageCredit: z.string().min(1).optional(),
     featured: z.boolean().default(false),
-    sourceRefs: z.array(url).min(1),
+    sourceRefs: z.array(httpUrl).min(1),
   })
   .strict()
   .refine((p) => !(p.image || p.thumbnail) || Boolean(p.imageCredit), {

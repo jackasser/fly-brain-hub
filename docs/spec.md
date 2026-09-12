@@ -31,7 +31,7 @@
 |---|---|---|---|
 | id | string | ✔ | `^[a-z0-9-]+$`、全体で一意 |
 | name | string | ✔ | 2 文字以上 |
-| url | URL | ✔ | 公式ページ |
+| url | URL | ✔ | 公式ページ。**http(s) のみ**（`javascript:` `data:` は拒否） |
 | repoUrl | URL | | GitHub 等 |
 | category | enum | ✔ | R-02 の slug |
 | tags | string[] | | 既定 `[]` |
@@ -63,6 +63,7 @@
 | AC-01-3 | 未知キーを含むと失敗する | `schema.test.ts` |
 | AC-01-4 | `datasets` にデータセット ID 以外があると失敗する | `schema.test.ts` |
 | AC-01-5 | `sourceRefs` が空だと失敗する | `schema.test.ts` |
+| AC-01-8 | `url` `repoUrl` `sourceRefs` `image` `video` に `javascript:` / `data:` / `http:` 以外の非 https スキームを与えると失敗する（`http:` は `url`/`sourceRefs` のみ許容） | `schema.test.ts` |
 | AC-01-6 | `projects.json` の全件がスキーマを通り、`id` が一意で、`datasets` の参照先が `connectome` エントリとして存在する | `data.test.ts` |
 | AC-01-6d | `DATASET_IDS` の全てに対応する `connectome` エントリが存在する | `data.test.ts` |
 | AC-01-7 | `category = crypto` の全エントリの `url`・`repoUrl`・`sourceRefs` に紹介コード風のクエリ（`ref=` `aff=` `invite=`）が無い | `data.test.ts` |
@@ -107,10 +108,10 @@
 
 | ページ | 内容 |
 |---|---|
-| `/` | hero、`featured` エントリ、`addedAt` 降順の新着 6 件、カテゴリ格子（件数付き） |
+| `/` | hero、`featured` エントリ（**全件**、`sortProjects` 順）、`addedAt` 降順の新着 6 件、カテゴリ格子（件数付き） |
 | `/projects` | 全エントリのカード一覧（SSR 済み）。上に検索 UI（R-05） |
 | `/category/<slug>` | そのカテゴリのカード一覧。`crypto` は注記を先頭に出す |
-| `/projects/<id>` | 名前、説明（ロケール別）、org / region / license / language / date / stars / status、データセットへのリンク、タグ、公式・リポジトリリンク、出典（sourceRefs）一覧 |
+| `/projects/<id>` | 順に: 名前・作者 → 説明（ロケール別）と公式・リポジトリリンク → 画像または動画（R-11） → タグ → 出典（sourceRefs）一覧。右カラムに org / region / license / language / date / stars / status とデータセットへのリンク |
 | `/datasets` | `connectome` エントリの一覧と「使っているプロジェクト数」 |
 
 カードは name、カテゴリバッジ、データセットバッジ、説明（ロケール別）、license、stars（あれば）を出し、`crypto` は注記を出す。
@@ -131,6 +132,8 @@
 - ファセット（category / dataset / tag）は完全一致で絞る。
 - 状態は `?q=&category=&dataset=&tag=` に同期し、URL から復元する。
 - JS 無効時も `/projects` の SSR 一覧が読める。
+- `search-index.json` の取得に失敗したら、検索フォームを無効化して失敗メッセージを出し、SSR 全件一覧はそのまま残す。
+- 検索で絞り込んでも in-feed 広告枠は隠さない（要求済み広告を隠さない。R-07）。
 
 | AC | Given / When / Then | テスト |
 |---|---|---|
@@ -138,31 +141,38 @@
 | AC-05-2 | `/projects?q=doom` を開くと結果が絞られ、入力欄に `doom` が入っている | `e2e/search.spec.ts` |
 | AC-05-3 | category ファセットを選ぶと URL に `category=` が付き、件数が減る | `e2e/search.spec.ts` |
 | AC-05-4 | 検索語を消すと全件に戻る | `e2e/search.spec.ts` |
+| AC-05-5 | `search-index.json` が 404 のとき、入力欄が disabled になり `data-status` に失敗文言が出て、カードは全件表示のまま | `e2e/search.spec.ts` |
 
 ## R-06 SEO
 
 - `astro.config.mjs` の `site` は `PUBLIC_SITE_URL`（未設定時は `https://example.com` のプレースホルダ）。
 - 各ページに `canonical`、OG（title / description / url / type）。
-- 詳細ページに JSON-LD（カテゴリ別 type、`name` `url` `description` `license` `codeRepository`（あれば））。
+- 詳細ページに JSON-LD（カテゴリ別 type、`name` `url` `description` `license` `codeRepository`（あれば））。シリアライズ時に `<` を `<` にエスケープし、`</script>` を含むデータでもスクリプトを閉じない。
+- 全ページに `og:image`（`/og.png`、1200×630、ハエの顔＋脳とサイト名）と `twitter:card=summary_large_image`。
+- canonical と sitemap の URL は末尾スラッシュ無しで統一する。404 ページは hreflang を出さない。
 - sitemap（`@astrojs/sitemap`、i18n alternates 付き）、RSS を `/rss.xml` と `/ja/rss.xml`、`robots.txt`、`404` ページ。
 
 | AC | Given / When / Then | テスト |
 |---|---|---|
 | AC-06-1 | `jsonLd(entry)` が category ごとに正しい `@type` を返し、`repoUrl` があれば `codeRepository` を含む | `seo.test.ts` |
 | AC-06-2 | ビルド後、詳細ページに `application/ld+json` と `canonical` がある | `dist.test.ts` |
+| AC-06-4 | `serializeJsonLd()` が `</script>` を含む値を `</script>` に変換し、`JSON.parse` で元に戻る | `seo.test.ts` |
+| AC-06-5 | 全 HTML（404 除く）の canonical が末尾スラッシュ無しで、`sitemap-0.xml` の全 URL も末尾スラッシュ無し。`og:image` が全ページにあり `dist/og.png` が存在する | `dist.test.ts` |
 | AC-06-3 | `sitemap-index.xml`、`rss.xml`、`ja/rss.xml`、`robots.txt`、`404.html` が存在し、RSS に全エントリが含まれる | `dist.test.ts` |
 
 ## R-07 広告枠
 
 | 枠 | 場所 | env |
 |---|---|---|
-| leaderboard | ヘッダー直下（全ページ） | `PUBLIC_ADSENSE_SLOT_LEADERBOARD` |
+| leaderboard | ヘッダー直下（404 を除く全ページ） | `PUBLIC_ADSENSE_SLOT_LEADERBOARD` |
 | infeed | 一覧グリッドの 6 件ごと | `PUBLIC_ADSENSE_SLOT_INFEED`（+ `PUBLIC_ADSENSE_INFEED_LAYOUT_KEY`） |
 | sidebar | 詳細ページ末尾 | `PUBLIC_ADSENSE_SLOT_SIDEBAR` |
 
 - 広告有効（`PUBLIC_ADSENSE_CLIENT` 設定済み）: `<ins class="adsbygoogle" data-ad-client data-ad-slot ...>` と push スクリプト。BaseLayout が `adsbygoogle.js` を 1 回だけ読み込む。
 - 広告無効かつ dev: 高さを確保した破線ボックス（枠名入り、`data-ad-placeholder` 属性）。
 - 広告無効かつ本番ビルド: 何も出さない。
+- 404 ページでは広告ローダーも枠も出さない（Google の配置ポリシー）。`BaseLayout` の `ads={false}` で制御する。
+- 枠の slot ID（infeed は layout key も）が未設定なら、その枠は有効時でも描画しない（空の `data-ad-slot` を送らない）。
 
 | AC | Given / When / Then | テスト |
 |---|---|---|
@@ -170,11 +180,13 @@
 | AC-07-2 | `resolveSlot('infeed', env)` が client / slot / layoutKey を返す | `ads.test.ts` |
 | AC-07-3 | `AdSlot` は有効時に `ins.adsbygoogle` を、無効かつ dev で `data-ad-placeholder` を、無効かつ prod で空文字を描画する | `components.test.ts` |
 | AC-07-4 | env 未設定でビルドした `dist/` に `adsbygoogle` の文字列が無い | `dist.test.ts` |
+| AC-07-5 | `resolveSlot` は slot 未設定で `null`、infeed は layout key 未設定で `null` を返し、`AdSlot` は `null` のとき何も描画しない | `ads.test.ts` / `components.test.ts` |
+| AC-07-6 | `BaseLayout` に `ads={false}` を渡すと広告有効時でも `adsbygoogle` を含まない | `components.test.ts` |
 
 ## R-08 法務・投稿ページ
 
 - `/about`：サイトの目的、編集方針（第 0 章）、運営者。
-- `/privacy`：Google AdSense の利用、Cookie（DoubleClick）、パーソナライズ広告のオプトアウト（`https://www.google.com/settings/ads`）、アクセス解析の有無、問い合わせ先。
+- `/privacy`：Google AdSense の利用、Cookie（DoubleClick）、パーソナライズ広告のオプトアウト（`https://www.google.com/settings/ads`）、EU/UK/CH では Google 認定の同意管理（CMP）による同意メッセージが出ること（同意の選択に応じて広告が制限または非表示になる、と**断定せずに**書く）、アクセス解析の有無、問い合わせ先。
 - `/contact`：連絡手段（GitHub Issues とメール）。
 - `/submit`：投稿手順と、`submit-project.yml` テンプレートを指す prefilled issue URL。
 - 4 ページとも両ロケール。フッターから常にリンク。
@@ -193,18 +205,22 @@
 
 | AC | Given / When / Then | テスト |
 |---|---|---|
+| AC-09-2 | `stargazers_count` が number 以外（null / 文字列 / 負数）の応答は失敗扱いにして元のエントリを保持する | `refresh-stars.test.ts` |
 | AC-09-1 | `updateStars(entries, fetchFn, today)` は GitHub 以外・fetch 失敗のエントリを変更せず、成功したものだけ `stars` `starsUpdatedAt` を書き換え、他のキーと順序を保つ | `refresh-stars.test.ts` |
 
 ## R-10 表示
 
-- 幅 390px で横スクロールが出ない。カードは 1 列。
+- 幅 390px で横スクロールが出ない。カードは 1 列。ヘッダーは 2 段（ブランド＋言語切替 / ナビ 4 つ均等）、モバイルでは sticky にしない。hero はイラストを小さく（約 11rem）し、主ボタンが早く見える。
+- 日本語ページの見出しは単語の途中で改行しない（`overflow-wrap: normal; line-break: strict`）。`ch` 単位の幅指定を日本語に適用しない。
 - `prefers-color-scheme` でライト／ダークが切り替わる。
 - 外部 CSS フレームワークを使わない。
+- `--fg-faint` を含む本文色は、実際に載る背景（`--bg` と `--bg-elev`）に対して両テーマで 4.5:1 以上。
 
 | AC | Given / When / Then | テスト |
 |---|---|---|
 | AC-10-1 | 390×844 で `/` `/projects` `/projects/flybody` を開くと `scrollWidth <= clientWidth` | `e2e/mobile.spec.ts` |
 | AC-10-2 | `colorScheme: dark` と `light` で `body` の背景色が異なる | `e2e/mobile.spec.ts` |
+| AC-10-3 | tokens.css の `--fg` `--fg-muted` `--fg-faint` × `--bg` `--bg-elev` の全組み合わせが両テーマで 4.5:1 以上 | `contrast.test.ts` |
 
 ## R-11 カードと詳細ページの視覚要素（2026-09-12 ユーザー指示「カードに画像か動画を」）
 
@@ -214,11 +230,12 @@
 |---|---|---|---|
 | 1 | `thumbnail` あり | その画像（`/thumbs/` のローカルファイル、`imageCredit` 必須） | 自前 |
 | 2 | `video` あり（YouTube URL） | `https://i.ytimg.com/vi/<id>/hqdefault.jpg`。詳細ページでは YouTube の公式埋め込み（`youtube-nocookie.com`）を表示 | YouTube が埋め込み用に配信 |
-| 3 | `image` あり（外部 URL、`imageCredit` 必須） | その画像 | 提供元が公開しているプレビュー画像 |
+| 3 | `image` あり（https の外部 URL、`imageCredit` 必須） | その画像 | 提供元が公開しているプレビュー画像、または**寛容なライセンス（MIT / Apache-2.0 / BSD / CC-BY / GPL）のリポジトリ README に置かれたデモ画像・GIF**。`imageCredit` にリポジトリとライセンスを書く |
 | 4 | `repoUrl` が GitHub | `https://opengraph.githubassets.com/<id>/<owner>/<repo>`（GitHub のソーシャルプレビュー） | GitHub が埋め込み用に生成 |
-| 5 | それ以外 | 生成カバー: `id` から決定的に作るニューロン網の SVG。カテゴリ色、プロジェクト名入り | 自作 |
+| 5 | それ以外 | 生成カバー: `id` から決定的に作るニューロン網の SVG。カテゴリ色、プロジェクト名入り。**ビルド時に `/covers/<id>.svg` として出力し `<img>` で参照する**（inline にしない） | 自作 |
 
-- 外部画像は `loading="lazy"`、`referrerpolicy="no-referrer"`、読み込み失敗時は生成カバーに差し替える（`onerror`）。
+- 外部画像は `loading="lazy"`、`referrerpolicy="no-referrer"`、読み込み失敗時は `onerror` で `src` を `/covers/<id>.svg` に差し替える（隠し SVG を同梱しない）。
+- `video` はスキーマの時点で `youtubeId()` が ID を返す URL だけを通す。
 - 生成カバーは同じ `id` なら常に同じ図（ビルドの再現性）。
 - 追加フィールド: `video`（YouTube の URL）、`image`（URL）、`imageCredit`（string）。`image` または `thumbnail` があるとき `imageCredit` 必須。
 
@@ -228,7 +245,8 @@
 | AC-11-2 | `youtubeId()` が watch / youtu.be / shorts / embed の各 URL から ID を取り、それ以外は null | `media.test.ts` |
 | AC-11-3 | `generatedCover(id, category, name)` が同じ入力で同じ SVG を返し、`<svg` で始まりカテゴリ色を含む | `media.test.ts` |
 | AC-11-4 | `image` があって `imageCredit` が無いエントリはスキーマで失敗する | `schema.test.ts` |
-| AC-11-5 | `ProjectCard` は GitHub リポジトリで `opengraph.githubassets.com` の `<img>` を、リポジトリ無しで inline `<svg>` を、`video` ありで `i.ytimg.com` の `<img>` を描画する | `components.test.ts` |
+| AC-11-5 | `ProjectCard` は GitHub リポジトリで `opengraph.githubassets.com` の `<img>` を、リポジトリ無しで `/covers/<id>.svg` の `<img>` を、`video` ありで `i.ytimg.com` の `<img>` を描画する。inline `<svg` は含まない | `components.test.ts` |
+| AC-11-9 | ビルド後、生成カバー対象の各エントリに `covers/<id>.svg` が存在し `<svg` で始まる | `dist.test.ts` |
 | AC-11-6 | 詳細ページは `video` があるとき `youtube-nocookie.com/embed/<id>` の iframe を出す | `components.test.ts` |
 | AC-11-7 | ビルド後、`projects/index.html` の全カードに `.card__cover` がある | `dist.test.ts` |
 | AC-11-8 | 390px 幅でカバー画像がカード幅を超えない | `e2e/mobile.spec.ts` |
@@ -238,6 +256,7 @@
 - `public/favicon.svg` はハエの顔（複眼 2 つ・単眼・触角）を単純化した自作 SVG。`<title>` に "fly" を含む。
 - トップページの hero に、正面から見たハエの顔と、その中で光る脳（中枢脳＋左右の視葉のニューロン網）を描いた自作 inline SVG（`FlyHero.astro`）を置く。`role="img"` と両言語の `aria-label`。
 - 脳のノードは CSS で弱く明滅する。`prefers-reduced-motion: reduce` では止める。
+- 画風は「簡略化した科学図解」寄り: 光彩のぼかしは弱く（stdDeviation 4 程度）、脳の面は薄く（不透明度 0.12 程度）、複眼の網目は控えめ、口器は短め。ヘッダーのブランドマークはファビコンと同じハエの顔を使う。
 - 390px 幅では hero の絵が本文の上に 1 列で収まり、横スクロールを出さない（AC-10-1 で担保）。
 
 | AC | Given / When / Then | テスト |

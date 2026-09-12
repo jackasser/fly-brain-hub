@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest';
-import { jsonLd, alternates } from '../../src/lib/seo';
+import { jsonLd, alternates, serializeJsonLd } from '../../src/lib/seo';
 import type { Project } from '../../src/lib/schema';
 
 const base: Project = {
@@ -32,6 +32,25 @@ describe('R-06 seo', () => {
     expect(jsonLd(base, 'en').codeRepository).toBeUndefined();
   });
 
+  it('AC-06-4 serializeJsonLd never closes the script tag and round-trips', () => {
+    const evil = { ...base, name: 'x</script><script>alert(1)</script>', org: '<b>&' };
+    const out = serializeJsonLd(jsonLd(evil, 'en'));
+    expect(out).not.toContain('</script');
+    expect(out).not.toContain('<');
+    expect(JSON.parse(out).name).toBe(evil.name);
+    expect(JSON.parse(out).author.name).toBe('<b>&');
+  });
+
+  it('AC-06-1b every category maps to its JSON-LD type', () => {
+    const expected = {
+      connectome: 'Dataset', simulation: 'SoftwareSourceCode', body: 'SoftwareSourceCode', demo: 'SoftwareSourceCode',
+      tool: 'SoftwareSourceCode', media: 'Article', crypto: 'WebPage',
+    } as const;
+    for (const [cat, type] of Object.entries(expected)) {
+      expect(jsonLd({ ...base, category: cat as never }, 'en')['@type']).toBe(type);
+    }
+  });
+
   it('alternates builds en/ja/x-default absolute URLs', () => {
     expect(alternates('https://example.com', '/projects/x')).toEqual([
       { hreflang: 'en', href: 'https://example.com/projects/x' },
@@ -39,5 +58,7 @@ describe('R-06 seo', () => {
       { hreflang: 'x-default', href: 'https://example.com/projects/x' },
     ]);
     expect(alternates('https://example.com/', '/ja/')[0].href).toBe('https://example.com/');
+    expect(alternates('https://example.com/', '/ja/')[1].href).toBe('https://example.com/ja');
+    expect(alternates('https://example.com', '/projects/x/')[0].href).toBe('https://example.com/projects/x');
   });
 });

@@ -8,6 +8,15 @@ describe('R-07 ads', () => {
     expect(isAdsEnabled({ PUBLIC_ADSENSE_CLIENT: 'ca-pub-1' })).toBe(true);
   });
 
+  it('AC-07-5 resolveSlot returns null for unconfigured slots', () => {
+    const env = { PUBLIC_ADSENSE_CLIENT: 'ca-pub-1', PUBLIC_ADSENSE_SLOT_INFEED: '222' };
+    expect(resolveSlot('leaderboard', env)).toBeNull();
+    expect(resolveSlot('sidebar', env)).toBeNull();
+    expect(resolveSlot('infeed', env)).toBeNull(); // layout key missing
+    expect(resolveSlot('infeed', { ...env, PUBLIC_ADSENSE_INFEED_LAYOUT_KEY: ' ' })).toBeNull();
+    expect(resolveSlot('leaderboard', { ...env, PUBLIC_ADSENSE_SLOT_LEADERBOARD: '111' })?.slot).toBe('111');
+  });
+
   it('AC-07-2 resolveSlot returns client, slot, layoutKey and format', () => {
     const env = {
       PUBLIC_ADSENSE_CLIENT: 'ca-pub-1',

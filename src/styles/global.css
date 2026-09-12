@@ -126,9 +126,14 @@ pre code {
 .site-header {
   border-bottom: 1px solid var(--line);
   background: var(--bg-elev);
-  position: sticky;
-  top: 0;
-  z-index: 10;
+}
+
+@media (min-width: 640px) {
+  .site-header {
+    position: sticky;
+    top: 0;
+    z-index: 10;
+  }
 }
 
 .site-header__inner {
@@ -151,10 +156,8 @@ pre code {
 }
 
 .brand__mark {
-  width: 1.4rem;
-  height: 1.4rem;
-  border-radius: 50%;
-  background: radial-gradient(circle at 35% 35%, var(--accent), var(--accent-soft) 70%);
+  width: 1.5rem;
+  height: 1.5rem;
   display: inline-block;
 }
 
@@ -170,6 +173,32 @@ pre code {
   text-decoration: none;
   font-size: 0.95rem;
   padding: var(--space-1) 0;
+  min-height: 44px;
+  display: inline-flex;
+  align-items: center;
+}
+
+/* Mobile: two explicit rows (brand + language, then evenly spaced nav). */
+@media (max-width: 639px) {
+  .site-header__inner {
+    display: grid;
+    grid-template-columns: 1fr auto;
+    row-gap: 0;
+  }
+
+  .nav {
+    grid-column: 1 / -1;
+    grid-row: 2;
+    margin-inline-start: 0;
+    justify-content: space-between;
+    gap: var(--space-2);
+  }
+
+  .site-header__inner > .lang-toggle {
+    grid-column: 2;
+    grid-row: 1;
+    justify-self: end;
+  }
 }
 
 .nav a[aria-current='page'],
@@ -260,6 +289,49 @@ pre code {
   gap: var(--space-3);
   flex-wrap: wrap;
   margin-top: var(--space-4);
+}
+
+@media (max-width: 639px) {
+  .hero--split {
+    padding-block: var(--space-5) var(--space-4);
+    gap: var(--space-4);
+  }
+
+  .hero__art svg {
+    width: 11rem;
+  }
+
+  .hero p {
+    font-size: 1rem;
+    line-height: 1.7;
+  }
+
+  .search {
+    margin-bottom: var(--space-4);
+  }
+}
+
+/* Japanese headings: no mid-word breaks, no ch-based measure. */
+:lang(ja) h1,
+:lang(ja) h2,
+:lang(ja) h3 {
+  overflow-wrap: normal;
+  word-break: normal;
+  line-break: strict;
+  letter-spacing: 0;
+  line-height: 1.4;
+}
+
+:lang(ja) .hero h1 {
+  max-inline-size: 18em;
+  /* Break at punctuation, not inside a phrase; fall back to any break only if a phrase cannot fit. */
+  word-break: keep-all;
+  overflow-wrap: anywhere;
+}
+
+:lang(ja) .card__desc,
+:lang(ja) .detail__lead {
+  line-height: 1.8;
 }
 
 .btn {
@@ -478,6 +550,20 @@ pre code {
   margin-block: var(--space-4);
 }
 
+.ad::before {
+  content: attr(aria-label);
+  display: block;
+  font-size: 0.7rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--fg-faint);
+  margin-bottom: var(--space-1);
+}
+
+.ad--placeholder::before {
+  content: none;
+}
+
 .ad--placeholder {
   display: grid;
   place-items: center;
@@ -562,8 +648,19 @@ pre code {
   margin: 0;
   display: grid;
   grid-template-columns: max-content 1fr;
-  gap: var(--space-1) var(--space-4);
+  gap: var(--space-2) var(--space-4);
   font-size: 0.92rem;
+  border-top: 1px solid var(--line);
+  padding-top: var(--space-4);
+}
+
+.detail__lead {
+  font-size: 1.05rem;
+  margin-top: var(--space-4);
+}
+
+.media--cover[data-cover='github'] {
+  max-inline-size: 30rem;
 }
 
 .facts dt {
@@ -659,6 +756,29 @@ th {
   color: var(--fg-faint);
   font-weight: 600;
   font-size: 0.85rem;
+}
+
+.datasets {
+  min-width: 46rem;
+}
+
+.datasets th:nth-child(1) { width: 28%; }
+.datasets th:nth-child(2) { width: 42%; }
+.datasets th:nth-child(3) { width: 12%; }
+.datasets th:nth-child(4) { width: 12%; }
+.datasets th:nth-child(5) { width: 6%; }
+
+.datasets td {
+  padding-block: var(--space-3);
+}
+
+.nowrap {
+  white-space: nowrap;
+}
+
+.num {
+  text-align: right;
+  font-variant-numeric: tabular-nums;
 }
 
 .visually-hidden {

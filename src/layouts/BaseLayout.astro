@@ -3,7 +3,7 @@ import '../styles/global.css';
 import Header from '../components/Header.astro';
 import Footer from '../components/Footer.astro';
 import AdSlot from '../components/AdSlot.astro';
-import { alternates, canonical } from '../lib/seo';
+import { alternates, canonical, serializeJsonLd } from '../lib/seo';
 import { isAdsEnabled, type AdEnv } from '../lib/ads';
 import { localePath, stripLocale, t, type Locale } from '../i18n';
 
@@ -15,18 +15,26 @@ interface Props {
   path: string;
   jsonLd?: Record<string, unknown>;
   ogType?: 'website' | 'article';
+  /** false on pages that must never carry ads (404). */
+  ads?: boolean;
+  /** false on pages with no locale twin (404). */
+  alternatesEnabled?: boolean;
+  /** Test overrides. */
+  adEnv?: AdEnv;
+  dev?: boolean;
 }
 
-const { locale, title, description, jsonLd, ogType = 'website' } = Astro.props;
+const { locale, title, description, jsonLd, ogType = 'website', ads = true, alternatesEnabled = true } = Astro.props;
 const bare = stripLocale(Astro.props.path);
 const here = localePath(locale, bare);
 const site = (Astro.site ?? new URL('https://example.com')).toString();
 const canon = canonical(site, here);
-const alts = alternates(site, bare);
+const alts = alternatesEnabled ? alternates(site, bare) : [];
+const ogImage = new URL('/og.png', site).toString();
 const siteName = t(locale, 'site.name');
 const fullTitle = title === siteName ? `${siteName} — ${t(locale, 'site.tagline')}` : `${title} · ${siteName}`;
-const env = import.meta.env as unknown as AdEnv;
-const adsOn = isAdsEnabled(env);
+const env: AdEnv = Astro.props.adEnv ?? (import.meta.env as unknown as AdEnv);
+const adsOn = ads && isAdsEnabled(env);
 ---
 
 <!doctype html>
@@ -47,8 +55,12 @@ const adsOn = isAdsEnabled(env);
     <meta property="og:url" content={canon} />
     <meta property="og:type" content={ogType} />
     <meta property="og:locale" content={locale === 'ja' ? 'ja_JP' : 'en_US'} />
-    <meta name="twitter:card" content="summary" />
-    {jsonLd && <script is:inline type="application/ld+json" set:html={JSON.stringify(jsonLd)} />}
+    <meta property="og:image" content={ogImage} />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:image" content={ogImage} />
+    {jsonLd && <script is:inline type="application/ld+json" set:html={serializeJsonLd(jsonLd)} />}
     {
       adsOn && (
         <script
@@ -62,9 +74,13 @@ const adsOn = isAdsEnabled(env);
   </head>
   <body>
     <Header locale={locale} path={here} />
-    <div class="container">
-      <AdSlot name="leaderboard" locale={locale} />
-    </div>
+    {
+      ads && (
+        <div class="container">
+          <AdSlot name="leaderboard" locale={locale} env={Astro.props.adEnv} dev={Astro.props.dev} />
+        </div>
+      )
+    }
     <main class="container" id="main">
       <slot />
     </main>

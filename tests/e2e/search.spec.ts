@@ -38,6 +38,16 @@ test('AC-05-4 clearing returns to the full list', async ({ page }) => {
   expect(await visibleCards(page).count()).toBe(total);
 });
 
+test('AC-05-5 index fetch failure disables the form and keeps all cards', async ({ page }) => {
+  await page.route('**/search-index.json', (route) => route.fulfill({ status: 404, body: 'nope' }));
+  await page.goto('/projects?q=doom');
+  await expect(page.locator('#search-q')).toBeDisabled();
+  await expect(page.locator('[data-status]')).toHaveAttribute('data-state', 'failed');
+  await expect(page.locator('[data-status]')).not.toHaveText('');
+  const total = await page.locator('#project-grid article.card').count();
+  expect(await visibleCards(page).count()).toBe(total);
+});
+
 test('ja search page uses the Japanese description for matching', async ({ page }) => {
   await page.goto('/ja/projects?q=強化学習');
   await expect(visibleCards(page).first()).toContainText('flybody');

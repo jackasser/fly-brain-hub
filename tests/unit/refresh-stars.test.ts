@@ -36,6 +36,15 @@ describe('R-09 refresh-stars', () => {
     expect(entries[0].stars).toBe(1);
   });
 
+  it('AC-09-2 keeps the entry when stargazers_count is not a non-negative integer', async () => {
+    const mk = (v: unknown) => async () => ({ ok: true, json: async () => ({ stargazers_count: v }) });
+    for (const v of [null, 'x', -1, 1.5, undefined, false]) {
+      const { entries: out, skipped } = await updateStars([entries[0]], mk(v) as never, '2026-09-12');
+      expect(out[0], String(v)).toEqual(entries[0]);
+      expect(skipped).toEqual(['a']);
+    }
+  });
+
   it('appends stars/starsUpdatedAt before sourceRefs when the entry had none', async () => {
     const e = [{ id: 'n', repoUrl: 'https://github.com/o/a', description_en: 'x', sourceRefs: ['https://x'] }];
     const { entries: out } = await updateStars(e, fetchFn as never, '2026-09-12');

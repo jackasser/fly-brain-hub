@@ -17,6 +17,8 @@ const { locale, gridId } = Astro.props;
   data-locale={locale}
   data-results={t(locale, 'search.results')}
   data-none={t(locale, 'search.none')}
+  data-loading={t(locale, 'search.loading')}
+  data-failed={t(locale, 'search.failed')}
   role="search"
 >
   <div class="search__row">
@@ -54,12 +56,28 @@ const { locale, gridId } = Astro.props;
     const grid = document.getElementById(attr('grid'));
     if (!grid) return;
     const cards = [...grid.querySelectorAll<HTMLElement>('[data-id]')];
-    const ads = [...grid.querySelectorAll<HTMLElement>('.ad')];
     const status = form.querySelector<HTMLElement>('[data-status]')!;
     const locale = attr('locale') === 'ja' ? 'ja' : 'en';
+    const controls = [...form.querySelectorAll<HTMLInputElement | HTMLSelectElement | HTMLButtonElement>('input, select, button')];
+    const setEnabled = (on: boolean) => controls.forEach((c) => (c.disabled = !on));
 
-    const res = await fetch('/search-index.json');
-    const items = (await res.json()) as SearchItem[];
+    setEnabled(false);
+    status.dataset.state = 'loading';
+    status.textContent = attr('loading');
+    let items: SearchItem[];
+    try {
+      const res = await fetch('/search-index.json');
+      if (!res.ok) throw new Error(`HTTP ${res.status}`);
+      items = (await res.json()) as SearchItem[];
+      if (!Array.isArray(items)) throw new Error('bad index');
+    } catch {
+      // Keep the server-rendered full list; make it obvious the search box is inert.
+      status.dataset.state = 'failed';
+      status.textContent = attr('failed');
+      return;
+    }
+    setEnabled(true);
+    status.dataset.state = 'ready';
     const byId = new Map(items.map((i) => [i.id, i]));
     const fuse = new Fuse(items, {
       keys: [
@@ -107,8 +125,6 @@ const { locale, gridId } = Astro.props;
         card.hidden = !ok;
         if (ok) n++;
       }
-      const filtering = Boolean(q || cat || ds || tag);
-      for (const ad of ads) ad.hidden = filtering;
       status.textContent = n ? `${n} ${attr('results')}` : attr('none');
       const next = new URLSearchParams();
       if (q) next.set('q', q);

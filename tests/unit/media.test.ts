@@ -30,7 +30,7 @@ describe('R-11 media', () => {
   });
 
   it('AC-11-1 coverFor follows the priority order', () => {
-    expect(coverFor(base)).toMatchObject({ kind: 'generated' });
+    expect(coverFor(base)).toEqual({ kind: 'generated', src: '/covers/x-proj.svg' });
     expect(coverFor({ ...base, repoUrl: 'https://github.com/o/r' })).toEqual({
       kind: 'github',
       src: 'https://opengraph.githubassets.com/x-proj/o/r',
@@ -61,11 +61,11 @@ describe('R-11 media', () => {
     expect(a).not.toBe(generatedCover('y-proj', 'tool', 'X Project'));
     expect(generatedCover('x-proj', 'demo', 'X Project')).not.toBe(a);
     // gradient ids are unique per project so several inline covers can share a page
-    const idA = /id="([^"]+)-bg"/.exec(a)?.[1];
-    const idB = /id="([^"]+)-bg"/.exec(generatedCover('y-proj', 'tool', 'X Project'))?.[1];
+    const idA = /id="([^"]+)-g"/.exec(a)?.[1];
+    const idB = /id="([^"]+)-g"/.exec(generatedCover('y-proj', 'tool', 'X Project'))?.[1];
     expect(idA).toBeTruthy();
     expect(idA).not.toBe(idB);
-    expect(a).toContain(`url(#${idA}-bg)`);
+    expect(a).toContain(`url(#${idA}-g)`);
     // must escape text
     expect(generatedCover('z', 'demo', 'A<B&C')).toContain('A&lt;B&amp;C');
   });

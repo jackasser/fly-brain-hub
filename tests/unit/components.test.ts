@@ -6,6 +6,7 @@ import ProjectGrid from '../../src/components/ProjectGrid.astro';
 import LangToggle from '../../src/components/LangToggle.astro';
 import CoverMedia from '../../src/components/CoverMedia.astro';
 import FlyHero from '../../src/components/FlyHero.astro';
+import BaseLayout from '../../src/layouts/BaseLayout.astro';
 import type { Project } from '../../src/lib/schema';
 
 const project = (over: Partial<Project> = {}): Project => ({
@@ -54,6 +55,28 @@ describe('R-07 AdSlot', () => {
     const html = await container.renderToString(AdSlot, { props: { name: 'leaderboard', env: {}, dev: true } });
     expect(html).toContain('data-ad-placeholder="leaderboard"');
     expect(html).not.toContain('adsbygoogle');
+  });
+
+  it('AC-07-5 renders nothing when the slot id is missing even though ads are enabled', async () => {
+    const html = await container.renderToString(AdSlot, {
+      props: { name: 'sidebar', env: { PUBLIC_ADSENSE_CLIENT: 'ca-pub-1' }, dev: false },
+    });
+    expect(html.trim()).toBe('');
+  });
+
+  it('AC-07-6 BaseLayout with ads=false emits no ad loader or slot', async () => {
+    const html = await container.renderToString(BaseLayout, {
+      props: { locale: 'en', title: 'x', description: 'y', path: '/404', ads: false, adEnv: enabledEnv },
+      slots: { default: '<p>hi</p>' },
+    });
+    expect(html).not.toContain('adsbygoogle');
+    expect(html).not.toContain('pagead2');
+    const on = await container.renderToString(BaseLayout, {
+      props: { locale: 'en', title: 'x', description: 'y', path: '/about', adEnv: enabledEnv, dev: false },
+      slots: { default: '<p>hi</p>' },
+    });
+    expect(on).toContain('pagead2.googlesyndication.com');
+    expect(on).toContain('data-ad-slot="111"');
   });
 
   it('AC-07-3c renders nothing in production when disabled', async () => {
@@ -121,8 +144,10 @@ describe('R-11 covers', () => {
     expect(gh).toContain('loading="lazy"');
     const gen = await container.renderToString(ProjectCard, { props: { project: project(), locale: 'en' } });
     expect(gen).toContain('class="card__cover');
-    expect(gen).toContain('<svg');
-    expect(gen).not.toContain('<img');
+    expect(gen).toContain('src="/covers/sample.svg"');
+    expect(gen).not.toContain('<svg');
+    expect(gh).not.toContain('<svg');
+    expect(gh).toContain("this.src='/covers/sample.svg'");
     const yt = await container.renderToString(ProjectCard, {
       props: { project: project({ video: 'https://youtu.be/dQw4w9WgXcQ' }), locale: 'ja' },
     });

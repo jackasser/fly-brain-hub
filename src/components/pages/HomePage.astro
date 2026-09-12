@@ -13,7 +13,7 @@ interface Props {
 const { locale } = Astro.props;
 const projects = await loadProjects();
 const counts = countByCategory(projects);
-const picks = featured(projects).slice(0, 6);
+const picks = featured(projects);
 const fresh = latest(projects, 6);
 ---
 

@@ -57,8 +57,8 @@ export async function updateStars(entries, fetchFn, today, token = process.env.G
       const res = await fetchFn(`https://api.github.com/repos/${repo}`, { headers });
       if (!res.ok) throw new Error(`HTTP ${res.status}`);
       const data = await res.json();
-      const stars = Number(data.stargazers_count);
-      if (!Number.isInteger(stars) || stars < 0) throw new Error('no stargazers_count');
+      const stars = data.stargazers_count;
+      if (typeof stars !== 'number' || !Number.isInteger(stars) || stars < 0) throw new Error('invalid stargazers_count');
       out.push(withStars(entry, stars, today));
       updated.push(entry.id);
     } catch (err) {

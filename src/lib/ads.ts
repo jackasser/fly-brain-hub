@@ -28,23 +28,31 @@ export const SLOT_MIN_HEIGHT: Record<SlotName, number> = {
   sidebar: 250,
 };
 
+const clean = (v: string | undefined) => (v && v.trim() !== '' ? v.trim() : undefined);
+
 export function isAdsEnabled(env: AdEnv): boolean {
-  return Boolean(env.PUBLIC_ADSENSE_CLIENT && env.PUBLIC_ADSENSE_CLIENT.trim() !== '');
+  return clean(env.PUBLIC_ADSENSE_CLIENT) !== undefined;
 }
 
-export function resolveSlot(name: SlotName, env: AdEnv): ResolvedSlot {
-  const client = env.PUBLIC_ADSENSE_CLIENT ?? '';
+/**
+ * Fully configured ad unit for `name`, or null when its slot id (and, for in-feed,
+ * the layout key) is missing. A null slot must not be rendered: AdSense rejects empty units.
+ */
+export function resolveSlot(name: SlotName, env: AdEnv): ResolvedSlot | null {
+  const client = clean(env.PUBLIC_ADSENSE_CLIENT) ?? '';
   switch (name) {
-    case 'leaderboard':
-      return { client, slot: env.PUBLIC_ADSENSE_SLOT_LEADERBOARD ?? '', layoutKey: undefined, format: 'auto' };
-    case 'infeed':
-      return {
-        client,
-        slot: env.PUBLIC_ADSENSE_SLOT_INFEED ?? '',
-        layoutKey: env.PUBLIC_ADSENSE_INFEED_LAYOUT_KEY || undefined,
-        format: 'fluid',
-      };
-    case 'sidebar':
-      return { client, slot: env.PUBLIC_ADSENSE_SLOT_SIDEBAR ?? '', layoutKey: undefined, format: 'auto' };
+    case 'leaderboard': {
+      const slot = clean(env.PUBLIC_ADSENSE_SLOT_LEADERBOARD);
+      return slot ? { client, slot, layoutKey: undefined, format: 'auto' } : null;
+    }
+    case 'infeed': {
+      const slot = clean(env.PUBLIC_ADSENSE_SLOT_INFEED);
+      const layoutKey = clean(env.PUBLIC_ADSENSE_INFEED_LAYOUT_KEY);
+      return slot && layoutKey ? { client, slot, layoutKey, format: 'fluid' } : null;
+    }
+    case 'sidebar': {
+      const slot = clean(env.PUBLIC_ADSENSE_SLOT_SIDEBAR);
+      return slot ? { client, slot, layoutKey: undefined, format: 'auto' } : null;
+    }
   }
 }

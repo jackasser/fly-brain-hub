@@ -15,26 +15,28 @@ const { name, locale = 'en' } = Astro.props;
 const env: AdEnv = Astro.props.env ?? (import.meta.env as unknown as AdEnv);
 const dev: boolean = Astro.props.dev ?? import.meta.env.DEV;
 const enabled = isAdsEnabled(env);
-const slot = resolveSlot(name, env);
+const slot = enabled ? resolveSlot(name, env) : null;
 const minHeight = SLOT_MIN_HEIGHT[name];
 ---
 
 {
   enabled ? (
-    <div class={`ad ad--${name}`} style={`min-height:${minHeight}px`}>
-      <ins
-        class="adsbygoogle"
-        style="display:block"
-        data-ad-client={slot.client}
-        data-ad-slot={slot.slot}
-        data-ad-format={slot.format}
-        data-ad-layout-key={slot.layoutKey}
-        data-full-width-responsive="true"
-      />
-      <script is:inline>
-        (window.adsbygoogle = window.adsbygoogle || []).push({});
-      </script>
-    </div>
+    slot && (
+      <div class={`ad ad--${name}`} style={`min-height:${minHeight}px`} aria-label={t(locale, 'ad.label')}>
+        <ins
+          class="adsbygoogle"
+          style="display:block"
+          data-ad-client={slot.client}
+          data-ad-slot={slot.slot}
+          data-ad-format={slot.format}
+          data-ad-layout-key={slot.layoutKey}
+          data-full-width-responsive="true"
+        />
+        <script is:inline>
+          (window.adsbygoogle = window.adsbygoogle || []).push({});
+        </script>
+      </div>
+    )
   ) : dev ? (
     <div
       class={`ad ad--${name} ad--placeholder`}

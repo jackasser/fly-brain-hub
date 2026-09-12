@@ -43,8 +43,7 @@ const host = (u: string) => new URL(u).hostname.replace(/^www\./, '');
 
     <div class="detail">
       <div>
-        <CoverMedia project={project} locale={locale} />
-        <p class="prose" style="font-size:1.05rem">{description}</p>
+        <p class="prose detail__lead">{description}</p>
         {meta.notice && <Callout tone="notice">{meta.notice[locale]}</Callout>}
 
         <p class="hero__actions">
@@ -57,6 +56,8 @@ const host = (u: string) => new URL(u).hostname.replace(/^www\./, '');
             )
           }
         </p>
+
+        <CoverMedia project={project} locale={locale} />
 
         {
           project.tags.length > 0 && (

@@ -54,6 +54,17 @@ describe('R-01 project schema', () => {
     expect(projectSchema.parse({ ...valid, video: 'https://youtu.be/dQw4w9WgXcQ' }).video).toBe('https://youtu.be/dQw4w9WgXcQ');
   });
 
+  it('AC-01-8 rejects non-http(s) schemes everywhere and non-https for image/video', () => {
+    for (const bad of ['javascript:alert(1)', 'data:text/html,hi', 'ftp://x.example/a']) {
+      expect(() => projectSchema.parse({ ...valid, url: bad }), bad).toThrow();
+      expect(() => projectSchema.parse({ ...valid, repoUrl: bad }), bad).toThrow();
+      expect(() => projectSchema.parse({ ...valid, sourceRefs: [bad] }), bad).toThrow();
+    }
+    expect(projectSchema.parse({ ...valid, url: 'http://legacy.example/' }).url).toBe('http://legacy.example/');
+    expect(() => projectSchema.parse({ ...valid, image: 'http://img.example/a.png', imageCredit: 'c' })).toThrow();
+    expect(() => projectSchema.parse({ ...valid, video: 'https://www.youtube.com/watch?v=bad' })).toThrow();
+  });
+
   it('AC-01-5 rejects empty sourceRefs', () => {
     expect(() => projectSchema.parse({ ...valid, sourceRefs: [] })).toThrow();
   });
