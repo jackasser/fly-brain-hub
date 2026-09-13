@@ -350,6 +350,9 @@ AdSense の審査が通るまで（R-07 の「広告無効かつ本番ビルド�
 **自前の「広告募集中」を出し、Google フォームへのリンクで問い合わせを受ける**。
 
 - 新しい環境変数 `PUBLIC_AD_INQUIRY_URL`（https の URL）。**未設定なら従来どおり何も変わらない。**
+- **問い合わせ先はロケールごとに分ける。** `PUBLIC_AD_INQUIRY_URL_JA` があれば JA ページはそちらを使い、
+  無ければ `PUBLIC_AD_INQUIRY_URL` にフォールバックする。EN ページは常に `PUBLIC_AD_INQUIRY_URL` だけを見る
+  （`_JA` しか無いときに英語話者へ日本語フォームを出さないため）。
 - 出す条件は「**AdSense が無効（`PUBLIC_ADSENSE_CLIENT` 未設定）かつ `PUBLIC_AD_INQUIRY_URL` が https の URL**」のときだけ。
   AdSense が有効になったら枠は実広告が使うので、ハウス広告は自動的に消える。
 - 枠ごとの扱い:
@@ -379,6 +382,8 @@ AdSense の審査が通るまで（R-07 の「広告無効かつ本番ビルド�
 | AC-15-4 | `ProjectGrid` に 13 件渡すと、ハウス広告設定時に `data-house-ad="infeed"` がちょうど 1 つだけ入る（in-feed 枠自体は 2 つある） | `components.test.ts` |
 | AC-15-5 | `BaseLayout` に `ads={false}`（404）を渡すと、ハウス広告設定時でも `data-house-ad` を含まない | `components.test.ts` |
 | AC-15-6 | env 未設定でビルドした `dist/` のどの HTML にも `data-house-ad` が無く、Privacy に広告問い合わせの記述が無い（既定で何も増えない） | `dist.test.ts` |
+| AC-15-7 | `houseAd(env,'ja')` は `PUBLIC_AD_INQUIRY_URL_JA` を優先し、無ければ `PUBLIC_AD_INQUIRY_URL` を使う。`houseAd(env,'en')` は `_JA` を無視し、`PUBLIC_AD_INQUIRY_URL` だけを見る | `ads.test.ts` |
+| AC-15-8 | `AdSlot` に `locale='ja'` を渡すと JA 用の URL を、`locale='en'` では EN 用の URL をリンク先にする | `components.test.ts` |
 
 ## 非スコープ（初期公開では作らない）
 

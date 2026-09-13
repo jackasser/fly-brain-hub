@@ -246,6 +246,20 @@ describe('R-15 house ad', () => {
     expect(inDev).toContain('data-ad-placeholder="infeed"');
   });
 
+  it('AC-15-8 each locale links to its own form', async () => {
+    const env = {
+      PUBLIC_AD_INQUIRY_URL: 'https://docs.google.com/forms/d/e/EN/viewform',
+      PUBLIC_AD_INQUIRY_URL_JA: 'https://docs.google.com/forms/d/e/JA/viewform',
+    };
+    const ja = await container.renderToString(AdSlot, { props: { name: 'leaderboard', env, dev: false, locale: 'ja' } });
+    expect(ja).toContain('/forms/d/e/JA/viewform');
+    expect(ja).not.toContain('/forms/d/e/EN/viewform');
+
+    const en = await container.renderToString(AdSlot, { props: { name: 'leaderboard', env, dev: false, locale: 'en' } });
+    expect(en).toContain('/forms/d/e/EN/viewform');
+    expect(en).not.toContain('/forms/d/e/JA/viewform');
+  });
+
   it('AC-15-4 a long list carries the house ad once, not at every in-feed break', async () => {
     const projects = Array.from({ length: 13 }, (_, n) => project({ id: `p${n}` }));
     const html = await container.renderToString(ProjectGrid, {

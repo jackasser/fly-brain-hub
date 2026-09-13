@@ -11,7 +11,7 @@ const { locale } = Astro.props;
 const title = t(locale, 'privacy.title');
 const updated = '2026-09-12';
 const analytics = analyticsConfig(import.meta.env as unknown as AnalyticsEnv);
-const inquiry = houseAd(import.meta.env as unknown as AdEnv);
+const inquiry = houseAd(import.meta.env as unknown as AdEnv, locale);
 ---
 
 <BaseLayout locale={locale} title={title} description={title} path="/privacy">

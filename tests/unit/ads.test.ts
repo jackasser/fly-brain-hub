@@ -67,3 +67,31 @@ describe('R-15 house ad', () => {
     expect(houseAd({ PUBLIC_AD_INQUIRY_URL: FORM, PUBLIC_ADSENSE_CLIENT: 'ca-pub-1' })).toBeNull();
   });
 });
+
+describe('R-15 per-locale inquiry form', () => {
+  const EN_FORM = 'https://docs.google.com/forms/d/e/EN/viewform';
+  const JA_FORM = 'https://docs.google.com/forms/d/e/JA/viewform';
+
+  it('AC-15-7 the Japanese page prefers the Japanese form', () => {
+    const env = { PUBLIC_AD_INQUIRY_URL: EN_FORM, PUBLIC_AD_INQUIRY_URL_JA: JA_FORM };
+    expect(houseAd(env, 'ja')).toEqual({ inquiryUrl: JA_FORM });
+    expect(houseAd(env, 'en')).toEqual({ inquiryUrl: EN_FORM });
+  });
+
+  it('AC-15-7 Japanese falls back to the default when no Japanese form is set', () => {
+    expect(houseAd({ PUBLIC_AD_INQUIRY_URL: EN_FORM }, 'ja')).toEqual({ inquiryUrl: EN_FORM });
+  });
+
+  it('AC-15-7 an English visitor is never sent to a Japanese-only form', () => {
+    expect(houseAd({ PUBLIC_AD_INQUIRY_URL_JA: JA_FORM }, 'en')).toBeNull();
+    expect(houseAd({ PUBLIC_AD_INQUIRY_URL_JA: JA_FORM }, 'ja')).toEqual({ inquiryUrl: JA_FORM });
+  });
+
+  it('AC-15-7 defaults to the English form when no locale is given', () => {
+    expect(houseAd({ PUBLIC_AD_INQUIRY_URL: EN_FORM })).toEqual({ inquiryUrl: EN_FORM });
+  });
+
+  it('AC-15-1 the Japanese URL must be https too', () => {
+    expect(houseAd({ PUBLIC_AD_INQUIRY_URL_JA: 'http://forms.example/ja' }, 'ja')).toBeNull();
+  });
+});

@@ -1,3 +1,5 @@
+import type { Locale } from './taxonomy';
+
 export type SlotName = 'leaderboard' | 'infeed' | 'sidebar';
 
 export type AdEnv = Partial<
@@ -7,7 +9,8 @@ export type AdEnv = Partial<
     | 'PUBLIC_ADSENSE_SLOT_INFEED'
     | 'PUBLIC_ADSENSE_INFEED_LAYOUT_KEY'
     | 'PUBLIC_ADSENSE_SLOT_SIDEBAR'
-    | 'PUBLIC_AD_INQUIRY_URL',
+    | 'PUBLIC_AD_INQUIRY_URL'
+    | 'PUBLIC_AD_INQUIRY_URL_JA',
     string | undefined
   >
 >;
@@ -66,11 +69,16 @@ export interface HouseAd {
 /**
  * R-15: what to show in a slot that AdSense is not filling yet.
  * Null once AdSense is configured (the slot belongs to the real ad) and null until
- * `PUBLIC_AD_INQUIRY_URL` holds an https URL.
+ * an https inquiry URL is set for this locale.
+ *
+ * Japanese pages prefer the Japanese form and fall back to the default one; English pages
+ * only ever use the default, so a Japanese-only setup never sends an English visitor to a
+ * form they cannot read.
  */
-export function houseAd(env: AdEnv): HouseAd | null {
+export function houseAd(env: AdEnv, locale: Locale = 'en'): HouseAd | null {
   if (isAdsEnabled(env)) return null;
-  const url = clean(env.PUBLIC_AD_INQUIRY_URL);
+  const fallback = clean(env.PUBLIC_AD_INQUIRY_URL);
+  const url = locale === 'ja' ? (clean(env.PUBLIC_AD_INQUIRY_URL_JA) ?? fallback) : fallback;
   if (!url || !/^https:\/\//i.test(url)) return null;
   return { inquiryUrl: url };
 }

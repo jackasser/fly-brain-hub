@@ -19,7 +19,7 @@ const dev: boolean = Astro.props.dev ?? import.meta.env.DEV;
 const enabled = isAdsEnabled(env);
 const slot = enabled ? resolveSlot(name, env) : null;
 // Only reached when ads are off; `house` decides whether this particular slot offers itself.
-const offer = house ? houseAd(env) : null;
+const offer = house ? houseAd(env, locale) : null;
 const minHeight = SLOT_MIN_HEIGHT[name];
 ---
 
