@@ -70,6 +70,22 @@ GitHub の `repoUrl` を持つエントリの `stars` / `starsUpdatedAt` だけ�
 Vercel ダッシュボード → プロジェクト `fly-brain-hub` → **Analytics** タブ。ページ別・参照元別・国別・端末別が見られる。
 Claude Code からは Vercel 連携の `get_web_analytics`（count / aggregate）で同じデータを取得できる。
 
+## AI エージェント向けのツール（WebMCP / R-14）
+
+全ページが `document.modelContext.registerTool()` で 4 つのツールを宣言する
+（`search-projects` / `get-project` / `list-categories` / `list-datasets`）。
+実体は `src/lib/webmcp.ts`（純関数）と `src/components/WebMcpTools.astro`（機能検出と登録のみ）。
+
+- クライアント側だけで完結する。サーバー関数もアダプタも増えない
+- データは `/search-index.json` を初回呼び出し時に 1 回取得して使い回す。取得失敗時は
+  `{ ok: false, reason: 'index-unavailable' }` を返して投げない
+- 入口は `document.modelContext`。**`navigator.modelContext` ではない**（解説記事に誤りが多い。
+  [CG ドラフト](https://webmachinelearning.github.io/webmcp/)の IDL は `partial interface Document`）
+- 未対応ブラウザでは何も起きない。安定版の Chrome / Edge は 2026 Q4 見込みなので、今は基本的に no-op
+- ツール名と description は英語で固定（エージェントの識別子）。返すデータはページのロケールに従う
+
+動作確認は `tests/e2e/webmcp.spec.ts` が `document.modelContext` をスタブして行う。
+
 ## 広告（AdSense）を有効にするまで
 
 1. vercel.app で公開して内容を整える（`*.vercel.app` のままでは AdSense 審査に通らない）
@@ -85,9 +101,10 @@ src/data/projects.json        唯一の編集ファイル
 src/content.config.ts         file() ローダー + zod スキーマ（src/lib/schema.ts）
 src/lib/taxonomy.ts           カテゴリ・データセット ID と EN/JA ラベル
 src/lib/{projects,ads,seo}.ts 純粋関数（ユニットテスト対象）
+src/lib/webmcp.ts             WebMCP のツール定義と絞り込み（R-14）
 src/i18n/                     UI 文言と localePath / otherLocalePath
 src/layouts/BaseLayout.astro  hreflang / canonical / OG / JSON-LD / AdSense ローダー
-src/components/               AdSlot, ProjectCard, ProjectGrid, SearchProjects, …
+src/components/               AdSlot, ProjectCard, ProjectGrid, SearchProjects, WebMcpTools, …
 src/components/pages/         ページ本体（lang prop を受ける）
 src/pages/                    EN ルート。src/pages/ja/ は同じ構成の薄いシェル
 tests/unit  tests/dist  tests/e2e

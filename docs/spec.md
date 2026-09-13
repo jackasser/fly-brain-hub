@@ -287,6 +287,63 @@
 | AC-13-2 | `BaseLayout` は Vercel 有効時に `/_vercel/insights/script.js` を、GA 有効時に `googletagmanager.com/gtag/js?id=` と Consent Mode の既定 denied を出し、無効時はどちらも出さない。`ads={false}`（404）では出さない | `components.test.ts` |
 | AC-13-3 | ビルド後、`PUBLIC_VERCEL_ANALYTICS` 設定時は 404 以外の全 HTML に insights スクリプトがあり Privacy に「Vercel Web Analytics」がある。未設定時はどの HTML にも無く、Privacy は「使用していません」 | `dist.test.ts` |
 
+## R-14 WebMCP（エージェント向けのツール公開）（2026-09-13 ユーザー指示）
+
+AI エージェントを積んだブラウザに対して、ページ自身が呼び出せるツールを宣言する。
+仕様は W3C Web Machine Learning Community Group の
+[WebMCP draft](https://webmachinelearning.github.io/webmcp/)（CG Draft、2026-04 版）と
+[explainer](https://github.com/webmachinelearning/webmcp/blob/main/README.md)。標準化トラックには乗っていない。
+記事によると Chrome 146 Canary（2026-02-10）と Edge 147 が実装済み、Chrome 149 が Origin Trial 中で、
+安定版は 2026 Q4 見込み。**未対応ブラウザでは何も起きない**（機能検出して no-op）。
+
+- 入口は **`document.modelContext`**（`[SecureContext]` なので https か localhost のみ）。
+  `navigator.modelContext` ではない（複数の解説記事がそう書いているが、ドラフト本体の IDL は `partial interface Document`）。
+  フォールバックとして `navigator` を見に行くことはしない。
+- 登録は `await document.modelContext.registerTool({ name, description, inputSchema, execute })`。
+  `execute` は `Promise<any>` を返し、ブラウザが JSON にシリアライズする。
+- 純クライアント側で完結する。サーバー関数もアダプタも増やさない（静的出力のまま）。
+- データは R-05 の `/search-index.json` を最初のツール呼び出し時に 1 回だけ取得して使い回す。
+  `search-index.json` のキーは AC-05-1 で固定されているので**変更しない**。
+  取得に失敗したら投げずに `{ ok: false, reason: 'index-unavailable' }` を返す（AC-05-5 と同じ方針）。
+- 登録が例外を投げてもページの描画に影響させない（try/catch）。
+
+### 公開するツール
+
+| name | 入力 | 返すもの |
+|---|---|---|
+| `search-projects` | `q` `category` `dataset` `tag` `limit`（すべて任意） | `{ ok, total, results[] }`。`results` は `limit` 件（既定 20・上限 50） |
+| `get-project` | `id`（必須） | `{ ok, found, project }`。`project` に `page` `page_en` `page_ja` を足す |
+| `list-categories` | なし | 7 カテゴリの `slug` `label` `blurb` `count` `page` |
+| `list-datasets` | なし | データセット ID の `id` `label` `usedBy` `page` |
+
+- `inputSchema` は `type` / `properties` / `required` / `enum` / `description` / `additionalProperties: false` だけを使う。
+  ドラフトは JSON Schema の方言を固定していないので `$schema` は書かない。
+  `category` は `CATEGORIES`、`dataset` は `DATASET_IDS` を `enum` で出す（分類は閉じているのでエージェントに見せる）。
+- **ツール名と `description` は英語で固定する。** これはエージェントがツールを選ぶための識別子であって画面の文言ではないため、
+  ロケールで変えない。一方、**返すデータはページのロケールに従う**（`description` は `description_<locale>`、
+  `page` は JA ページなら `/ja/...`）。
+- `search-index.json` に無い項目（`org` `date` `repoUrl` `sourceRefs` など）は返さない。
+  `get-project` の description に「詳細は `page` を取得せよ」と書く。
+
+### 置き場所
+
+- `src/lib/webmcp.ts`: 純関数（`buildTools` `searchItems` `getItem` `projectPages`）。ユニットテストはここを叩く。
+- `src/components/WebMcpTools.astro`: 機能検出して登録するだけ。目印として `data-webmcp` を持つ要素を 1 つ出す。
+  スクリプトは Astro にバンドルさせる（`is:inline` にしない）ので `src/lib/webmcp.ts` を import できる。
+- `BaseLayout` から**全ページに出す。404 ページにも出す**（R-07 / R-13 の `ads={false}` ゲートには従わない）。
+  URL を間違えて 404 に着いたエージェントこそ `search-projects` を必要とするため、意図的に例外にする。
+- Privacy ページに「エージェント対応ブラウザ向けにローカルのツールを登録すること、データはブラウザの外に出ないこと」を両言語で書く。
+
+| AC | Given / When / Then | テスト |
+|---|---|---|
+| AC-14-1 | `buildTools(items, locale)` が 4 つの記述子を `search-projects get-project list-categories list-datasets` の名前で返し、各 `inputSchema` が `additionalProperties: false` を持ち `$schema` を持たない | `webmcp.test.ts` |
+| AC-14-2 | `searchItems` が `q`（name / tags / description を大文字小文字を無視して部分一致）・`category`・`dataset`・`tag` で絞り、`limit` は既定 20・上限 50 に丸められる | `webmcp.test.ts` |
+| AC-14-3 | `getItem` は未知の `id` に `null` を返し、`projectPages('x')` は `{ page_en: '/projects/x', page_ja: '/ja/projects/x' }` を返す。`locale='ja'` のとき `page` は `/ja/` 始まり | `webmcp.test.ts` |
+| AC-14-4 | `BaseLayout` は `data-webmcp` を持つ要素を描画し、`ads={false}`（404 相当）でも描画する | `components.test.ts` |
+| AC-14-5 | ビルド後、`404.html` を含む全 HTML に `data-webmcp` がある | `dist.test.ts` |
+| AC-14-6 | `document.modelContext` をスタブしたブラウザで `/` を開くと 4 つのツールが登録され、`search-projects({category:'connectome'})` の結果が全件 `connectome` で `total` が `search-index.json` の該当件数と一致する。`/ja/` で `get-project({id:'flybody'})` を呼ぶと `page` が `/ja/` 始まり | `e2e/webmcp.spec.ts` |
+| AC-14-7 | Privacy ページ（両言語）に WebMCP の説明がある（EN: `WebMCP` / JA: `WebMCP`） | `dist.test.ts` |
+
 ## 非スコープ（初期公開では作らない）
 
 サムネイル画像、アクセス解析、OG 画像の自動生成、投稿フォームのバックエンド、ユーザー登録、コメント。

@@ -72,6 +72,14 @@ const analytics = analyticsConfig(import.meta.env as unknown as AnalyticsEnv);
             </p>
           )}
           <p>ホスティング事業者（Vercel）がサービス運用のためにアクセスログを保持することがあります。</p>
+          <h2>AI エージェント向けのツール（WebMCP）</h2>
+          <p>
+            当サイトの各ページは、AI エージェントを内蔵したブラウザ向けに、掲載プロジェクトを検索・参照するためのツールを
+            <a href="https://webmachinelearning.github.io/webmcp/" rel="noopener">WebMCP</a>
+            の仕組み（<code>document.modelContext</code>）で宣言しています。対応していないブラウザでは何も起きません。
+            ツールが読むのは当サイトが公開している <code>/search-index.json</code> だけで、処理はすべて閲覧者のブラウザ内で完結します。
+            当サイトから外部へ情報を送ることはなく、Cookie も使いません。エージェントがツールを呼び出すかどうかは、閲覧者とブラウザ側の判断です。
+          </p>
           <h2>外部リンク</h2>
           <p>
             当サイトは外部サイト（GitHub、研究機関のサイト、X など）へリンクしています。リンク先での情報の扱いは各サイトのポリシーに従います。
@@ -139,6 +147,15 @@ const analytics = analyticsConfig(import.meta.env as unknown as AnalyticsEnv);
             <p>The site does not currently use Google Analytics or any other analytics tool. If analytics are added, this policy will be updated.</p>
           )}
           <p>The hosting provider (Vercel) may keep access logs to operate the service.</p>
+          <h2>Tools for AI agents (WebMCP)</h2>
+          <p>
+            Every page on this site declares a small set of tools for searching and reading its project entries, using
+            the <a href="https://webmachinelearning.github.io/webmcp/" rel="noopener">WebMCP</a> mechanism
+            (<code>document.modelContext</code>), so that an agent-enabled browser can use them. Browsers without
+            support do nothing. The tools read only this site's public <code>/search-index.json</code>, and all
+            processing happens inside your browser: nothing is sent anywhere by this site, and no cookies are used.
+            Whether an agent calls them is a decision for you and your browser.
+          </p>
           <h2>External links</h2>
           <p>
             The site links to external sites (GitHub, research institutions, X and others). Their handling of your

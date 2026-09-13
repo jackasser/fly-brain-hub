@@ -196,6 +196,23 @@ describe('R-13 analytics', () => {
   });
 });
 
+describe('R-14 WebMCP', () => {
+  const base = { locale: 'en', title: 'x', description: 'y', path: '/about', adEnv: {}, dev: false } as const;
+
+  it('AC-14-4 BaseLayout marks every page as a WebMCP tool provider', async () => {
+    const page = await container.renderToString(BaseLayout, { props: base, slots: { default: 'hi' } });
+    expect(page).toContain('data-webmcp');
+  });
+
+  it('AC-14-4 the 404 page keeps the tools even though it carries no ads', async () => {
+    const notFound = await container.renderToString(BaseLayout, {
+      props: { ...base, path: '/404', ads: false, alternatesEnabled: false },
+      slots: { default: 'hi' },
+    });
+    expect(notFound).toContain('data-webmcp');
+  });
+});
+
 describe('R-11 X post media', () => {
   it('AC-11-13 play badge on video posters; official X embed on detail pages', async () => {
     const xp = project({

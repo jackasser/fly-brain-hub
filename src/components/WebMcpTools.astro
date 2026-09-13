@@ -1,0 +1,75 @@
+---
+// R-14: declare this page's tools to an agent-enabled browser.
+// Nothing is rendered but a marker; the work happens in the bundled script below.
+import type { Locale } from '../i18n';
+
+interface Props {
+  locale: Locale;
+}
+const { locale } = Astro.props;
+---
+
+<div data-webmcp={locale} hidden></div>
+
+<script>
+  import { buildTools } from '../lib/webmcp';
+  import type { SearchItem } from '../lib/projects';
+  import type { Locale } from '../lib/taxonomy';
+
+  interface ModelContext {
+    registerTool(tool: unknown): Promise<void>;
+  }
+
+  /** The WebMCP entry point is on Document (CG draft, 2026-04), not on Navigator. */
+  function modelContext(): ModelContext | null {
+    const mc = (document as unknown as { modelContext?: ModelContext }).modelContext;
+    return mc && typeof mc.registerTool === 'function' ? mc : null;
+  }
+
+  // One fetch of /search-index.json for the whole page, on the first tool call.
+  let indexPromise: Promise<SearchItem[]> | null = null;
+  function loadIndex(): Promise<SearchItem[]> {
+    indexPromise ??= (async () => {
+      const res = await fetch('/search-index.json');
+      if (!res.ok) throw new Error(`HTTP ${res.status}`);
+      const items = (await res.json()) as SearchItem[];
+      if (!Array.isArray(items)) throw new Error('bad index');
+      return items;
+    })().catch((err) => {
+      indexPromise = null; // let a later call try again
+      throw err;
+    });
+    return indexPromise;
+  }
+
+  async function register() {
+    const mc = modelContext();
+    const marker = document.querySelector<HTMLElement>('[data-webmcp]');
+    if (!mc || !marker) return;
+    const locale = (marker.dataset.webmcp === 'ja' ? 'ja' : 'en') as Locale;
+
+    // Descriptors are built once against an empty list so the schemas and names are fixed;
+    // each call rebuilds them against the loaded index, which keeps counts honest.
+    for (const tool of buildTools([], locale)) {
+      await mc.registerTool({
+        name: tool.name,
+        description: tool.description,
+        inputSchema: tool.inputSchema,
+        async execute(input: Record<string, unknown>) {
+          let items: SearchItem[];
+          try {
+            items = await loadIndex();
+          } catch {
+            // Same posture as the search box (AC-05-5): report, never throw at the agent.
+            return { ok: false, reason: 'index-unavailable' };
+          }
+          const live = buildTools(items, locale).find((t) => t.name === tool.name)!;
+          return live.execute(input ?? {});
+        },
+      });
+    }
+  }
+
+  // A failure here must never affect the page for ordinary visitors.
+  register().catch(() => {});
+</script>
