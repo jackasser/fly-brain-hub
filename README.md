@@ -109,6 +109,7 @@ src/content.config.ts         file() ローダー + zod スキーマ（src/lib/s
 src/lib/taxonomy.ts           カテゴリ・データセット ID と EN/JA ラベル
 src/lib/{projects,ads,seo}.ts 純粋関数（ユニットテスト対象）
 src/lib/webmcp.ts             WebMCP のツール定義と絞り込み（R-14）
+src/lib/sort.ts               一覧の並べ替え（R-16）
 src/i18n/                     UI 文言と localePath / otherLocalePath
 src/layouts/BaseLayout.astro  hreflang / canonical / OG / JSON-LD / AdSense ローダー
 src/components/               AdSlot, ProjectCard, ProjectGrid, SearchProjects, WebMcpTools, …

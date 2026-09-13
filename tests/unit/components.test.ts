@@ -6,6 +6,7 @@ import ProjectGrid from '../../src/components/ProjectGrid.astro';
 import LangToggle from '../../src/components/LangToggle.astro';
 import CoverMedia from '../../src/components/CoverMedia.astro';
 import FlyHero from '../../src/components/FlyHero.astro';
+import SearchProjects from '../../src/components/SearchProjects.astro';
 import BaseLayout from '../../src/layouts/BaseLayout.astro';
 import type { Project } from '../../src/lib/schema';
 
@@ -193,6 +194,36 @@ describe('R-13 analytics', () => {
     });
     expect(notFound).not.toContain('/_vercel/insights');
     expect(notFound).not.toContain('googletagmanager');
+  });
+});
+
+describe('R-16 sorting', () => {
+  it('AC-16-3 cards carry the sort keys so the island never needs the search index', async () => {
+    const withStars = await container.renderToString(ProjectCard, {
+      props: { project: project({ stars: 143, addedAt: '2026-09-13' }), locale: 'en' },
+    });
+    expect(withStars).toContain('data-stars="143"');
+    expect(withStars).toContain('data-added="2026-09-13"');
+
+    // No repo means no star count: the attribute must be absent, not "0".
+    const without = await container.renderToString(ProjectCard, {
+      props: { project: project({ addedAt: '2026-09-12' }), locale: 'en' },
+    });
+    expect(without).not.toContain('data-stars');
+    expect(without).toContain('data-added="2026-09-12"');
+  });
+
+  it('AC-16-4 the search form offers the three sort modes', async () => {
+    const html = await container.renderToString(SearchProjects, {
+      props: { locale: 'ja', gridId: 'project-grid' },
+    });
+    expect(html).toContain('name="sort"');
+    expect(html).toContain('value="featured"');
+    expect(html).toContain('value="stars"');
+    expect(html).toContain('value="newest"');
+    expect(html).toContain('おすすめ順');
+    expect(html).toContain('人気順');
+    expect(html).toContain('新着順');
   });
 });
 

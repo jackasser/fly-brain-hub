@@ -1,5 +1,6 @@
 ---
 import { CATEGORIES, CATEGORY_META, DATASET_IDS, DATASET_LABELS } from '../lib/taxonomy';
+import { SORT_MODES } from '../lib/sort';
 import { t, type Locale } from '../i18n';
 
 interface Props {
@@ -38,6 +39,10 @@ const { locale, gridId } = Astro.props;
     <select id="search-tag" name="tag">
       <option value="">{t(locale, 'search.tag')}: {t(locale, 'search.all')}</option>
     </select>
+    <label class="visually-hidden" for="search-sort">{t(locale, 'search.sort')}</label>
+    <select id="search-sort" name="sort">
+      {SORT_MODES.map((m) => <option value={m}>{t(locale, `sort.${m}` as const)}</option>)}
+    </select>
     <button type="button" class="search__clear" data-clear>{t(locale, 'search.clear')}</button>
   </div>
   <p class="search__status" data-status aria-live="polite"></p>
@@ -46,15 +51,17 @@ const { locale, gridId } = Astro.props;
 <script>
   import Fuse from 'fuse.js';
   import type { SearchItem } from '../lib/projects';
+  import { DEFAULT_SORT, isSortMode, sortRows, type SortRow } from '../lib/sort';
 
-  const KEYS = ['q', 'category', 'dataset', 'tag'] as const;
+  const KEYS = ['q', 'category', 'dataset', 'tag', 'sort'] as const;
   type Key = (typeof KEYS)[number];
 
   async function init(form: HTMLFormElement) {
     // NOTE: a form control named "dataset" shadows form.dataset, so read attributes explicitly.
     const attr = (k: string) => form.getAttribute(`data-${k}`) ?? '';
-    const grid = document.getElementById(attr('grid'));
-    if (!grid) return;
+    const maybeGrid = document.getElementById(attr('grid'));
+    if (!maybeGrid) return;
+    const grid = maybeGrid;
     const cards = [...grid.querySelectorAll<HTMLElement>('[data-id]')];
     const status = form.querySelector<HTMLElement>('[data-status]')!;
     const locale = attr('locale') === 'ja' ? 'ja' : 'en';
@@ -104,7 +111,32 @@ const { locale, gridId } = Astro.props;
     const params = new URLSearchParams(location.search);
     for (const k of KEYS) {
       const v = params.get(k);
-      if (v) field(k).value = v;
+      if (!v) continue;
+      if (k === 'sort' && !isSortMode(v)) continue; // ignore a bogus ?sort=
+      field(k).value = v;
+    }
+
+    /**
+     * R-16: reorder the cards among themselves. Non-card children of the grid (the in-feed
+     * ad slots) keep their child index, so a requested ad is never moved or dropped.
+     */
+    let appliedSort: string | null = null;
+    function reorder(mode: string) {
+      // apply() runs on every keystroke; moving 70+ nodes each time would be wasteful.
+      if (mode === appliedSort) return;
+      appliedSort = mode;
+      const rows: SortRow[] = cards.map((card) => ({
+        id: card.dataset.id ?? '',
+        stars: card.dataset.stars ? Number(card.dataset.stars) : undefined,
+        addedAt: card.dataset.added ?? '',
+      }));
+      const order = sortRows(rows, isSortMode(mode) ? mode : DEFAULT_SORT);
+      const byIdEl = new Map(cards.map((c) => [c.dataset.id ?? '', c]));
+      let next = 0;
+      const rebuilt = [...grid.children].map((el) =>
+        el.hasAttribute('data-id') ? (byIdEl.get(order[next++].id) ?? el) : el,
+      );
+      grid.replaceChildren(...rebuilt);
     }
 
     function apply() {
@@ -112,6 +144,8 @@ const { locale, gridId } = Astro.props;
       const cat = field('category').value;
       const ds = field('dataset').value;
       const tag = field('tag').value;
+      const sort = field('sort').value;
+      reorder(sort);
       const matched = q ? new Set(fuse.search(q).map((r) => r.item.id)) : null;
       let n = 0;
       for (const card of cards) {
@@ -131,14 +165,16 @@ const { locale, gridId } = Astro.props;
       if (cat) next.set('category', cat);
       if (ds) next.set('dataset', ds);
       if (tag) next.set('tag', tag);
+      if (sort && sort !== DEFAULT_SORT) next.set('sort', sort);
       const qs = next.toString();
       history.replaceState(null, '', qs ? `${location.pathname}?${qs}` : location.pathname);
     }
 
     form.addEventListener('input', apply);
+    form.addEventListener('change', apply);
     form.addEventListener('submit', (e) => e.preventDefault());
     form.querySelector('[data-clear]')?.addEventListener('click', () => {
-      for (const k of KEYS) field(k).value = '';
+      for (const k of KEYS) field(k).value = k === 'sort' ? DEFAULT_SORT : '';
       apply();
     });
     apply();

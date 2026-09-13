@@ -19,7 +19,13 @@ const categoryHref = localePath(locale, `/category/${project.category}`);
 const starsFmt = project.stars !== undefined ? new Intl.NumberFormat(locale === 'ja' ? 'ja-JP' : 'en-US').format(project.stars) : null;
 ---
 
-<article class="card" data-id={project.id} data-category={project.category}>
+<article
+  class="card"
+  data-id={project.id}
+  data-category={project.category}
+  data-added={project.addedAt}
+  data-stars={project.stars !== undefined ? String(project.stars) : undefined}
+>
   <a class="card__coverlink" href={detailHref} tabindex="-1" aria-hidden="true">
     <Cover project={project} />
   </a>

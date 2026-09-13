@@ -133,7 +133,7 @@
 - ビルド時に `/search-index.json` を出す。要素: `id name category datasets tags description_en description_ja url license stars`。
 - クライアントで Fuse.js を使い `name`（重み 3）`tags`（2）`description_<locale>`（1）を検索する。
 - ファセット（category / dataset / tag）は完全一致で絞る。
-- 状態は `?q=&category=&dataset=&tag=` に同期し、URL から復元する。
+- 状態は `?q=&category=&dataset=&tag=` に同期し、URL から復元する（`?sort=` は R-16）。
 - JS 無効時も `/projects` の SSR 一覧が読める。
 - `search-index.json` の取得に失敗したら、検索フォームを無効化して失敗メッセージを出し、SSR 全件一覧はそのまま残す。
 - 検索で絞り込んでも in-feed 広告枠は隠さない（要求済み広告を隠さない。R-07）。
@@ -384,6 +384,39 @@ AdSense の審査が通るまで（R-07 の「広告無効かつ本番ビルド�
 | AC-15-6 | env 未設定でビルドした `dist/` のどの HTML にも `data-house-ad` が無く、Privacy に広告問い合わせの記述が無い（既定で何も増えない） | `dist.test.ts` |
 | AC-15-7 | `houseAd(env,'ja')` は `PUBLIC_AD_INQUIRY_URL_JA` を優先し、無ければ `PUBLIC_AD_INQUIRY_URL` を使う。`houseAd(env,'en')` は `_JA` を無視し、`PUBLIC_AD_INQUIRY_URL` だけを見る | `ads.test.ts` |
 | AC-15-8 | `AdSlot` に `locale='ja'` を渡すと JA 用の URL を、`locale='en'` では EN 用の URL をリンク先にする | `components.test.ts` |
+
+## R-16 一覧の並べ替え（2026-09-13 ユーザー指示「人気順や最新順でソートできるように」）
+
+`/projects` のカード一覧を、検索 UI（R-05）と同じ列に置いた並べ替えで切り替える。
+並べ替えは検索フォームの一部なので、検索 UI を持たない `/category/<slug>` は SSR の既定順のままにする
+（`/projects` 側で category ファセットを使えば同じ絞り込みを並べ替え付きで行える）。
+
+| 値 | UI（EN / JA） | 並び |
+|---|---|---|
+| `featured`（既定） | Recommended / おすすめ順 | SSR と同じ `sortProjects` 順（featured 優先 → `addedAt` 降順 → id） |
+| `stars` | Most stars / 人気順 | `stars` 降順。**`stars` を持たないエントリは最後**（0 として扱わない） |
+| `newest` | Newest / 新着順 | `addedAt` 降順（このサイトに載った日） |
+
+- `stars` と `newest` の同点は既定順（SSR の並び）で崩さない。安定ソートにする。
+- 状態は `?sort=` に同期し、URL から復元する（R-05 の `q` `category` `dataset` `tag` と同じ扱い）。
+  既定の `featured` のときは `sort=` を URL に付けない。
+- **並べ替えはカード（`[data-id]`）どうしだけを入れ替える。** グリッド内のカード以外の子要素
+  （in-feed の広告枠・ハウス広告）は DOM 上の位置を動かさない。R-07 の「要求済み広告を隠さない」に反しないため。
+- 並べ替えの鍵はカードの `data-stars` / `data-added` 属性から読む。
+  **`/search-index.json` のキーは AC-05-1 が固定しているので変更しない。**
+- JS 無効時は SSR の既定順がそのまま読める（並べ替え UI は JS が有効なときだけ意味を持つ）。
+- 検索・ファセットとの併用ができる（絞り込んだ結果の中で並べ替わる）。
+
+| AC | Given / When / Then | テスト |
+|---|---|---|
+| AC-16-1 | `SORT_MODES` が `featured stars newest` をこの順で持ち、`isSortMode` が未知の値を弾く | `sort.test.ts` |
+| AC-16-2 | `sortRows(rows,'stars')` は stars 降順で並べ、`stars` が無い行を最後に置く。`sortRows(rows,'newest')` は `addedAt` 降順。どちらも同点は入力順（＝SSR 順）を保つ。`'featured'` は入力順のまま返す | `sort.test.ts` |
+| AC-16-3 | `ProjectCard` が `data-stars`（あれば）と `data-added` を描画する | `components.test.ts` |
+| AC-16-4 | `SearchProjects` が `name="sort"` の select を 3 つの選択肢付きで描画する | `components.test.ts` |
+| AC-16-5 | `/projects?sort=stars` を開くと 1 枚目が最大 stars のカードになり、select が `stars` を指す | `e2e/sort.spec.ts` |
+| AC-16-6 | 並べ替えを選ぶと URL に `sort=` が付き、`おすすめ順` に戻すと `sort=` が消える | `e2e/sort.spec.ts` |
+| AC-16-7 | グリッドにカード以外の要素を差し込んでから並べ替えても、その要素の子インデックスが変わらない（広告枠が動かない） | `e2e/sort.spec.ts` |
+| AC-16-8 | 検索語で絞った状態で `sort=newest` にすると、表示中のカードだけが `addedAt` 降順になる | `e2e/sort.spec.ts` |
 
 ## 非スコープ（初期公開では作らない）
 
