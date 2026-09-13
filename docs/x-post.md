@@ -4,7 +4,7 @@
 `og:image` / `twitter:card=summary_large_image` で出る。投稿前に https://cards-dev.twitter.com/validator か、
 自分宛 DM にリンクを貼ってプレビューを確認する。
 
-数字（掲載件数・カテゴリ数）は投稿時に `src/data/projects.json` の件数と合わせる。2026-09-12 時点: 42 件・7 カテゴリ。
+数字（掲載件数・カテゴリ数）は投稿時に `src/data/projects.json` の件数と合わせる。2026-09-13 時点: 77 件・7 カテゴリ。
 
 ## 日本語版（メイン）
 
@@ -36,7 +36,7 @@ Since the male Drosophila connectome dropped in Sept 2026, the demos haven't sto
 There was no single place to see all of it. Now there is.
 
 🧠 Fly Brain Hub
-- 42 projects across 7 categories: datasets, simulations, bodies, tools, demos, explainers
+- 77 projects across 7 categories: datasets, simulations, bodies, tools, demos, explainers
 - Search by name, tag or description
 - Every entry lists the sources we actually checked
 - EN / 日本語
