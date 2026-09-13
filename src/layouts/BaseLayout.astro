@@ -96,6 +96,7 @@ const analytics = ads ? analyticsConfig(Astro.props.analyticsEnv ?? (import.meta
     }
   </head>
   <body>
+    <a class="skip-link" href="#main">{t(locale, 'a11y.skip')}</a>
     <Header locale={locale} path={here} />
     {
       ads && (
@@ -104,7 +105,7 @@ const analytics = ads ? analyticsConfig(Astro.props.analyticsEnv ?? (import.meta
         </div>
       )
     }
-    <main class="container" id="main">
+    <main class="container" id="main" tabindex="-1">
       <slot />
     </main>
     <Footer locale={locale} />

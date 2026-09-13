@@ -24,7 +24,7 @@ const isCurrent = (href: string) => bare === href || bare.startsWith(`${href}/`)
       <img class="brand__mark" src="/favicon.svg" alt="" width="24" height="24" aria-hidden="true" />
       {t(locale, 'site.name')}
     </a>
-    <nav class="nav" aria-label="Main">
+    <nav class="nav" aria-label={t(locale, 'a11y.navigation')}>
       {
         items.map((item) => (
           <a href={localePath(locale, item.href)} aria-current={isCurrent(item.href) ? 'page' : undefined}>

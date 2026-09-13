@@ -20,24 +20,43 @@ const fresh = latest(projects, 6);
 <BaseLayout locale={locale} title={t(locale, 'site.name')} description={t(locale, 'site.description')} path="/">
   <section class="hero hero--split">
     <div class="hero__art">
+      <span class="atlas-label">{t(locale, 'home.artLabel')}</span>
+      <div class="atlas-orbit" aria-hidden="true"></div>
       <FlyHero locale={locale} />
+      <span class="atlas-caption">{t(locale, 'home.artNote')}</span>
     </div>
     <div class="hero__text">
+      <p class="eyebrow">{t(locale, 'home.eyebrow')}</p>
       <h1>{t(locale, 'home.heroTitle')}</h1>
+      <p class="hero__accent">{t(locale, 'home.heroAccent')}</p>
       <p>{t(locale, 'home.heroBody')}</p>
+      <form class="home-search" role="search" action={localePath(locale, '/projects')} method="get">
+        <label class="visually-hidden" for="home-q">{t(locale, 'search.label')}</label>
+        <span aria-hidden="true" class="search-symbol">⌕</span>
+        <input id="home-q" type="search" name="q" placeholder={t(locale, 'search.placeholder')} aria-describedby="home-search-hint" />
+        <button class="btn" type="submit">{t(locale, 'home.searchButton')} <span aria-hidden="true">↗</span></button>
+      </form>
+      <p class="home-search-hint" id="home-search-hint">{t(locale, 'home.searchHint')}</p>
       <div class="hero__actions">
-        <a class="btn" href={localePath(locale, '/projects')}>{t(locale, 'home.viewAll')} ({projects.length})</a>
-        <a class="btn btn--ghost" href={localePath(locale, '/datasets')}>{t(locale, 'nav.datasets')}</a>
+        <a class="text-link" href={localePath(locale, '/projects')}>{t(locale, 'home.viewAll')} <span aria-hidden="true">→</span></a>
+        <a class="text-link" href={localePath(locale, '/datasets')}>{t(locale, 'nav.datasets')} <span aria-hidden="true">↗</span></a>
       </div>
     </div>
   </section>
 
+  <dl class="explore-stats">
+    <div><dt>{t(locale, 'home.statProjects')}</dt><dd>{projects.length}</dd></div>
+    <div><dt>{t(locale, 'home.statCategories')}</dt><dd>{CATEGORIES.length}</dd></div>
+    <div><dt>{t(locale, 'home.statDatasets')}</dt><dd>{counts.connectome}</dd></div>
+  </dl>
+
   <section class="section" aria-labelledby="h-categories">
-    <div class="section__head"><h2 id="h-categories">{t(locale, 'home.categories')}</h2></div>
+    <div class="section__head"><div><p class="eyebrow section-index" aria-hidden="true">01 / DISCOVER</p><h2 id="h-categories">{t(locale, 'home.categories')}</h2><p>{t(locale, 'home.categoryIntro')}</p></div></div>
     <div class="cat-grid">
       {
-        CATEGORIES.map((c) => (
-          <a class="cat" href={localePath(locale, `/category/${c}`)}>
+        CATEGORIES.map((c, i) => (
+          <a class="cat" data-category={c} href={localePath(locale, `/category/${c}`)}>
+            <span class="cat__icon" aria-hidden="true">{['◎', '⌘', '◇', '▷', '⌬', '≋', '◈'][i]}</span>
             <span class="cat__title">
               {CATEGORY_META[c].label[locale]}
               <span class="cat__count">{counts[c]}</span>
@@ -54,6 +73,7 @@ const fresh = latest(projects, 6);
       <section class="section" aria-labelledby="h-featured">
         <div class="section__head">
           <h2 id="h-featured">{t(locale, 'home.featured')}</h2>
+          <p>{t(locale, 'home.featuredIntro')}</p>
         </div>
         <ProjectGrid projects={picks} locale={locale} />
       </section>
@@ -62,9 +82,13 @@ const fresh = latest(projects, 6);
 
   <section class="section" aria-labelledby="h-latest">
     <div class="section__head">
-      <h2 id="h-latest">{t(locale, 'home.latest')}</h2>
+      <div><h2 id="h-latest">{t(locale, 'home.latest')}</h2><p>{t(locale, 'home.latestIntro')}</p></div>
       <a href={localePath(locale, '/projects')}>{t(locale, 'home.viewAll')} →</a>
     </div>
     <ProjectGrid projects={fresh} locale={locale} />
+  </section>
+  <section class="contribute">
+    <div><p class="eyebrow">{t(locale, 'home.heroAccent')}</p><h2>{t(locale, 'home.contributeTitle')}</h2><p>{t(locale, 'home.contributeBody')}</p></div>
+    <a class="btn" href={localePath(locale, '/submit')}>{t(locale, 'footer.submit')} <span aria-hidden="true">↗</span></a>
   </section>
 </BaseLayout>

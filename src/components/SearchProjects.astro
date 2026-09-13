@@ -23,26 +23,36 @@ const { locale, gridId } = Astro.props;
   role="search"
 >
   <div class="search__row">
-    <label class="visually-hidden" for="search-q">{t(locale, 'search.label')}</label>
+    <div class="search__field search__field--query">
+    <label for="search-q">{t(locale, 'search.label')}</label>
     <input id="search-q" name="q" type="search" placeholder={t(locale, 'search.placeholder')} autocomplete="off" />
-    <label class="visually-hidden" for="search-category">{t(locale, 'search.category')}</label>
+    </div>
+    <div class="search__field">
+    <label for="search-category">{t(locale, 'search.category')}</label>
     <select id="search-category" name="category">
       <option value="">{t(locale, 'search.category')}: {t(locale, 'search.all')}</option>
       {CATEGORIES.map((c) => <option value={c}>{CATEGORY_META[c].label[locale]}</option>)}
     </select>
-    <label class="visually-hidden" for="search-dataset">{t(locale, 'search.dataset')}</label>
+    </div>
+    <div class="search__field">
+    <label for="search-dataset">{t(locale, 'search.dataset')}</label>
     <select id="search-dataset" name="dataset">
       <option value="">{t(locale, 'search.dataset')}: {t(locale, 'search.all')}</option>
       {DATASET_IDS.map((d) => <option value={d}>{DATASET_LABELS[d]}</option>)}
     </select>
-    <label class="visually-hidden" for="search-tag">{t(locale, 'search.tag')}</label>
+    </div>
+    <div class="search__field">
+    <label for="search-tag">{t(locale, 'search.tag')}</label>
     <select id="search-tag" name="tag">
       <option value="">{t(locale, 'search.tag')}: {t(locale, 'search.all')}</option>
     </select>
-    <label class="visually-hidden" for="search-sort">{t(locale, 'search.sort')}</label>
+    </div>
+    <div class="search__field">
+    <label for="search-sort">{t(locale, 'search.sort')}</label>
     <select id="search-sort" name="sort">
       {SORT_MODES.map((m) => <option value={m}>{t(locale, `sort.${m}` as const)}</option>)}
     </select>
+    </div>
     <button type="button" class="search__clear" data-clear>{t(locale, 'search.clear')}</button>
   </div>
   <p class="search__status" data-status aria-live="polite"></p>

@@ -13,24 +13,24 @@
   --space-7: 3rem;
   --space-8: 4.5rem;
 
-  --radius-s: 4px;
-  --radius-m: 8px;
-  --radius-l: 14px;
+  --radius-s: 6px;
+  --radius-m: 12px;
+  --radius-l: 20px;
 
   --measure: 68ch;
-  --container: 72rem;
+  --container: 78rem;
 
   /* light */
-  --bg: #f7f6f2;
+  --bg: #f8f9fc;
   --bg-elev: #ffffff;
-  --bg-sunk: #eeece6;
-  --fg: #1c1b18;
-  --fg-muted: #5a574f;
-  --fg-faint: #625e56;
-  --line: #dcd9d0;
-  --accent: #0f766e;
+  --bg-sunk: #eef0f7;
+  --fg: #20213b;
+  --fg-muted: #55596e;
+  --fg-faint: #626579;
+  --line: #dfe2ed;
+  --accent: #5145b8;
   --accent-fg: #ffffff;
-  --accent-soft: #d8f0ec;
+  --accent-soft: #eeebff;
   --warn: #a15c07;
   --warn-soft: #fdf1dc;
   --shadow: 0 1px 2px rgb(28 27 24 / 0.06), 0 6px 18px rgb(28 27 24 / 0.05);
@@ -38,16 +38,16 @@
 
 @media (prefers-color-scheme: dark) {
   :root:not([data-theme='light']) {
-    --bg: #121311;
-    --bg-elev: #1b1d1a;
-    --bg-sunk: #0d0e0c;
-    --fg: #ecebe6;
-    --fg-muted: #b3b0a7;
-    --fg-faint: #a29e94;
-    --line: #2d302b;
-    --accent: #5fd3c5;
-    --accent-fg: #0b1a18;
-    --accent-soft: #163a36;
+    --bg: #12131f;
+    --bg-elev: #1b1d2e;
+    --bg-sunk: #161827;
+    --fg: #f0effa;
+    --fg-muted: #babdd3;
+    --fg-faint: #a9adc6;
+    --line: #34374f;
+    --accent: #b7adff;
+    --accent-fg: #191332;
+    --accent-soft: #30294e;
     --warn: #f0b35a;
     --warn-soft: #3a2a10;
     --shadow: 0 1px 2px rgb(0 0 0 / 0.5), 0 8px 24px rgb(0 0 0 / 0.35);
@@ -55,16 +55,16 @@
 }
 
 :root[data-theme='dark'] {
-  --bg: #121311;
-  --bg-elev: #1b1d1a;
-  --bg-sunk: #0d0e0c;
-  --fg: #ecebe6;
-  --fg-muted: #b3b0a7;
-  --fg-faint: #a29e94;
-  --line: #2d302b;
-  --accent: #5fd3c5;
-  --accent-fg: #0b1a18;
-  --accent-soft: #163a36;
+  --bg: #12131f;
+  --bg-elev: #1b1d2e;
+  --bg-sunk: #161827;
+  --fg: #f0effa;
+  --fg-muted: #babdd3;
+  --fg-faint: #a9adc6;
+  --line: #34374f;
+  --accent: #b7adff;
+  --accent-fg: #191332;
+  --accent-soft: #30294e;
   --warn: #f0b35a;
   --warn-soft: #3a2a10;
   --shadow: 0 1px 2px rgb(0 0 0 / 0.5), 0 8px 24px rgb(0 0 0 / 0.35);
