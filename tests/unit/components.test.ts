@@ -196,6 +196,82 @@ describe('R-13 analytics', () => {
   });
 });
 
+describe('R-15 house ad', () => {
+  const FORM = 'https://docs.google.com/forms/d/e/1FAIpQLSc-example/viewform';
+  const houseEnv = { PUBLIC_AD_INQUIRY_URL: FORM };
+
+  it('AC-15-2 offers the empty slot with a link to the inquiry form', async () => {
+    const html = await container.renderToString(AdSlot, {
+      props: { name: 'leaderboard', env: houseEnv, dev: false, locale: 'ja' },
+    });
+    expect(html).toContain('data-house-ad="leaderboard"');
+    expect(html).toContain(FORM);
+    expect(html).toContain('target="_blank"');
+    expect(html).toMatch(/rel="[^"]*noopener/);
+    expect(html).toContain('広告募集中');
+    expect(html).not.toContain('adsbygoogle');
+  });
+
+  it('AC-15-2 real ads win the slot back', async () => {
+    const html = await container.renderToString(AdSlot, {
+      props: { name: 'leaderboard', env: { ...enabledEnv, ...houseEnv }, dev: false },
+    });
+    expect(html).toContain('adsbygoogle');
+    expect(html).not.toContain('data-house-ad');
+  });
+
+  it('AC-15-2 the house ad replaces the dev placeholder', async () => {
+    const configured = await container.renderToString(AdSlot, {
+      props: { name: 'sidebar', env: houseEnv, dev: true },
+    });
+    expect(configured).toContain('data-house-ad="sidebar"');
+    expect(configured).not.toContain('data-ad-placeholder');
+
+    const unconfigured = await container.renderToString(AdSlot, { props: { name: 'sidebar', env: {}, dev: true } });
+    expect(unconfigured).toContain('data-ad-placeholder="sidebar"');
+    expect(unconfigured).not.toContain('data-house-ad');
+  });
+
+  it('AC-15-3 house={false} drops the house ad and nothing else', async () => {
+    const prod = await container.renderToString(AdSlot, {
+      props: { name: 'infeed', env: houseEnv, dev: false, house: false },
+    });
+    expect(prod.trim()).toBe('');
+
+    // The dev placeholder still marks the slot; only the offer is suppressed.
+    const inDev = await container.renderToString(AdSlot, {
+      props: { name: 'infeed', env: houseEnv, dev: true, house: false },
+    });
+    expect(inDev).not.toContain('data-house-ad');
+    expect(inDev).toContain('data-ad-placeholder="infeed"');
+  });
+
+  it('AC-15-4 a long list carries the house ad once, not at every in-feed break', async () => {
+    const projects = Array.from({ length: 13 }, (_, n) => project({ id: `p${n}` }));
+    const html = await container.renderToString(ProjectGrid, {
+      props: { projects, locale: 'en', env: houseEnv, dev: false },
+    });
+    expect(html.match(/data-house-ad="infeed"/g)).toHaveLength(1);
+  });
+
+  it('AC-15-5 the 404 page stays free of it', async () => {
+    const html = await container.renderToString(BaseLayout, {
+      props: {
+        locale: 'en',
+        title: 'x',
+        description: 'y',
+        path: '/404',
+        ads: false,
+        alternatesEnabled: false,
+        adEnv: houseEnv,
+        dev: false,
+      },
+      slots: { default: 'hi' },
+    });
+    expect(html).not.toContain('data-house-ad');
+  });
+});
+
 describe('R-14 WebMCP', () => {
   const base = { locale: 'en', title: 'x', description: 'y', path: '/about', adEnv: {}, dev: false } as const;
 

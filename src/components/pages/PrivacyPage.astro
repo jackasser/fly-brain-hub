@@ -2,6 +2,7 @@
 import BaseLayout from '../../layouts/BaseLayout.astro';
 import { localePath, t, type Locale } from '../../i18n';
 import { analyticsConfig, type AnalyticsEnv } from '../../lib/analytics';
+import { houseAd, type AdEnv } from '../../lib/ads';
 
 interface Props {
   locale: Locale;
@@ -10,6 +11,7 @@ const { locale } = Astro.props;
 const title = t(locale, 'privacy.title');
 const updated = '2026-09-12';
 const analytics = analyticsConfig(import.meta.env as unknown as AnalyticsEnv);
+const inquiry = houseAd(import.meta.env as unknown as AdEnv);
 ---
 
 <BaseLayout locale={locale} title={title} description={title} path="/privacy">
@@ -72,6 +74,18 @@ const analytics = analyticsConfig(import.meta.env as unknown as AnalyticsEnv);
             </p>
           )}
           <p>ホスティング事業者（Vercel）がサービス運用のためにアクセスログを保持することがあります。</p>
+          {inquiry && (
+            <>
+              <h2>広告掲載のお問い合わせ</h2>
+              <p>
+                広告枠に掲載している「広告募集中」のボタンは、Google フォームへのリンクです。リンク先で送信された内容（お名前・連絡先・ご相談内容など）は
+                Google のサーバーに保存され、当サイト運営者が閲覧します。取り扱いは
+                <a href="https://policies.google.com/privacy" rel="noopener">Google のプライバシーポリシー</a>
+                にも従います。当サイトのページ内にフォームを埋め込んではいないため、ボタンを押さないかぎり Google
+                のスクリプトや Cookie は読み込まれません。
+              </p>
+            </>
+          )}
           <h2>AI エージェント向けのツール（WebMCP）</h2>
           <p>
             当サイトの各ページは、AI エージェントを内蔵したブラウザ向けに、掲載プロジェクトを検索・参照するためのツールを
@@ -147,6 +161,18 @@ const analytics = analyticsConfig(import.meta.env as unknown as AnalyticsEnv);
             <p>The site does not currently use Google Analytics or any other analytics tool. If analytics are added, this policy will be updated.</p>
           )}
           <p>The hosting provider (Vercel) may keep access logs to operate the service.</p>
+          {inquiry && (
+            <>
+              <h2>Advertising enquiries</h2>
+              <p>
+                The "Advertise here" button in the ad slots links to a Google Form. Anything you submit there (your
+                name, contact details and message) is stored on Google's servers and read by the site operator, and is
+                also covered by
+                <a href="https://policies.google.com/privacy" rel="noopener">Google's privacy policy</a>. The form is
+                linked, not embedded, so no Google script or cookie loads on this site unless you follow that link.
+              </p>
+            </>
+          )}
           <h2>Tools for AI agents (WebMCP)</h2>
           <p>
             Every page on this site declares a small set of tools for searching and reading its project entries, using

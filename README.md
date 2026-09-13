@@ -60,6 +60,7 @@ GitHub の `repoUrl` を持つエントリの `stars` / `starsUpdatedAt` だけ�
 | `PUBLIC_ADSENSE_CLIENT` | `ca-pub-…`。**未設定なら本番では広告関連のマークアップを一切出さない**（dev では破線の枠を表示） |
 | `PUBLIC_ADSENSE_SLOT_LEADERBOARD` / `_INFEED` / `_SIDEBAR` | 各広告ユニットの slot ID |
 | `PUBLIC_ADSENSE_INFEED_LAYOUT_KEY` | in-feed ユニットの layout key |
+| `PUBLIC_AD_INQUIRY_URL` | 任意。https の URL（Google フォーム想定）。AdSense 未設定の間、空いた広告枠に「広告募集中」を出してここへリンクする（R-15）。未設定なら枠は空のまま |
 | `PUBLIC_GITHUB_REPO` | `owner/repo`。投稿ページの Issue リンク先。未設定だと `OWNER/fly-brain-hub` というプレースホルダになる |
 | `PUBLIC_CONTACT_EMAIL` | 任意。設定すると Contact ページにメールアドレスを出す |
 | `PUBLIC_VERCEL_ANALYTICS` | `1` で Vercel Web Analytics のスクリプトを全ページ（404 除く）に出す。Vercel 側で `vercel project web-analytics` を実行して有効化しておく。Cookie なし |
@@ -87,6 +88,9 @@ Claude Code からは Vercel 連携の `get_web_analytics`（count / aggregate�
 動作確認は `tests/e2e/webmcp.spec.ts` が `document.modelContext` をスタブして行う。
 
 ## 広告（AdSense）を有効にするまで
+
+審査が通るまでの間は `PUBLIC_AD_INQUIRY_URL` に Google フォームの URL を入れると、空いた枠に「広告募集中」が出る（R-15）。
+AdSense を有効にすると枠は実広告に戻り、「広告募集中」は自動的に消える。
 
 1. vercel.app で公開して内容を整える（`*.vercel.app` のままでは AdSense 審査に通らない）
 2. 独自ドメインを取得して Vercel に接続する（HTTPS は自動）

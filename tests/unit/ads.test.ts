@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest';
-import { isAdsEnabled, resolveSlot } from '../../src/lib/ads';
+import { houseAd, isAdsEnabled, resolveSlot } from '../../src/lib/ads';
 
 describe('R-07 ads', () => {
   it('AC-07-1 isAdsEnabled depends on PUBLIC_ADSENSE_CLIENT', () => {
@@ -43,5 +43,27 @@ describe('R-07 ads', () => {
       layoutKey: undefined,
       format: 'auto',
     });
+  });
+});
+
+describe('R-15 house ad', () => {
+  const FORM = 'https://docs.google.com/forms/d/e/1FAIpQLSc-example/viewform';
+
+  it('AC-15-1 stays off until an inquiry URL is configured', () => {
+    expect(houseAd({})).toBeNull();
+    expect(houseAd({ PUBLIC_AD_INQUIRY_URL: '' })).toBeNull();
+    expect(houseAd({ PUBLIC_AD_INQUIRY_URL: '   ' })).toBeNull();
+    expect(houseAd({ PUBLIC_AD_INQUIRY_URL: FORM })).toEqual({ inquiryUrl: FORM });
+    expect(houseAd({ PUBLIC_AD_INQUIRY_URL: `  ${FORM}  ` })).toEqual({ inquiryUrl: FORM });
+  });
+
+  it('AC-15-1 refuses anything that is not an https URL', () => {
+    expect(houseAd({ PUBLIC_AD_INQUIRY_URL: 'http://forms.example/x' })).toBeNull();
+    expect(houseAd({ PUBLIC_AD_INQUIRY_URL: 'javascript:alert(1)' })).toBeNull();
+    expect(houseAd({ PUBLIC_AD_INQUIRY_URL: '/contact' })).toBeNull();
+  });
+
+  it('AC-15-1 yields the slot to AdSense once that is configured', () => {
+    expect(houseAd({ PUBLIC_AD_INQUIRY_URL: FORM, PUBLIC_ADSENSE_CLIENT: 'ca-pub-1' })).toBeNull();
   });
 });

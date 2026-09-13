@@ -173,7 +173,7 @@
 
 - 広告有効（`PUBLIC_ADSENSE_CLIENT` 設定済み）: `<ins class="adsbygoogle" data-ad-client data-ad-slot ...>` と push スクリプト。BaseLayout が `adsbygoogle.js` を 1 回だけ読み込む。
 - 広告無効かつ dev: 高さを確保した破線ボックス（枠名入り、`data-ad-placeholder` 属性）。
-- 広告無効かつ本番ビルド: 何も出さない。
+- 広告無効かつ本番ビルド: 何も出さない（ただし `PUBLIC_AD_INQUIRY_URL` があれば R-15 のハウス広告を出す）。
 - 404 ページでは広告ローダーも枠も出さない（Google の配置ポリシー）。`BaseLayout` の `ads={false}` で制御する。
 - 枠の slot ID（infeed は layout key も）が未設定なら、その枠は有効時でも描画しない（空の `data-ad-slot` を送らない）。
 
@@ -343,6 +343,42 @@ AI エージェントを積んだブラウザに対して、ページ自身が�
 | AC-14-5 | ビルド後、`404.html` を含む全 HTML に `data-webmcp` がある | `dist.test.ts` |
 | AC-14-6 | `document.modelContext` をスタブしたブラウザで `/` を開くと 4 つのツールが登録され、`search-projects({category:'connectome'})` の結果が全件 `connectome` で `total` が `search-index.json` の該当件数と一致する。`/ja/` で `get-project({id:'flybody'})` を呼ぶと `page` が `/ja/` 始まり | `e2e/webmcp.spec.ts` |
 | AC-14-7 | Privacy ページ（両言語）に WebMCP の説明がある（EN: `WebMCP` / JA: `WebMCP`） | `dist.test.ts` |
+
+## R-15 ハウス広告「広告募集中」（2026-09-13 ユーザー指示）
+
+AdSense の審査が通るまで（R-07 の「広告無効かつ本番ビルドでは何も出さない」状態）、空いている広告枠に
+**自前の「広告募集中」を出し、Google フォームへのリンクで問い合わせを受ける**。
+
+- 新しい環境変数 `PUBLIC_AD_INQUIRY_URL`（https の URL）。**未設定なら従来どおり何も変わらない。**
+- 出す条件は「**AdSense が無効（`PUBLIC_ADSENSE_CLIENT` 未設定）かつ `PUBLIC_AD_INQUIRY_URL` が https の URL**」のときだけ。
+  AdSense が有効になったら枠は実広告が使うので、ハウス広告は自動的に消える。
+- 枠ごとの扱い:
+
+  | 枠 | ハウス広告 |
+  |---|---|
+  | leaderboard | 毎ページ出す |
+  | sidebar | 詳細ページで出す |
+  | infeed | **そのページの最初の 1 回だけ**。一覧 77 件で同じ文言が 12 回並ぶのを避ける |
+
+- ハウス広告は実際の中身なので `SLOT_MIN_HEIGHT` の高さ確保を使わず、内容なりの高さにする
+  （高さ確保は実広告の到着による層ずれを防ぐためのもので、ハウス広告には当てはまらない）。
+- リンクは外部リンクなので `target="_blank"` と `rel="noopener noreferrer"`（AC-04-7 と同じ扱い）。
+  Google フォームは**リンクするだけで埋め込まない**。ページ側で Google のスクリプトや Cookie を読み込まない。
+- 404 ページには出さない（R-07 の `ads={false}` に従う）。
+- ハウス広告を出す枠では dev の破線プレースホルダ（AC-07-3b）より優先し、dev でも実物が見える。
+  出さない枠（`house={false}` の in-feed 2 回目以降）と未設定時は、従来どおり dev で破線のまま。
+- 文言は `src/i18n/{en,ja}.ts` に両言語で持つ（AC-03-1 のキー一致が効く）。
+- Privacy ページに、問い合わせフォームが Google フォームであり送信内容が Google に渡ることを両言語で書く
+  （R-13 の解析文言と同じく、`PUBLIC_AD_INQUIRY_URL` が設定されているときだけ出す）。
+
+| AC | Given / When / Then | テスト |
+|---|---|---|
+| AC-15-1 | `houseAd(env)` は AdSense 有効時に `null`、`PUBLIC_AD_INQUIRY_URL` 未設定・空・非 https のとき `null`、無効かつ https の URL のときだけその URL を返す | `ads.test.ts` |
+| AC-15-2 | `AdSlot` はハウス広告設定時に `data-house-ad="<name>"` と、`target="_blank"` かつ `rel` に `noopener` を持つ問い合わせリンクを描画する。AdSense 有効時は `adsbygoogle` を出し `data-house-ad` を出さない | `components.test.ts` |
+| AC-15-3 | `AdSlot` に `house={false}` を渡すと、設定済みでもハウス広告を描画しない。本番では空、dev の破線プレースホルダ（AC-07-3b）の挙動は変えない | `components.test.ts` |
+| AC-15-4 | `ProjectGrid` に 13 件渡すと、ハウス広告設定時に `data-house-ad="infeed"` がちょうど 1 つだけ入る（in-feed 枠自体は 2 つある） | `components.test.ts` |
+| AC-15-5 | `BaseLayout` に `ads={false}`（404）を渡すと、ハウス広告設定時でも `data-house-ad` を含まない | `components.test.ts` |
+| AC-15-6 | env 未設定でビルドした `dist/` のどの HTML にも `data-house-ad` が無く、Privacy に広告問い合わせの記述が無い（既定で何も増えない） | `dist.test.ts` |
 
 ## 非スコープ（初期公開では作らない）
 

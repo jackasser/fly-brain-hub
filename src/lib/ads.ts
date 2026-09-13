@@ -6,7 +6,8 @@ export type AdEnv = Partial<
     | 'PUBLIC_ADSENSE_SLOT_LEADERBOARD'
     | 'PUBLIC_ADSENSE_SLOT_INFEED'
     | 'PUBLIC_ADSENSE_INFEED_LAYOUT_KEY'
-    | 'PUBLIC_ADSENSE_SLOT_SIDEBAR',
+    | 'PUBLIC_ADSENSE_SLOT_SIDEBAR'
+    | 'PUBLIC_AD_INQUIRY_URL',
     string | undefined
   >
 >;
@@ -55,4 +56,21 @@ export function resolveSlot(name: SlotName, env: AdEnv): ResolvedSlot | null {
       return slot ? { client, slot, layoutKey: undefined, format: 'auto' } : null;
     }
   }
+}
+
+export interface HouseAd {
+  /** Where "advertise here" sends the visitor. Linked, never embedded. */
+  inquiryUrl: string;
+}
+
+/**
+ * R-15: what to show in a slot that AdSense is not filling yet.
+ * Null once AdSense is configured (the slot belongs to the real ad) and null until
+ * `PUBLIC_AD_INQUIRY_URL` holds an https URL.
+ */
+export function houseAd(env: AdEnv): HouseAd | null {
+  if (isAdsEnabled(env)) return null;
+  const url = clean(env.PUBLIC_AD_INQUIRY_URL);
+  if (!url || !/^https:\/\//i.test(url)) return null;
+  return { inquiryUrl: url };
 }

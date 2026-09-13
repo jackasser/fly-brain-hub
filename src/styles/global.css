@@ -610,6 +610,65 @@ pre code {
   text-transform: uppercase;
 }
 
+/* R-15: the slot offers itself while AdSense is not filling it. */
+.ad--house::before {
+  content: none;
+}
+
+.ad--house {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--space-2) var(--space-4);
+  padding: var(--space-4);
+  border: 1px dashed var(--line);
+  border-radius: var(--radius-m);
+  background: var(--bg-elev);
+}
+
+.ad__house-title {
+  margin: 0;
+  font-size: 0.7rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--accent);
+  flex-basis: 100%;
+}
+
+.ad__house-body {
+  margin: 0;
+  flex: 1 1 16rem;
+  min-width: 0;
+  font-size: 0.9rem;
+  color: var(--fg-muted);
+}
+
+.ad__house-cta {
+  flex: 0 0 auto;
+  padding: var(--space-2) var(--space-4);
+  border-radius: var(--radius-s);
+  background: var(--accent);
+  color: var(--accent-fg);
+  font-size: 0.9rem;
+  font-weight: 600;
+  text-decoration: none;
+}
+
+.ad__house-cta:hover,
+.ad__house-cta:focus-visible {
+  text-decoration: underline;
+}
+
+/* The sidebar slot is narrow: stack it, and let it size to its own content. */
+.ad--sidebar.ad--house {
+  flex-direction: column;
+  align-items: flex-start;
+}
+
+.ad--sidebar.ad--house .ad__house-body {
+  flex: 0 0 auto;
+}
+
 .grid > .ad {
   grid-column: 1 / -1;
   margin-block: 0;

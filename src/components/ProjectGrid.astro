@@ -23,8 +23,9 @@ const { projects, locale, env, dev, id } = Astro.props;
     projects.map((project, i) => (
       <>
         <ProjectCard project={project} locale={locale} />
+        {/* R-15: `house` is true only at the first break, so the offer does not repeat every six cards. */}
         {(i + 1) % INFEED_EVERY === 0 && i + 1 < projects.length && (
-          <AdSlot name="infeed" env={env} dev={dev} locale={locale} />
+          <AdSlot name="infeed" env={env} dev={dev} locale={locale} house={i + 1 === INFEED_EVERY} />
         )}
       </>
     ))

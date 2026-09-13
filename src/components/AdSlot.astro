@@ -1,5 +1,5 @@
 ---
-import { isAdsEnabled, resolveSlot, SLOT_MIN_HEIGHT, type AdEnv, type SlotName } from '../lib/ads';
+import { houseAd, isAdsEnabled, resolveSlot, SLOT_MIN_HEIGHT, type AdEnv, type SlotName } from '../lib/ads';
 import { t, type Locale } from '../i18n';
 
 interface Props {
@@ -9,13 +9,17 @@ interface Props {
   /** Override for tests; defaults to import.meta.env.DEV. */
   dev?: boolean;
   locale?: Locale;
+  /** R-15: false suppresses the house ad here (repeated in-feed breaks). Real ads are unaffected. */
+  house?: boolean;
 }
 
-const { name, locale = 'en' } = Astro.props;
+const { name, locale = 'en', house = true } = Astro.props;
 const env: AdEnv = Astro.props.env ?? (import.meta.env as unknown as AdEnv);
 const dev: boolean = Astro.props.dev ?? import.meta.env.DEV;
 const enabled = isAdsEnabled(env);
 const slot = enabled ? resolveSlot(name, env) : null;
+// Only reached when ads are off; `house` decides whether this particular slot offers itself.
+const offer = house ? houseAd(env) : null;
 const minHeight = SLOT_MIN_HEIGHT[name];
 ---
 
@@ -37,6 +41,14 @@ const minHeight = SLOT_MIN_HEIGHT[name];
         </script>
       </div>
     )
+  ) : offer ? (
+    <div class={`ad ad--${name} ad--house`} data-house-ad={name}>
+      <p class="ad__house-title">{t(locale, 'ad.houseTitle')}</p>
+      <p class="ad__house-body">{t(locale, 'ad.houseBody')}</p>
+      <a class="ad__house-cta" href={offer.inquiryUrl} target="_blank" rel="noopener noreferrer">
+        {t(locale, 'ad.houseCta')}
+      </a>
+    </div>
   ) : dev ? (
     <div
       class={`ad ad--${name} ad--placeholder`}
