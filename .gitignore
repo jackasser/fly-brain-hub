@@ -1,5 +1,5 @@
-# build output
-dist/
+# build output (repo root only; tests/dist/ must stay tracked)
+/dist/
 # generated types
 .astro/
 
