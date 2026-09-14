@@ -1,0 +1,246 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import Callout from '../Callout.astro';
+import { localePath, t, type Locale } from '../../i18n';
+
+interface Props {
+  locale: Locale;
+}
+const { locale } = Astro.props;
+const ja = locale === 'ja';
+const title = t(locale, 'explainer.title');
+const p = (id: string) => localePath(locale, `/projects/${id}`);
+
+const datasets = [
+  {
+    id: 'malecns',
+    name: 'MaleCNS v1.0',
+    n: '166,000+',
+    ja: 'オス成体の中枢神経系まるごと（2026-09）',
+    en: "An adult male's whole central nervous system (2026-09)",
+  },
+  {
+    id: 'flywire-fafb',
+    name: 'FlyWire (FAFB v783)',
+    n: '139,255',
+    ja: 'メス成体の全脳。校正済み',
+    en: 'An adult female whole brain, proofread',
+  },
+  {
+    id: 'larval',
+    name: ja ? '幼虫コネクトーム' : 'Larval connectome',
+    n: '3,016',
+    ja: '昆虫の脳まるごとの配線図としては最初（2023）',
+    en: 'First complete map of an entire insect brain (2023)',
+  },
+];
+
+const missing = [
+  {
+    ja: ['興奮性か抑制性か', '神経伝達物質の予測から推定している'],
+    en: ['Excitatory or inhibitory?', 'Inferred from neurotransmitter predictions'],
+  },
+  {
+    ja: ['シナプスの強さ', '多くのプロジェクトはシナプスの本数をそのまま重みに使う'],
+    en: ['How strong is a synapse?', 'Most projects use the raw synapse count as the weight'],
+  },
+  {
+    ja: ['膜時定数・発火閾値', 'プロジェクトごとに選んだ値。多くは Shiu ら 2024 のモデル'],
+    en: ['Time constants, thresholds', 'Chosen per project, usually the Shiu et al. 2024 model'],
+  },
+];
+
+const can = [
+  {
+    id: 'fasterfly',
+    ja: ['実時間より速く回る', 'ハエの 1 秒を GPU 1 枚で 0.29 秒'],
+    en: ['It runs faster than real time', 'One second of fly life in 0.29 s on one GPU'],
+  },
+  {
+    id: 'neurohex',
+    ja: ['身体と世界につながる', '実機の六脚ロボットのサーボを動かすところまで'],
+    en: ['It has a body and a world', 'Far enough to drive servos on a real hexapod robot'],
+  },
+  {
+    id: 'wetware',
+    ja: ['配線が計算資源になる', '配線は固定のまま手書き数字を 94%'],
+    en: ['The wiring computes', '94% on handwritten digits, wiring never changed'],
+  },
+  {
+    id: 'c3s-reflex-circuits',
+    ja: ['回路として検証できる', '逃避反射を NAND 173 個に落として網羅検証'],
+    en: ['Circuits can be verified', 'One reflex reduced to 173 NAND gates, checked exhaustively'],
+  },
+];
+
+const cannot = [
+  {
+    id: 'mario64-fly',
+    ja: ['学習しない', '作者いわく、ハエは主に壁にぶつかって動けなくなる'],
+    en: ['It does not learn', 'Its author writes that the fly mostly walks into walls'],
+  },
+  {
+    id: 'badapple-fly',
+    ja: ['全脳エミュレーションではない', 'README の冒頭で「本物の脳シミュレーションではない」と明言'],
+    en: ['It is not whole-brain emulation', 'Its README opens by saying exactly that'],
+  },
+  {
+    id: 'flybrain-halflife',
+    ja: ['見出しの数 ≠ 回す数', '16.6 万と書かれていても実際は 12,260 ニューロン'],
+    en: ['Headline count is not the simulated count', '166,700 in the title, 12,260 actually stepped'],
+  },
+  {
+    id: 'annel0-flybrain',
+    ja: ['書き換えたらどうなるかは未解決', '「いま答えられない理由」を計測して公開した例がある'],
+    en: ['Rewiring is still unanswered', 'One project published the measured reasons why'],
+  },
+];
+---
+
+<BaseLayout
+  locale={locale}
+  title={title}
+  description={t(locale, 'explainer.description')}
+  path="/what-is-a-fly-brain"
+>
+  <article class="section prose explainer">
+    <h1>{title}</h1>
+
+    <p class="explainer__lead">
+      {
+        ja
+          ? '「ハエの脳」の正体は配線図です。どのニューロンがどのニューロンに何本シナプスを張っているか、それを数え上げた表。配線図そのものは動きません。'
+          : 'The "fly brain" in these projects is a wiring diagram: a table of which neuron connects to which, and how many synapses lie between them. A wiring diagram does not run on its own.'
+      }
+    </p>
+
+    <figure class="fly-diagram">
+      <svg viewBox="0 0 360 250" role="img" aria-labelledby="diagram-title">
+        <title id="diagram-title">
+          {
+            ja
+              ? '測った配線図と、人が決めたダイナミクスのモデルを足すと、動く「ハエの脳」になる'
+              : 'A measured wiring diagram plus a chosen dynamical model makes a running fly brain'
+          }
+        </title>
+        <g class="fly-diagram__box fly-diagram__box--measured">
+          <rect x="10" y="8" width="340" height="62" rx="10" />
+          <text x="26" y="32" class="fly-diagram__tag">{ja ? '測った' : 'MEASURED'}</text>
+          <text x="26" y="55" class="fly-diagram__label">
+            {ja ? '配線図 — どれがどれに、何本' : 'Wiring — which neuron, to which, how many'}
+          </text>
+        </g>
+        <text x="180" y="96" class="fly-diagram__op">+</text>
+        <g class="fly-diagram__box fly-diagram__box--chosen">
+          <rect x="10" y="108" width="340" height="62" rx="10" />
+          <text x="26" y="132" class="fly-diagram__tag">{ja ? '決めた' : 'CHOSEN'}</text>
+          <text x="26" y="155" class="fly-diagram__label">
+            {ja ? 'ダイナミクスのモデル — 閾値・時定数' : 'Dynamics — thresholds, time constants'}
+          </text>
+        </g>
+        <text x="180" y="196" class="fly-diagram__op">=</text>
+        <g class="fly-diagram__box fly-diagram__box--result">
+          <rect x="10" y="206" width="340" height="38" rx="10" />
+          <text x="180" y="231" class="fly-diagram__result">
+            {ja ? '動く「ハエの脳」' : 'A running "fly brain"'}
+          </text>
+        </g>
+      </svg>
+      <figcaption>
+        {
+          ja
+            ? '動いているのは、測った配線と、人が選んだモデルの組み合わせ。'
+            : 'What runs is measured wiring plus a model somebody chose.'
+        }
+      </figcaption>
+    </figure>
+
+    <h2>{ja ? '測った部分 — 配線図' : 'The measured part: wiring diagrams'}</h2>
+    <div class="dsgrid">
+      {
+        datasets.map((d) => (
+          <a class="dscard" href={p(d.id)}>
+            <span class="dscard__n">{d.n}</span>
+            <span class="dscard__name">{d.name}</span>
+            <span class="dscard__blurb">{ja ? d.ja : d.en}</span>
+          </a>
+        ))
+      }
+    </div>
+
+    <h2>{ja ? '決めた部分 — 配線図に入っていないもの' : 'The chosen part: what the wiring leaves out'}</h2>
+    <dl class="facts explainer__facts">
+      {
+        missing.map((m) => (
+          <>
+            <dt>{ja ? m.ja[0] : m.en[0]}</dt>
+            <dd>{ja ? m.ja[1] : m.en[1]}</dd>
+          </>
+        ))
+      }
+    </dl>
+    <Callout>
+      {
+        ja
+          ? '機械学習は重みを学習で決める。ここでは顕微鏡で数えた本数で代用する。重みは学習するものなのか、測るものなのか。'
+          : 'Machine learning decides weights by training. Here they are replaced by counts off a microscope. Are weights learned, or measured?'
+      }
+    </Callout>
+
+    <h2>{ja ? 'できること / できないこと' : 'What it can and cannot do'}</h2>
+    <div class="compare">
+      <section>
+        <h3 class="compare__head compare__head--can">{ja ? 'できるようになった' : 'Now possible'}</h3>
+        <ul>
+          {
+            can.map((c) => (
+              <li>
+                <a href={p(c.id)}>{ja ? c.ja[0] : c.en[0]}</a>
+                <span>{ja ? c.ja[1] : c.en[1]}</span>
+              </li>
+            ))
+          }
+        </ul>
+      </section>
+      <section>
+        <h3 class="compare__head compare__head--cannot">{ja ? 'まだできない' : 'Still not possible'}</h3>
+        <ul>
+          {
+            cannot.map((c) => (
+              <li>
+                <a href={p(c.id)}>{ja ? c.ja[0] : c.en[0]}</a>
+                <span>{ja ? c.ja[1] : c.en[1]}</span>
+              </li>
+            ))
+          }
+        </ul>
+      </section>
+    </div>
+    <p class="explainer__note">
+      {
+        ja
+          ? '得られたのは「心」ではなく、共通の実験台です。'
+          : 'What arrived is not a mind. It is a shared testbed.'
+      }
+    </p>
+
+    <h2>{ja ? '掲載の基準' : 'What gets listed here'}</h2>
+    <p>
+      {
+        ja
+          ? '一次ソースを読んで確認できたものだけを載せています。とくに重く見ているのは、対照実験を走らせているかと、できなかったことを書いているかです。'
+          : 'Only what could be confirmed from the primary source is listed. Two things count for a lot: whether controls were run, and whether the failures were written down.'
+      }
+      <a href={localePath(locale, '/about')}>{ja ? '編集方針' : 'Editorial policy'}</a>
+      {' / '}
+      <a href={localePath(locale, '/submit')}>{ja ? '掲載を依頼する' : 'Submit a project'}</a>
+    </p>
+    <Callout tone="notice">
+      {
+        ja
+          ? '数字の注意: 同じ MaleCNS でもプロジェクトごとにシナプス数の記載が 2,450 万〜2,560 万と食い違います。数え方が違うためで、どの版の何を数えた値かを確かめる必要があります。'
+          : 'A note on numbers: projects using the same MaleCNS release quote 24.5 to 25.6 million synapses. They count different things, so check which release and which quantity a figure refers to.'
+      }
+    </Callout>
+  </article>
+</BaseLayout>

@@ -1,4 +1,5 @@
 ---
+import { loadProjects } from '../lib/load';
 import { localePath, t, type Locale } from '../i18n';
 
 interface Props {
@@ -6,18 +7,25 @@ interface Props {
 }
 const { locale } = Astro.props;
 const year = new Date().getFullYear();
+const projectCount = (await loadProjects()).length;
 ---
 
 <footer class="site-footer">
   <div class="container">
     <a class="brand footer-brand" href={localePath(locale, '/')}><img class="brand__mark" src="/favicon.svg" alt="" width="32" height="32" />{t(locale, 'site.name')}</a>
     <nav aria-label={t(locale, 'a11y.footer')}>
+      <a href={localePath(locale, '/what-is-a-fly-brain')}>{t(locale, 'footer.explainer')}</a>
       <a href={localePath(locale, '/about')}>{t(locale, 'footer.about')}</a>
       <a href={localePath(locale, '/privacy')}>{t(locale, 'footer.privacy')}</a>
       <a href={localePath(locale, '/contact')}>{t(locale, 'footer.contact')}</a>
       <a href={localePath(locale, '/submit')}>{t(locale, 'footer.submit')}</a>
       <a href={localePath(locale, '/rss.xml')}>{t(locale, 'footer.rss')}</a>
     </nav>
+    <p class="footer-count">
+      <a data-project-count={projectCount} href={localePath(locale, '/projects')}>
+        {t(locale, 'footer.count').replace('{n}', String(projectCount))}
+      </a>
+    </p>
     <p>{t(locale, 'footer.note')}</p>
     <p>© {year} {t(locale, 'site.name')}</p>
   </div>

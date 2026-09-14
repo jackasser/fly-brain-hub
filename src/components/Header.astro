@@ -9,9 +9,13 @@ interface Props {
 
 const { locale, path } = Astro.props;
 const bare = stripLocale(path);
-const items: { href: string; key: 'nav.projects' | 'nav.datasets' | 'nav.about' | 'nav.submit' }[] = [
+const items: {
+  href: string;
+  key: 'nav.projects' | 'nav.datasets' | 'nav.explainer' | 'nav.about' | 'nav.submit';
+}[] = [
   { href: '/projects', key: 'nav.projects' },
   { href: '/datasets', key: 'nav.datasets' },
+  { href: '/what-is-a-fly-brain', key: 'nav.explainer' },
   { href: '/about', key: 'nav.about' },
   { href: '/submit', key: 'nav.submit' },
 ];

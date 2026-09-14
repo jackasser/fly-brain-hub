@@ -48,6 +48,13 @@ for (const prefix of ['', '/ja']) {
   });
 
   for (const width of [320, 390, 768, 1440]) {
+    test(`AC-18-6 explainer layout ${prefix || 'en'} ${width}`, async ({ page }) => {
+      await page.setViewportSize({ width, height: 900 });
+      await page.goto(`${prefix}/what-is-a-fly-brain`);
+      expect(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth)).toBe(true);
+      expect(await page.locator('main').evaluate(el => el.getBoundingClientRect().right <= innerWidth)).toBe(true);
+    });
+
     test(`AC-17-4 layout ${prefix || 'en'} ${width}`, async ({ page }) => {
       await page.setViewportSize({ width, height: 900 });
       for (const path of ['/', '/projects', '/projects/flybody', '/datasets']) {
