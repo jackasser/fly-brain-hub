@@ -342,20 +342,30 @@ describe('dist/ (run `npm run build` first)', () => {
       }
     });
 
-    it('AC-18-7 it is shown, not written out at length', () => {
-      for (const [rel, cap] of [
-        [`ja/${EXPLAINER}/index.html`, 1400],
-        [`${EXPLAINER}/index.html`, 2600],
+    it('AC-18-7 overview, diagram and comparison are rendered', () => {
+      for (const rel of [
+        `ja/${EXPLAINER}/index.html`,
+        `${EXPLAINER}/index.html`,
       ] as const) {
         const article = body(rel);
         expect(article, `${rel} diagram`).toMatch(/<svg[\s\S]*?<\/svg>/);
         expect(article, `${rel} compare`).toContain('class="compare"');
-        const text = article
-          .replace(/<svg[\s\S]*?<\/svg>/g, ' ')
-          .replace(/<[^>]+>/g, ' ')
-          .replace(/\s+/g, ' ')
-          .trim();
-        expect(text.length, `${rel} prose length`).toBeLessThanOrEqual(cap);
+        expect(article).toContain('data-guide-overview');
+      }
+    });
+    it('AC-18-8 overview targets and all repository fields exist in both locales', () => {
+      for (const prefix of ['', 'ja/']) {
+        const article = body(`${prefix}${EXPLAINER}/index.html`);
+        const targets = [...article.matchAll(/href="#(guide-[a-z-]+)"/g)].map(m => m[1]);
+        expect(targets.length).toBe(4);
+        for (const id of targets) expect(article).toContain(`id="${id}"`);
+        expect([...article.matchAll(/<details\b/g)]).toHaveLength(7);
+        for (const id of ['flywire-codex', 'neuprint-python', 'shiu-lif-model', 'flyvis', 'flybody', 'neuromechfly', 'fly-chess-lab']) {
+          expect(article).toContain(`href="/${prefix}projects/${id}"`);
+        }
+        for (const field of ['features', 'io', 'needs', 'start', 'limits']) {
+          expect([...article.matchAll(new RegExp(`data-guide-field="${field}"`, 'g'))]).toHaveLength(7);
+        }
       }
     });
   });

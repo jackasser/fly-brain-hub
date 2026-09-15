@@ -698,7 +698,8 @@
     "sourceRefs": [
       "https://codex.flywire.ai/",
       "https://codex.flywire.ai/faq",
-      "https://api.github.com/repos/murthylab/codex"
+      "https://api.github.com/repos/murthylab/codex",
+      "https://github.com/murthylab/codex"
     ]
   },
   {
@@ -3643,7 +3644,8 @@
       "https://raw.githubusercontent.com/tolatolatop/fly-chess/HEAD/README.md",
       "https://raw.githubusercontent.com/tolatolatop/fly-chess/HEAD/docs/ATTRIBUTION.md",
       "https://tolatolatop.github.io/fly-chess/",
-      "https://api.github.com/repos/tolatolatop/fly-chess"
+      "https://api.github.com/repos/tolatolatop/fly-chess",
+      "https://github.com/tolatolatop/fly-chess"
     ]
   },
   {

@@ -53,6 +53,8 @@ for (const prefix of ['', '/ja']) {
       await page.goto(`${prefix}/what-is-a-fly-brain`);
       expect(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth)).toBe(true);
       expect(await page.locator('main').evaluate(el => el.getBoundingClientRect().right <= innerWidth)).toBe(true);
+      for (const summary of await page.locator('.guide summary').all()) await summary.click();
+      expect(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth)).toBe(true);
     });
 
     test(`AC-17-4 layout ${prefix || 'en'} ${width}`, async ({ page }) => {

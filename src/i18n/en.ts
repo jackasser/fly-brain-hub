@@ -95,7 +95,7 @@ export const en = {
   'about.title': 'About this site',
   'explainer.title': 'What is a fly brain, and what can it do now?',
   'explainer.description':
-    'What a connectome is and is not, what became possible after the 2026 releases, what did not, and how this directory decides what to list.',
+    'Explore what fly-brain repositories can do: investigate wiring, simulate activity, control a body or try a game. A guide to features, requirements, first steps and limits.',
   'privacy.title': 'Privacy Policy',
   'contact.title': 'Contact',
   'submit.title': 'Submit a project',

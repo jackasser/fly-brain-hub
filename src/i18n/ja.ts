@@ -95,9 +95,9 @@ export const ja: Record<MessageKey, string> = {
   'notfound.title': 'ページが見つかりません',
   'notfound.body': 'そのニューロンは存在しません。プロジェクト一覧をどうぞ。',
   'about.title': 'このサイトについて',
-  'explainer.title': 'ハエの脳とは何で、いま何ができるのか',
+  'explainer.title': 'ハエ脳とは？できることと使い方',
   'explainer.description':
-    'コネクトームとは何で、何ではないのか。2026 年のデータ公開で何ができるようになり、何ができていないのか。そして、このサイトが何を基準に掲載しているのか。',
+    'ハエの脳の配線図で何ができる？公開リポジトリを、探索・神経活動の計算・身体制御・ゲームの目的別に紹介。機能、必要環境、試し方、限界を概要から詳しく解説します。',
   'privacy.title': 'プライバシーポリシー',
   'contact.title': 'お問い合わせ',
   'submit.title': 'プロジェクトを投稿する',

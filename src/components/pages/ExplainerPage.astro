@@ -2,118 +2,53 @@
 import BaseLayout from '../../layouts/BaseLayout.astro';
 import Callout from '../Callout.astro';
 import { localePath, t, type Locale } from '../../i18n';
-
-interface Props {
-  locale: Locale;
-}
+import { guideGroups, guideProjects } from '../../data/explainer';
+interface Props { locale: Locale }
 const { locale } = Astro.props;
 const ja = locale === 'ja';
 const title = t(locale, 'explainer.title');
-const p = (id: string) => localePath(locale, `/projects/${id}`);
-
-const datasets = [
-  {
-    id: 'malecns',
-    name: 'MaleCNS v1.0',
-    n: '166,000+',
-    ja: 'オス成体の中枢神経系まるごと（2026-09）',
-    en: "An adult male's whole central nervous system (2026-09)",
-  },
-  {
-    id: 'flywire-fafb',
-    name: 'FlyWire (FAFB v783)',
-    n: '139,255',
-    ja: 'メス成体の全脳。校正済み',
-    en: 'An adult female whole brain, proofread',
-  },
-  {
-    id: 'larval',
-    name: ja ? '幼虫コネクトーム' : 'Larval connectome',
-    n: '3,016',
-    ja: '昆虫の脳まるごとの配線図としては最初（2023）',
-    en: 'First complete map of an entire insect brain (2023)',
-  },
-];
-
-const missing = [
-  {
-    ja: ['興奮性か抑制性か', '神経伝達物質の予測から推定している'],
-    en: ['Excitatory or inhibitory?', 'Inferred from neurotransmitter predictions'],
-  },
-  {
-    ja: ['シナプスの強さ', '多くのプロジェクトはシナプスの本数をそのまま重みに使う'],
-    en: ['How strong is a synapse?', 'Most projects use the raw synapse count as the weight'],
-  },
-  {
-    ja: ['膜時定数・発火閾値', 'プロジェクトごとに選んだ値。多くは Shiu ら 2024 のモデル'],
-    en: ['Time constants, thresholds', 'Chosen per project, usually the Shiu et al. 2024 model'],
-  },
-];
-
-const can = [
-  {
-    id: 'fasterfly',
-    ja: ['実時間より速く回る', 'ハエの 1 秒を GPU 1 枚で 0.29 秒'],
-    en: ['It runs faster than real time', 'One second of fly life in 0.29 s on one GPU'],
-  },
-  {
-    id: 'neurohex',
-    ja: ['身体と世界につながる', '実機の六脚ロボットのサーボを動かすところまで'],
-    en: ['It has a body and a world', 'Far enough to drive servos on a real hexapod robot'],
-  },
-  {
-    id: 'wetware',
-    ja: ['配線が計算資源になる', '配線は固定のまま手書き数字を 94%'],
-    en: ['The wiring computes', '94% on handwritten digits, wiring never changed'],
-  },
-  {
-    id: 'c3s-reflex-circuits',
-    ja: ['回路として検証できる', '逃避反射を NAND 173 個に落として網羅検証'],
-    en: ['Circuits can be verified', 'One reflex reduced to 173 NAND gates, checked exhaustively'],
-  },
-];
-
-const cannot = [
-  {
-    id: 'mario64-fly',
-    ja: ['学習しない', '作者いわく、ハエは主に壁にぶつかって動けなくなる'],
-    en: ['It does not learn', 'Its author writes that the fly mostly walks into walls'],
-  },
-  {
-    id: 'badapple-fly',
-    ja: ['全脳エミュレーションではない', 'README の冒頭で「本物の脳シミュレーションではない」と明言'],
-    en: ['It is not whole-brain emulation', 'Its README opens by saying exactly that'],
-  },
-  {
-    id: 'flybrain-halflife',
-    ja: ['見出しの数 ≠ 回す数', '16.6 万と書かれていても実際は 12,260 ニューロン'],
-    en: ['Headline count is not the simulated count', '166,700 in the title, 12,260 actually stepped'],
-  },
-  {
-    id: 'annel0-flybrain',
-    ja: ['書き換えたらどうなるかは未解決', '「いま答えられない理由」を計測して公開した例がある'],
-    en: ['Rewiring is still unanswered', 'One project published the measured reasons why'],
-  },
-];
+const p = (id: string) => localePath(locale, '/projects/' + id);
+const fields = [
+  ['features', ja ? '主な機能' : 'Features'],
+  ['io', ja ? '入力 → 出力' : 'Input → output'],
+  ['needs', ja ? '必要なもの' : 'What you need'],
+  ['start', ja ? '最初に試すこと' : 'First step'],
+  ['limits', ja ? 'わかる範囲・限界' : 'Scope and limits'],
+] as const;
 ---
+<BaseLayout locale={locale} title={title} description={t(locale, 'explainer.description')} path="/what-is-a-fly-brain">
+  <article class="section explainer guide">
+    <header class="guide-hero">
+      <p class="guide-eyebrow">{ja ? 'はじめてのハエ脳ガイド' : 'A practical guide to fly brains'}</p>
+      <h1>{title}</h1>
+      <p class="guide-lead">{ja
+        ? 'ハエの神経のつながりを調べる。刺激への反応を計算する。仮想の身体やゲームにつなぐ。公開リポジトリを使うと、こうした実験ができます。'
+        : 'Explore neural connections, simulate responses to stimuli, or connect a model to a virtual body or a game. Public repositories make these experiments possible.'}</p>
+      <p>{ja ? '「ハエ脳」は一つのアプリ名ではありません。このページでは、掲載プロジェクトの代表例を目的と機能から案内します。' : '“Fly brain” does not name a single app. This guide explains representative listed projects by purpose and capability.'}</p>
+    </header>
 
-<BaseLayout
-  locale={locale}
-  title={title}
-  description={t(locale, 'explainer.description')}
-  path="/what-is-a-fly-brain"
->
-  <article class="section prose explainer">
-    <h1>{title}</h1>
+    <section aria-labelledby="overview-title">
+      <h2 id="overview-title">{ja ? 'まず、何をしてみたいですか？' : 'What would you like to try?'}</h2>
+      <nav class="guide-overview" data-guide-overview aria-label={ja ? '目的から解説へ' : 'Explore by purpose'}>
+        {guideGroups.map((group, i) => <a href={'#guide-' + group.id}>
+          <span class="guide-number" aria-hidden="true">0{i + 1}</span>
+          <strong>{group[locale].title}</strong>
+          <span>{group[locale].summary}</span>
+          <small>{group[locale].level} <span aria-hidden="true">↗</span></small>
+        </a>)}
+      </nav>
+    </section>
 
-    <p class="explainer__lead">
-      {
-        ja
-          ? '「ハエの脳」の正体は配線図です。どのニューロンがどのニューロンに何本シナプスを張っているか、それを数え上げた表。配線図そのものは動きません。'
-          : 'The "fly brain" in these projects is a wiring diagram: a table of which neuron connects to which, and how many synapses lie between them. A wiring diagram does not run on its own.'
-      }
-    </p>
-
+    <section class="guide-foundation" aria-labelledby="foundation-title">
+      <div>
+        <p class="guide-eyebrow">{ja ? '仕組みをつかむ' : 'How it works'}</p>
+        <h2 id="foundation-title">{ja ? '配線図に、動くためのルールを足す' : 'Wiring needs rules to become a model'}</h2>
+        <p>{ja ? '神経細胞（ニューロン）どうしのつながりを記録したものが「コネクトーム」です。シナプスは細胞間で信号を伝える接点。配線図は、そのつながりを示します。' : 'A connectome records connections between nerve cells, or neurons. Synapses are the contact points through which cells transmit signals.'}</p>
+        <p>{ja ? '活動を計算するには、信号の強さや発火の条件も必要です。さらに身体やゲームを動かすなら、何を入力し、活動をどの操作に変えるかを設計します。' : 'Simulating activity also requires signal strengths and firing rules. Controlling a body or game adds another design choice: how inputs and neural activity map to actions.'}</p>
+        <p>{ja ? '掲載データの例：' : 'Listed data examples: '}
+          <a href={p('flywire-fafb')}>FlyWire</a> / <a href={p('malecns')}>MaleCNS</a>
+        </p>
+      </div>
     <figure class="fly-diagram">
       <svg viewBox="0 0 360 250" role="img" aria-labelledby="diagram-title">
         <title id="diagram-title">
@@ -135,7 +70,7 @@ const cannot = [
           <rect x="10" y="108" width="340" height="62" rx="10" />
           <text x="26" y="132" class="fly-diagram__tag">{ja ? '決めた' : 'CHOSEN'}</text>
           <text x="26" y="155" class="fly-diagram__label">
-            {ja ? 'ダイナミクスのモデル — 閾値・時定数' : 'Dynamics — thresholds, time constants'}
+            {ja ? '信号を伝える強さ・発火の条件' : 'Signal strengths and firing rules'}
           </text>
         </g>
         <text x="180" y="196" class="fly-diagram__op">=</text>
@@ -154,93 +89,99 @@ const cannot = [
         }
       </figcaption>
     </figure>
+    </section>
 
-    <h2>{ja ? '測った部分 — 配線図' : 'The measured part: wiring diagrams'}</h2>
-    <div class="dsgrid">
-      {
-        datasets.map((d) => (
-          <a class="dscard" href={p(d.id)}>
-            <span class="dscard__n">{d.n}</span>
-            <span class="dscard__name">{d.name}</span>
-            <span class="dscard__blurb">{ja ? d.ja : d.en}</span>
-          </a>
-        ))
-      }
-    </div>
+    <section aria-labelledby="repositories-title">
+      <h2 id="repositories-title">{ja ? '目的別に、機能を詳しく見る' : 'Capabilities, repository by repository'}</h2>
+      <p>{ja ? 'まず各概要を読み、気になるものの詳細を開いてください。各リンク先に、公式サイト・リポジトリ・確認した出典があります。' : 'Scan the summaries, then expand a project for practical details. Each project page links to its official site, repository and sources.'}</p>
+      {guideGroups.map(group => <section class="guide-group" id={'guide-' + group.id} aria-labelledby={'title-' + group.id}>
+        <h3 id={'title-' + group.id}>{group[locale].title}</h3>
+        <div class="guide-projects">
+          {guideProjects.filter(project => project.group === group.id).map(project => <section class="guide-project" data-guide-project={project.id}>
+            <h4><a href={p(project.id)}>{project.name}</a></h4>
+            <p>{project[locale].summary}</p>
+            <details>
+              <summary>{ja ? '機能・試し方・限界を読む' : 'Features, first steps and limits'}</summary>
+              <dl>{fields.map(([field, label]) => <div data-guide-field={field}>
+                <dt>{label}</dt><dd>{project[locale][field]}</dd>
+              </div>)}</dl>
+              <p class="guide-checked">{ja ? '一次資料の確認日：' : 'Sources checked: '}<time datetime={project.checkedAt}>{project.checkedAt}</time></p>
+            </details>
+          </section>)}
+        </div>
+      </section>)}
+    </section>
 
-    <h2>{ja ? '決めた部分 — 配線図に入っていないもの' : 'The chosen part: what the wiring leaves out'}</h2>
-    <dl class="facts explainer__facts">
-      {
-        missing.map((m) => (
-          <>
-            <dt>{ja ? m.ja[0] : m.en[0]}</dt>
-            <dd>{ja ? m.ja[1] : m.en[1]}</dd>
-          </>
-        ))
-      }
-    </dl>
-    <Callout>
-      {
-        ja
-          ? '機械学習は重みを学習で決める。ここでは顕微鏡で数えた本数で代用する。重みは学習するものなのか、測るものなのか。'
-          : 'Machine learning decides weights by training. Here they are replaced by counts off a microscope. Are weights learned, or measured?'
-      }
-    </Callout>
+    <section aria-labelledby="limits-title">
+      <h2 id="limits-title">{ja ? '結果を読むときのポイント' : 'How to interpret the results'}</h2>
+      <div class="compare">
+        <section>
+          <h3 class="compare__head compare__head--can">{ja ? '実際に試せること' : 'What you can test'}</h3>
+          <ul>
+            <li><strong>{ja ? '回路の変化を比べる' : 'Compare circuit responses'}</strong><span>{ja ? '刺激や抑制の条件を変え、モデルの出力を調べる。' : 'Change stimulation or silencing and inspect model output.'}</span></li>
+            <li><strong>{ja ? '動作や学習を実験する' : 'Experiment with control and training'}</strong><span>{ja ? '視覚モデルの訓練や身体制御など、実装ごとの課題を試す。' : 'Try the tasks each implementation supports, such as visual-model training or body control.'}</span></li>
+          </ul>
+        </section>
+        <section>
+          <h3 class="compare__head compare__head--cannot">{ja ? '結果だけでは言えないこと' : 'What results alone do not establish'}</h3>
+          <ul>
+            <li><strong>{ja ? '全てのモデルが自ら学習する' : 'Every model learns on its own'}</strong><span>{ja ? '固定配線のデモも、学習を組み合わせたモデルもある。訓練する部分を確認する。' : 'Fixed-network demos and trained models coexist. Check which parts are trained.'}</span></li>
+            <li><strong>{ja ? '生きたハエを丸ごと再現した' : 'A complete living fly has been reproduced'}</strong><span>{ja ? 'ゲームの成績や身体の動作だけでは、実際の神経活動との一致は示せない。' : 'Game scores or body motion alone do not establish agreement with real neural activity.'}</span></li>
+          </ul>
+        </section>
+      </div>
+      <Callout tone="notice">{ja ? '数値は「何を数えたか」まで確認しましょう。細胞の数、細胞ペア間の結合の数、シナプスの総数は別の量です。同じデータセット名でも、版や抽出範囲が違うと数値は変わります。' : 'Check what a number counts: cells, connected cell pairs and total synapses are different quantities. Release and filtering choices can change counts within the same dataset.'}</Callout>
+    </section>
 
-    <h2>{ja ? 'できること / できないこと' : 'What it can and cannot do'}</h2>
-    <div class="compare">
-      <section>
-        <h3 class="compare__head compare__head--can">{ja ? 'できるようになった' : 'Now possible'}</h3>
-        <ul>
-          {
-            can.map((c) => (
-              <li>
-                <a href={p(c.id)}>{ja ? c.ja[0] : c.en[0]}</a>
-                <span>{ja ? c.ja[1] : c.en[1]}</span>
-              </li>
-            ))
-          }
-        </ul>
-      </section>
-      <section>
-        <h3 class="compare__head compare__head--cannot">{ja ? 'まだできない' : 'Still not possible'}</h3>
-        <ul>
-          {
-            cannot.map((c) => (
-              <li>
-                <a href={p(c.id)}>{ja ? c.ja[0] : c.en[0]}</a>
-                <span>{ja ? c.ja[1] : c.en[1]}</span>
-              </li>
-            ))
-          }
-        </ul>
-      </section>
-    </div>
-    <p class="explainer__note">
-      {
-        ja
-          ? '得られたのは「心」ではなく、共通の実験台です。'
-          : 'What arrived is not a mind. It is a shared testbed.'
-      }
-    </p>
-
-    <h2>{ja ? '掲載の基準' : 'What gets listed here'}</h2>
-    <p>
-      {
-        ja
-          ? '一次ソースを読んで確認できたものだけを載せています。とくに重く見ているのは、対照実験を走らせているかと、できなかったことを書いているかです。'
-          : 'Only what could be confirmed from the primary source is listed. Two things count for a lot: whether controls were run, and whether the failures were written down.'
-      }
-      <a href={localePath(locale, '/about')}>{ja ? '編集方針' : 'Editorial policy'}</a>
-      {' / '}
-      <a href={localePath(locale, '/submit')}>{ja ? '掲載を依頼する' : 'Submit a project'}</a>
-    </p>
-    <Callout tone="notice">
-      {
-        ja
-          ? '数字の注意: 同じ MaleCNS でもプロジェクトごとにシナプス数の記載が 2,450 万〜2,560 万と食い違います。数え方が違うためで、どの版の何を数えた値かを確かめる必要があります。'
-          : 'A note on numbers: projects using the same MaleCNS release quote 24.5 to 25.6 million synapses. They count different things, so check which release and which quantity a figure refers to.'
-      }
-    </Callout>
+    <footer class="guide-footer">
+      <h2>{ja ? '次に進む' : 'Where to go next'}</h2>
+      <p>{ja ? '見るだけなら FlyWire Codex、Python で回路を試すなら Shiu モデルの教材が入口になります。ほかの用途も含めて探すには、一覧をご覧ください。' : 'For visual exploration, start with FlyWire Codex. For circuit experiments in Python, try the Shiu model tutorial. Browse the directory for more uses.'}</p>
+      <a class="btn" href={localePath(locale, '/projects')}>{ja ? '掲載プロジェクトを探す' : 'Browse all projects'}</a>
+      <p>{ja ? '掲載の基準：一次資料で確認できた内容を、自分たちの言葉で説明しています。データの再配布は行いません。' : 'Editorial policy: we describe what primary sources support in our own words and do not redistribute datasets.'} <a href={localePath(locale, '/about')}>{ja ? '編集方針' : 'Editorial policy'}</a> / <a href={localePath(locale, '/submit')}>{ja ? '掲載を依頼する' : 'Submit a project'}</a></p>
+    </footer>
   </article>
 </BaseLayout>
+
+<style>
+  .guide { max-width: 68rem; margin-inline: auto; }
+  .guide-hero { max-width: 52rem; padding-block: 1rem 2rem; }
+  .guide h1 { max-width: 100%; text-wrap: balance; }
+  .guide p { line-height: 1.85; }
+  .guide-eyebrow { color: var(--accent); font-weight: 700; font-size: 0.85rem; margin-bottom: 0.65rem; }
+  .guide-lead { font-size: 1.2rem; margin-top: 1.5rem; }
+  .guide-overview { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 1rem; margin-block: 1.5rem 3rem; }
+  .guide-overview a { display: flex; flex-direction: column; gap: 0.65rem; padding: 1.2rem; background: var(--bg-elev); border: 1px solid var(--line); border-radius: var(--radius-m); color: var(--fg); text-decoration: none; }
+  .guide-overview a:hover { border-color: var(--accent); }
+  .guide-number { color: var(--accent); font-family: var(--font-mono); }
+  .guide-overview strong { font-size: 1.1rem; }
+  .guide-overview small { color: var(--fg-muted); margin-top: auto; }
+  .guide-foundation { display: grid; grid-template-columns: 1fr 1fr; gap: 2rem; align-items: center; padding: 2rem; border-radius: var(--radius-l); background: var(--bg-sunk); }
+  .guide-foundation h2 { margin-top: 0; }
+  .guide-foundation p { margin-block: 1rem; }
+  .guide-group { scroll-margin-top: 8rem; margin-block: 2rem; }
+  .guide-group > h3 { border-bottom: 1px solid var(--line); padding-bottom: 0.75rem; }
+  .guide-projects { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 1rem; margin-top: 1rem; align-items: start; }
+  .guide-project { padding: 1.5rem; border: 1px solid var(--line); border-radius: var(--radius-m); background: var(--bg-elev); min-width: 0; }
+  .guide-project h4 { font-size: 1.15rem; margin: 0; }
+  .guide-project > p { margin-block: 1rem; }
+  .guide-project summary { cursor: pointer; padding-block: 0.85rem; min-height: 44px; color: var(--accent); font-weight: 600; }
+  .guide-project details { border-top: 1px solid var(--line); }
+  .guide-project dl { margin: 0; }
+  .guide-project dl > div { margin-top: 1rem; }
+  .guide-project dt { font-weight: 700; font-size: 0.9rem; }
+  .guide-project dd { margin: 0.35rem 0 0; line-height: 1.8; }
+  .guide-checked { color: var(--fg-muted); font-size: 0.8rem; margin-top: 1.5rem; }
+  .guide-footer { margin-top: 3rem; padding-top: 1rem; border-top: 1px solid var(--line); }
+  .guide-footer p { margin-block: 1.2rem; }
+  @media (max-width: 900px) { .guide-overview { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+  @media (max-width: 640px) {
+    .guide-foundation, .guide-projects { grid-template-columns: 1fr; }
+    .guide-foundation { padding: 1.2rem; gap: 0; }
+    .guide-project { padding: 1.2rem; }
+    .guide-overview { gap: 0.65rem; }
+    .guide-overview a { padding: 0.9rem; }
+    .guide-overview strong { font-size: 1rem; }
+    .guide-group { scroll-margin-top: 1rem; }
+  }
+  @media (max-width: 360px) { .guide-overview { grid-template-columns: 1fr; } }
+</style>
