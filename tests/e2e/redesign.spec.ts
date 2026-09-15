@@ -12,6 +12,18 @@ for (const prefix of ['', '/ja']) {
     expect(await page.locator('.card[hidden]').count()).toBeGreaterThan(0);
   });
 
+  test(`AC-20-4 hero button reaches the full list ${prefix || 'en'}`, async ({ page }) => {
+    await page.goto(`${prefix}/`);
+    const button = page.locator('.hero a.btn[data-project-count]');
+    await expect(button).toBeVisible();
+    await button.click();
+    await expect(page).toHaveURL(new RegExp(`${prefix}/projects/?$`));
+    await expect(page.locator('[data-status]')).toHaveAttribute('data-state', 'ready');
+    const total = await page.locator('#project-grid article.card').count();
+    expect(total).toBeGreaterThan(0);
+    expect(await page.locator('#project-grid article.card:visible').count()).toBe(total);
+  });
+
   test(`AC-17-1 no JS ${prefix || 'en'}`, async ({ browser }) => {
     const context = await browser.newContext({ javaScriptEnabled: false });
     const page = await context.newPage();

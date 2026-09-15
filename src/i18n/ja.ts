@@ -37,6 +37,8 @@ export const ja: Record<MessageKey, string> = {
   'home.latest': '新着',
   'home.categories': 'カテゴリから探す',
   'home.viewAll': 'すべてのプロジェクトを見る',
+  'home.viewAllCount': 'すべての {n} 件を見る',
+  'home.statsAria': '主な導線',
   'projects.title': 'すべてのプロジェクト',
   'projects.intro': '名前・タグ・説明で検索。カテゴリとデータセットで絞り込めます。',
   'category.title': 'カテゴリ',

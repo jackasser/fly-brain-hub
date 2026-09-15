@@ -35,6 +35,8 @@ export const en = {
   'home.latest': 'Recently added',
   'home.categories': 'Browse by category',
   'home.viewAll': 'View all projects',
+  'home.viewAllCount': 'Browse all {n} projects',
+  'home.statsAria': 'Quick links',
   'projects.title': 'All projects',
   'projects.intro': 'Search by name, tag or description. Filter by category and dataset.',
   'category.title': 'Category',

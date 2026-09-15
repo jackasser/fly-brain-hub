@@ -4,7 +4,7 @@ import Callout from './Callout.astro';
 import Cover from './Cover.astro';
 import type { Project } from '../lib/schema';
 import { CATEGORY_META, DATASET_LABELS } from '../lib/taxonomy';
-import { localePath, t, type Locale } from '../i18n';
+import { categoryPath, localePath, t, type Locale } from '../i18n';
 
 interface Props {
   project: Project;
@@ -15,7 +15,7 @@ const { project, locale } = Astro.props;
 const meta = CATEGORY_META[project.category];
 const description = locale === 'ja' ? project.description_ja : project.description_en;
 const detailHref = localePath(locale, `/projects/${project.id}`);
-const categoryHref = localePath(locale, `/category/${project.category}`);
+const categoryHref = categoryPath(locale, project.category);
 const starsFmt = project.stars !== undefined ? new Intl.NumberFormat(locale === 'ja' ? 'ja-JP' : 'en-US').format(project.stars) : null;
 ---
 

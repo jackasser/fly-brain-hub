@@ -28,6 +28,23 @@ test('AC-05-3 category facet updates the URL and reduces the count', async ({ pa
   }
 });
 
+for (const prefix of ['', '/ja']) {
+  test(`AC-04-9 a category tile on the home page lands on the filtered list ${prefix || 'en'}`, async ({ page }) => {
+    await page.goto(`${prefix}/`);
+    await page.locator('a.cat[data-category="connectome"]').click();
+    await expect(page).toHaveURL(new RegExp(`${prefix}/projects\\?category=connectome$`));
+    await expect(page.locator('[data-status]')).toHaveAttribute('data-state', 'ready');
+    await expect(page.locator('#search-category')).toHaveValue('connectome');
+    const total = await page.locator('#project-grid article.card').count();
+    const shown = await visibleCards(page).count();
+    expect(shown).toBeGreaterThan(0);
+    expect(shown).toBeLessThan(total);
+    for (const card of await visibleCards(page).all()) {
+      await expect(card).toHaveAttribute('data-category', 'connectome');
+    }
+  });
+}
+
 test('AC-05-4 clearing returns to the full list', async ({ page }) => {
   await page.goto('/projects?q=doom&category=demo');
   await expect(page.locator('#search-q')).toHaveValue('doom');

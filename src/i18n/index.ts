@@ -1,6 +1,6 @@
 import { en, type MessageKey } from './en';
 import { ja } from './ja';
-import type { Locale } from '../lib/taxonomy';
+import type { Category, Locale } from '../lib/taxonomy';
 
 export type { Locale, MessageKey };
 
@@ -31,6 +31,14 @@ export function localePath(locale: Locale, path: string): string {
   const bare = stripLocale(path);
   if (locale === 'en') return bare;
   return bare === '/' ? '/ja/' : `/ja${bare}`;
+}
+
+/**
+ * Where a category click lands: the full list with the category facet pre-selected (AC-04-8),
+ * so search and sort stay available. `/category/<slug>` is kept only for sitemap and WebMCP.
+ */
+export function categoryPath(locale: Locale, category: Category): string {
+  return localePath(locale, `/projects?category=${category}`);
 }
 
 /** Same page in the other locale. */

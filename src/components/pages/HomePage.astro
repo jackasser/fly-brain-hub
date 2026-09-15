@@ -5,7 +5,7 @@ import FlyHero from '../FlyHero.astro';
 import { loadProjects } from '../../lib/load';
 import { countByCategory, featured, latest } from '../../lib/projects';
 import { CATEGORIES, CATEGORY_META } from '../../lib/taxonomy';
-import { localePath, t, type Locale } from '../../i18n';
+import { categoryPath, localePath, t, type Locale } from '../../i18n';
 
 interface Props {
   locale: Locale;
@@ -15,6 +15,10 @@ const projects = await loadProjects();
 const counts = countByCategory(projects);
 const picks = featured(projects);
 const fresh = latest(projects, 6);
+// R-20: every path to the list is the same locale-aware href, and the count is the live one.
+const projectsHref = localePath(locale, '/projects');
+const datasetsHref = localePath(locale, '/datasets');
+const viewAllCount = t(locale, 'home.viewAllCount').replace('{n}', String(projects.length));
 ---
 
 <BaseLayout locale={locale} title={t(locale, 'site.name')} description={t(locale, 'site.description')} path="/">
@@ -38,24 +42,27 @@ const fresh = latest(projects, 6);
       </form>
       <p class="home-search-hint" id="home-search-hint">{t(locale, 'home.searchHint')}</p>
       <div class="hero__actions">
-        <a class="text-link" href={localePath(locale, '/projects')}>{t(locale, 'home.viewAll')} <span aria-hidden="true">→</span></a>
-        <a class="text-link" href={localePath(locale, '/datasets')}>{t(locale, 'nav.datasets')} <span aria-hidden="true">↗</span></a>
+        <a class="btn btn--ghost" href={projectsHref} data-project-count={projects.length}>{viewAllCount} <span aria-hidden="true">→</span></a>
+        <a class="text-link" href={datasetsHref}>{t(locale, 'nav.datasets')} <span aria-hidden="true">↗</span></a>
       </div>
     </div>
   </section>
 
-  <dl class="explore-stats">
-    <div><dt>{t(locale, 'home.statProjects')}</dt><dd>{projects.length}</dd></div>
-    <div><dt>{t(locale, 'home.statCategories')}</dt><dd>{CATEGORIES.length}</dd></div>
-    <div><dt>{t(locale, 'home.statDatasets')}</dt><dd>{counts.connectome}</dd></div>
-  </dl>
+  <nav class="explore-stats" aria-label={t(locale, 'home.statsAria')}>
+    <a href={projectsHref}><span class="explore-stats__n">{projects.length}</span><span class="explore-stats__label">{t(locale, 'home.statProjects')}</span></a>
+    <a href="#h-categories"><span class="explore-stats__n">{CATEGORIES.length}</span><span class="explore-stats__label">{t(locale, 'home.statCategories')}</span></a>
+    <a href={datasetsHref}><span class="explore-stats__n">{counts.connectome}</span><span class="explore-stats__label">{t(locale, 'home.statDatasets')}</span></a>
+  </nav>
 
   <section class="section" aria-labelledby="h-categories">
-    <div class="section__head"><div><p class="eyebrow section-index" aria-hidden="true">01 / DISCOVER</p><h2 id="h-categories">{t(locale, 'home.categories')}</h2><p>{t(locale, 'home.categoryIntro')}</p></div></div>
+    <div class="section__head">
+      <div><p class="eyebrow section-index" aria-hidden="true">01 / DISCOVER</p><h2 id="h-categories">{t(locale, 'home.categories')}</h2><p>{t(locale, 'home.categoryIntro')}</p></div>
+      <a href={projectsHref}>{t(locale, 'home.viewAll')} →</a>
+    </div>
     <div class="cat-grid">
       {
         CATEGORIES.map((c, i) => (
-          <a class="cat" data-category={c} href={localePath(locale, `/category/${c}`)}>
+          <a class="cat" data-category={c} href={categoryPath(locale, c)}>
             <span class="cat__icon" aria-hidden="true">{['◎', '⌘', '◇', '▷', '⌬', '≋', '◈'][i]}</span>
             <span class="cat__title">
               {CATEGORY_META[c].label[locale]}
@@ -72,8 +79,8 @@ const fresh = latest(projects, 6);
     picks.length > 0 && (
       <section class="section" aria-labelledby="h-featured">
         <div class="section__head">
-          <h2 id="h-featured">{t(locale, 'home.featured')}</h2>
-          <p>{t(locale, 'home.featuredIntro')}</p>
+          <div><h2 id="h-featured">{t(locale, 'home.featured')}</h2><p>{t(locale, 'home.featuredIntro')}</p></div>
+          <a href={projectsHref}>{t(locale, 'home.viewAll')} →</a>
         </div>
         <ProjectGrid projects={picks} locale={locale} />
       </section>
@@ -83,9 +90,12 @@ const fresh = latest(projects, 6);
   <section class="section" aria-labelledby="h-latest">
     <div class="section__head">
       <div><h2 id="h-latest">{t(locale, 'home.latest')}</h2><p>{t(locale, 'home.latestIntro')}</p></div>
-      <a href={localePath(locale, '/projects')}>{t(locale, 'home.viewAll')} →</a>
+      <a href={projectsHref}>{t(locale, 'home.viewAll')} →</a>
     </div>
     <ProjectGrid projects={fresh} locale={locale} />
+    <p class="section__more">
+      <a class="btn btn--ghost" href={projectsHref} data-project-count={projects.length}>{viewAllCount} <span aria-hidden="true">→</span></a>
+    </p>
   </section>
   <section class="contribute">
     <div><p class="eyebrow">{t(locale, 'home.heroAccent')}</p><h2>{t(locale, 'home.contributeTitle')}</h2><p>{t(locale, 'home.contributeBody')}</p></div>

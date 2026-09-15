@@ -110,13 +110,18 @@
 
 | ページ | 内容 |
 |---|---|
-| `/` | hero、`featured` エントリ（**全件**、`sortProjects` 順）、`addedAt` 降順の新着 6 件、カテゴリ格子（件数付き） |
-| `/projects` | 全エントリのカード一覧（SSR 済み）。上に検索 UI（R-05） |
-| `/category/<slug>` | そのカテゴリのカード一覧。`crypto` は注記を先頭に出す |
+| `/` | hero、`featured` エントリ（**全件**、`sortProjects` 順）、`addedAt` 降順の新着 6 件、カテゴリ格子（件数付き）。一覧への導線は R-20 |
+| `/projects` | 全エントリのカード一覧（SSR 済み）。上に検索 UI（R-05）。**カテゴリの着地先はここ**（`?category=<slug>`） |
+| `/category/<slug>` | そのカテゴリのカード一覧。`crypto` は注記を先頭に出す。検索 UI を持たないため、サイト内の UI からはリンクしない（sitemap と WebMCP の `list-categories` からだけ辿れる） |
 | `/projects/<id>` | 順に: 名前・作者 → 説明（ロケール別）と公式・リポジトリリンク（**外部リンクは新しいタブで開く**: `target="_blank" rel="noopener noreferrer"`。出典リンクも同様） → 画像または動画（R-11） → タグ → 出典（sourceRefs）一覧。右カラムに org / region / license / language / date / stars / status とデータセットへのリンク |
 | `/datasets` | `connectome` エントリの一覧と「使っているプロジェクト数」 |
 
 カードは name、カテゴリバッジ、データセットバッジ、説明（ロケール別）、license、stars（あれば）を出し、`crypto` は注記を出す。
+
+**カテゴリをクリックしたら `/projects?category=<slug>` に着地する**（2026-09-16 ユーザー指示「すべてのプロジェクトでカテゴリが入った状態に遷移すべき」）。
+対象はトップのカテゴリ格子、カードのカテゴリバッジ、詳細ページのカテゴリバッジ。ロケール別に prefix を付ける（JA は `/ja/projects?category=<slug>`）。
+検索 UI が `?category=` を復元して絞り込む（R-05）ので、そのまま検索語・並べ替えを重ねられる。
+JS 無効時は `/projects` の全件一覧が読める（R-05 の保証はそこまで）。
 
 | AC | Given / When / Then | テスト |
 |---|---|---|
@@ -127,6 +132,8 @@
 | AC-04-5 | 詳細ページに `sourceRefs` の各 URL がリンクとして含まれる | `dist.test.ts` |
 | AC-04-7 | 詳細ページの公式サイト・リポジトリ・出典のリンクは `target="_blank"` と `rel` に `noopener` を持つ（2026-09-12 ユーザー指示） | `dist.test.ts` |
 | AC-04-6 | `/datasets` の各データセット行に、それを `datasets` で参照するエントリ数が表示される | `dist.test.ts` |
+| AC-04-8 | `ProjectCard` のカテゴリバッジが `/projects?category=<slug>`（JA は `/ja/projects?category=<slug>`）へリンクする。ビルド後、トップのカテゴリ格子と詳細ページのバッジも同じ形で、`category/` 配下以外の全 HTML に `href="/category/`・`href="/ja/category/` が残らない | `components.test.ts` / `dist.test.ts` |
+| AC-04-9 | ブラウザでトップのカテゴリ格子 `connectome` を押すと `/projects?category=connectome` に着き、category の select が `connectome` を指し、表示中のカードが全て `connectome` で総数より少ない | `e2e/search.spec.ts` |
 
 ## R-05 検索
 
@@ -389,7 +396,8 @@ AdSense の審査が通るまで（R-07 の「広告無効かつ本番ビルド�
 
 `/projects` のカード一覧を、検索 UI（R-05）と同じ列に置いた並べ替えで切り替える。
 並べ替えは検索フォームの一部なので、検索 UI を持たない `/category/<slug>` は SSR の既定順のままにする
-（`/projects` 側で category ファセットを使えば同じ絞り込みを並べ替え付きで行える）。
+（`/projects` 側で category ファセットを使えば同じ絞り込みを並べ替え付きで行える。
+サイト内のカテゴリリンクは AC-04-8 のとおり `/projects?category=` へ向けるので、利用者は既定でこちらに着く）。
 
 | 値 | UI（EN / JA） | 並び |
 |---|---|---|
@@ -492,6 +500,28 @@ AdSense の審査が通るまで（R-07 の「広告無効かつ本番ビルド�
 | AC-19-1 | ビルド後、全 HTML のフッターに掲載件数が出ており、その数が `projects.json` の件数と一致する | `dist.test.ts` |
 | AC-19-2 | `footer.count` の文言キーが en と ja の双方にある | `i18n.test.ts`（AC-03-1） |
 | AC-19-3 | フッターの件数がロケール別の `/projects` へリンクする | `dist.test.ts` |
+
+## R-20 トップから一覧への導線（2026-09-16 ユーザー指示「トップページから一覧ページへの導線が悪い」）
+
+トップ（R-17 の構成は維持）から `/projects` へ、スクロール位置を問わず 1 クリックで行けるようにする。
+「見る」以外に「件数を見せて誘う」ことを兼ねるので、件数は R-19 と同じく掲載データから求め、ハードコードしない。
+
+| 位置 | 導線 |
+|---|---|
+| hero | 検索フォームの下に、ボタン見た目（`.btn`）の「すべての {n} 件を見る」。データセットへのリンクは横に残す |
+| 統計 3 枠 | それぞれリンクにする。掲載プロジェクト → `/projects`、探索カテゴリ → 同ページのカテゴリ見出し（`#h-categories`）、脳の配線図データ → `/datasets` |
+| カテゴリ格子 | 見出しの右に「すべてのプロジェクトを見る →」。格子の各枠は `/projects?category=<slug>`（AC-04-8） |
+| 注目・新着 | 両セクションの見出し右に「すべてのプロジェクトを見る →」。新着 6 件の直後にボタン見た目の「すべての {n} 件を見る」 |
+
+- 件数入りの導線には `data-project-count="<n>"` を付ける（R-19 のフッターと同じ属性。テストは位置で区別する）。
+- 文言は `home.viewAll`（既存）と `home.viewAllCount`（`{n}` 置換）の 2 キー。両ロケールに持つ。
+
+| AC | Given / When / Then | テスト |
+|---|---|---|
+| AC-20-1 | ビルド後、両ロケールのトップの hero に `class="btn ..."` かつ `data-project-count` を持つ `/projects` へのリンクがあり、件数が `projects.json` の件数と一致する | `dist.test.ts` |
+| AC-20-2 | 両ロケールのトップの統計 3 枠が、順に `/projects`・`#h-categories`・`/datasets` へのリンクである | `dist.test.ts` |
+| AC-20-3 | 両ロケールのトップで、カテゴリ・注目・新着の各セクション（`aria-labelledby` の section）に `/projects` へのリンクが 1 つ以上あり、新着セクションにはボタン見た目の件数入りリンクがある | `dist.test.ts` |
+| AC-20-4 | ブラウザで両ロケールのトップの hero のボタンを押すと `/projects` に着き、検索 UI が ready になってカードが全件表示される | `e2e/redesign.spec.ts` |
 
 ## 非スコープ（初期公開では作らない）
 

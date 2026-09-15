@@ -1,11 +1,13 @@
 import { existsSync, readFileSync, readdirSync, statSync } from 'node:fs';
 import { join } from 'node:path';
+import { fileURLToPath } from 'node:url';
 import { describe, expect, it } from 'vitest';
 import { projectSchema, type Project } from '../../src/lib/schema';
 import { CATEGORIES } from '../../src/lib/taxonomy';
 
 const root = new URL('../../', import.meta.url);
-const dist = join(root.pathname.replace(/^\/([A-Za-z]:)/, '$1'), 'dist');
+// fileURLToPath, not URL.pathname: the latter keeps non-ASCII directory names percent-encoded.
+const dist = join(fileURLToPath(root), 'dist');
 const projects: Project[] = (
   JSON.parse(readFileSync(new URL('src/data/projects.json', root), 'utf8')) as unknown[]
 ).map((e) => projectSchema.parse(e));
@@ -39,6 +41,35 @@ describe('dist/ (run `npm run build` first)', () => {
       }
       for (const rel of ['index.html', 'ja/index.html', 'projects/index.html', 'ja/projects/index.html', 'datasets/index.html', 'ja/datasets/index.html']) {
         expect(has(rel), rel).toBe(true);
+      }
+    });
+
+    it('AC-04-8 every in-site category link lands on /projects?category=', () => {
+      for (const [prefix, home] of [
+        ['', 'index.html'],
+        ['/ja', 'ja/index.html'],
+      ] as const) {
+        const top = html(home);
+        for (const c of CATEGORIES) {
+          const tile = new RegExp(`<a class="cat" data-category="${c}" href="([^"]+)"`).exec(top)?.[1];
+          expect(tile, `${home} tile ${c}`).toBe(`${prefix}/projects?category=${c}`);
+        }
+        expect(top, home).not.toContain('href="/category/');
+        expect(top, home).not.toContain('href="/ja/category/');
+      }
+      const list = html('projects/index.html');
+      expect(list).toContain('href="/projects?category=connectome"');
+      for (const p of projects) {
+        expect(html(`projects/${p.id}/index.html`), p.id).toContain(`href="/projects?category=${p.category}"`);
+        expect(html(`ja/projects/${p.id}/index.html`), `ja/${p.id}`).toContain(`href="/ja/projects?category=${p.category}"`);
+      }
+      // Only the category pages themselves (their own canonical / hreflang) may still mention the route.
+      const others = walk(dist).filter((f) => f.endsWith('.html') && !/[\\/]category[\\/]/.test(f));
+      expect(others.length).toBeGreaterThan(0);
+      for (const f of others) {
+        const content = readFileSync(f, 'utf8');
+        expect(content, f).not.toContain('href="/category/');
+        expect(content, f).not.toContain('href="/ja/category/');
       }
     });
 
@@ -390,6 +421,56 @@ describe('dist/ (run `npm run build` first)', () => {
       ] as const) {
         const anchor = /<a[^>]*data-project-count="\d+"[^>]*>/.exec(footerOf(html(rel)))?.[0] ?? '';
         expect(anchor, rel).toContain(`href="${href}"`);
+      }
+    });
+  });
+
+  describe('R-20 home to list', () => {
+    const homes = [
+      ['index.html', ''],
+      ['ja/index.html', '/ja'],
+    ] as const;
+    const sectionOf = (content: string, labelledBy: string) =>
+      new RegExp(`<section class="[^"]*" aria-labelledby="${labelledBy}"[\\s\\S]*?</section>`).exec(content)?.[0] ?? '';
+    const heroOf = (content: string) => /<section class="hero[^"]*"[\s\S]*?<\/section>/.exec(content)?.[0] ?? '';
+    const countButtons = (content: string) =>
+      [...content.matchAll(/<a class="btn[^"]*" href="([^"]+)"[^>]*data-project-count="(\d+)"[^>]*>/g)].map((m) => ({
+        href: m[1],
+        count: m[2],
+      }));
+
+    it('AC-20-1 the hero offers a button to the list carrying the live count', () => {
+      for (const [rel, prefix] of homes) {
+        const buttons = countButtons(heroOf(html(rel)));
+        expect(buttons, rel).toHaveLength(1);
+        expect(buttons[0].href, rel).toBe(`${prefix}/projects`);
+        expect(buttons[0].count, rel).toBe(String(projects.length));
+      }
+    });
+
+    it('AC-20-2 the three stats link to the list, the category grid and the datasets', () => {
+      for (const [rel, prefix] of homes) {
+        const stats = /<nav class="explore-stats"[\s\S]*?<\/nav>/.exec(html(rel))?.[0] ?? '';
+        const hrefs = [...stats.matchAll(/<a [^>]*href="([^"]+)"/g)].map((m) => m[1]);
+        expect(hrefs, rel).toEqual([`${prefix}/projects`, '#h-categories', `${prefix}/datasets`]);
+      }
+    });
+
+    it('AC-20-3 category, featured and latest sections each link to the list; latest ends with a count button', () => {
+      for (const [rel, prefix] of homes) {
+        const page = html(rel);
+        for (const id of ['h-categories', 'h-featured', 'h-latest']) {
+          const section = sectionOf(page, id);
+          expect(section, `${rel} ${id}`).not.toBe('');
+          expect(section, `${rel} ${id}`).toContain(`href="${prefix}/projects"`);
+        }
+        const latest = sectionOf(page, 'h-latest');
+        const buttons = countButtons(latest);
+        expect(buttons, rel).toHaveLength(1);
+        expect(buttons[0].href, rel).toBe(`${prefix}/projects`);
+        expect(buttons[0].count, rel).toBe(String(projects.length));
+        // the button comes after the cards, so it is what a reader reaches at the end of the section
+        expect(latest.lastIndexOf('<article'), rel).toBeLessThan(latest.lastIndexOf('data-project-count='));
       }
     });
   });

@@ -10,7 +10,7 @@ import { usedBy } from '../../lib/projects';
 import type { Project } from '../../lib/schema';
 import { jsonLd } from '../../lib/seo';
 import { CATEGORY_META, DATASET_LABELS } from '../../lib/taxonomy';
-import { localePath, t, type Locale } from '../../i18n';
+import { categoryPath, localePath, t, type Locale } from '../../i18n';
 
 interface Props {
   locale: Locale;
@@ -35,7 +35,7 @@ const host = (u: string) => new URL(u).hostname.replace(/^www\./, '');
 >
   <article class="section">
     <p>
-      <Badge tone="category" href={localePath(locale, `/category/${project.category}`)}>{meta.label[locale]}</Badge>
+      <Badge tone="category" href={categoryPath(locale, project.category)}>{meta.label[locale]}</Badge>
       {project.status === 'archived' && <Badge tone="muted">{t(locale, 'status.archived')}</Badge>}
     </p>
     <h1>{project.name}</h1>

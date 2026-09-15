@@ -111,6 +111,15 @@ describe('R-04 ProjectCard', () => {
     expect(html).not.toContain('English description');
     expect(html).toContain('href="/ja/projects/sample"');
   });
+
+  it('AC-04-8 the category badge lands on the filtered project list, not the category page', async () => {
+    const en = await container.renderToString(ProjectCard, { props: { project: project(), locale: 'en' } });
+    expect(en).toContain('href="/projects?category=tool"');
+    expect(en).not.toContain('href="/category/');
+    const ja = await container.renderToString(ProjectCard, { props: { project: project({ category: 'demo' }), locale: 'ja' } });
+    expect(ja).toContain('href="/ja/projects?category=demo"');
+    expect(ja).not.toContain('href="/ja/category/');
+  });
 });
 
 describe('R-04 ProjectGrid', () => {
