@@ -1,6 +1,9 @@
 ---
 import BaseLayout from '../../layouts/BaseLayout.astro';
 import Callout from '../Callout.astro';
+import GuideVisual from '../GuideVisual.astro';
+import GuideJourney from '../GuideJourney.astro';
+import GuidePatterns from '../GuidePatterns.astro';
 import { localePath, t, type Locale } from '../../i18n';
 import { guideGroups, guideProjects } from '../../data/explainer';
 interface Props { locale: Locale }
@@ -22,21 +25,32 @@ const fields = [
       <p class="guide-eyebrow">{ja ? 'はじめてのハエ脳ガイド' : 'A practical guide to fly brains'}</p>
       <h1>{title}</h1>
       <p class="guide-lead">{ja
-        ? 'ハエの神経のつながりを調べる。刺激への反応を計算する。仮想の身体やゲームにつなぐ。公開リポジトリを使うと、こうした実験ができます。'
-        : 'Explore neural connections, simulate responses to stimuli, or connect a model to a virtual body or a game. Public repositories make these experiments possible.'}</p>
-      <p>{ja ? '「ハエ脳」は一つのアプリ名ではありません。このページでは、掲載プロジェクトの代表例を目的と機能から案内します。' : '“Fly brain” does not name a single app. This guide explains representative listed projects by purpose and capability.'}</p>
+        ? '配線を見る。刺激する。身体を動かす。ゲームで試す。やりたいことを選んで、図と手順で始めましょう。'
+        : 'Explore wiring. Stimulate neurons. Control a body. Try a game. Pick a goal and follow the visual steps.'}</p>
+      <div class="guide-reading-path" aria-label={ja ? 'このページの読み方' : 'How to use this guide'}>
+        <span>{ja ? '目的を選ぶ' : 'Pick a goal'}</span><b aria-hidden="true">→</b>
+        <span>{ja ? '図でつかむ' : 'See how it works'}</span><b aria-hidden="true">→</b>
+        <span>{ja ? '3 ステップで試す' : 'Follow 3 steps'}</span>
+      </div>
+      <nav class="guide-topics" aria-label={ja ? '構成と学習の解説' : 'Architecture and training explainers'}>
+        <a href="#simulation-patterns">{ja ? '脳と身体の構成を比較' : 'Compare brain and body setups'} ↓</a>
+        <a href="#learning-patterns">{ja ? 'どこを学習させる？' : 'Which part learns?'} ↓</a>
+      </nav>
     </header>
 
     <section aria-labelledby="overview-title">
       <h2 id="overview-title">{ja ? 'まず、何をしてみたいですか？' : 'What would you like to try?'}</h2>
       <nav class="guide-overview" data-guide-overview aria-label={ja ? '目的から解説へ' : 'Explore by purpose'}>
         {guideGroups.map((group, i) => <a href={'#guide-' + group.id}>
+          <GuideVisual kind={group.id} locale={locale} />
           <span class="guide-number" aria-hidden="true">0{i + 1}</span>
           <strong>{group[locale].title}</strong>
           <span>{group[locale].summary}</span>
-          <small>{group[locale].level} <span aria-hidden="true">↗</span></small>
+          <small>{group[locale].level}</small>
+          <span class="guide-card-action">{ja ? '図解と始め方を見る' : 'See the steps'} <span aria-hidden="true">↓</span></span>
         </a>)}
       </nav>
+      <p class="guide-overview-note">{ja ? '図は仕組みを表す模式図です。迷ったら「見る・調べる」から。' : 'Illustrations are schematics. Start with wiring exploration if you are unsure.'}</p>
     </section>
 
     <section class="guide-foundation" aria-labelledby="foundation-title">
@@ -91,11 +105,15 @@ const fields = [
     </figure>
     </section>
 
+    <GuidePatterns locale={locale} />
+
     <section aria-labelledby="repositories-title">
-      <h2 id="repositories-title">{ja ? '目的別に、機能を詳しく見る' : 'Capabilities, repository by repository'}</h2>
-      <p>{ja ? 'まず各概要を読み、気になるものの詳細を開いてください。各リンク先に、公式サイト・リポジトリ・確認した出典があります。' : 'Scan the summaries, then expand a project for practical details. Each project page links to its official site, repository and sources.'}</p>
-      {guideGroups.map(group => <section class="guide-group" id={'guide-' + group.id} aria-labelledby={'title-' + group.id}>
-        <h3 id={'title-' + group.id}>{group[locale].title}</h3>
+      <h2 id="repositories-title">{ja ? 'できることから、最初の一歩へ' : 'From an idea to your first experiment'}</h2>
+      <p>{ja ? 'それぞれの入口になるツールを一つ選び、最初に試すところまで案内します。' : 'Each route starts with one tool and walks you through an initial experiment.'}</p>
+      {guideGroups.map((group, i) => <section class="guide-group" id={'guide-' + group.id} aria-labelledby={'title-' + group.id}>
+        <h3 id={'title-' + group.id}><span class="guide-section-number" aria-hidden="true">0{i + 1}</span>{group[locale].title}</h3>
+        <GuideJourney kind={group.id} locale={locale} />
+        <p class="guide-more-label">{ja ? 'この用途のツール・機能を詳しく' : 'More about the tools for this route'}</p>
         <div class="guide-projects">
           {guideProjects.filter(project => project.group === group.id).map(project => <section class="guide-project" data-guide-project={project.id}>
             <h4><a href={p(project.id)}>{project.name}</a></h4>
@@ -144,22 +162,30 @@ const fields = [
 
 <style>
   .guide { max-width: 68rem; margin-inline: auto; }
-  .guide-hero { max-width: 52rem; padding-block: 1rem 2rem; }
+  .guide-hero { max-width: 54rem; padding-block: 1rem 2rem; }
   .guide h1 { max-width: 100%; text-wrap: balance; }
   .guide p { line-height: 1.85; }
   .guide-eyebrow { color: var(--accent); font-weight: 700; font-size: 0.85rem; margin-bottom: 0.65rem; }
   .guide-lead { font-size: 1.2rem; margin-top: 1.5rem; }
-  .guide-overview { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 1rem; margin-block: 1.5rem 3rem; }
+  .guide-reading-path { display: flex; flex-wrap: wrap; align-items: center; gap: 0.65rem; margin-top: 1.5rem; font-size: 0.85rem; color: var(--accent); }
+  .guide-reading-path > span { padding: 0.4rem 0.7rem; border: 1px solid var(--line); border-radius: 6px; background: var(--bg-elev); }
+  .guide-topics { display: flex; flex-wrap: wrap; gap: 0.5rem 1.5rem; margin-top: 1rem; }
+  .guide-topics a { display: inline-flex; align-items: center; min-height: 44px; font-size: 0.85rem; }
+  .guide-overview { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 1rem; margin-block: 1.5rem 0.7rem; }
   .guide-overview a { display: flex; flex-direction: column; gap: 0.65rem; padding: 1.2rem; background: var(--bg-elev); border: 1px solid var(--line); border-radius: var(--radius-m); color: var(--fg); text-decoration: none; }
   .guide-overview a:hover { border-color: var(--accent); }
   .guide-number { color: var(--accent); font-family: var(--font-mono); }
   .guide-overview strong { font-size: 1.1rem; }
   .guide-overview small { color: var(--fg-muted); margin-top: auto; }
+  .guide-card-action { color: var(--accent); font-weight: 650; font-size: 0.8rem; border-top: 1px solid var(--line); padding-top: 0.65rem; margin-top: 0.3rem; }
+  .guide-overview-note { font-size: 0.8rem; color: var(--fg-muted); margin-bottom: 3rem; }
   .guide-foundation { display: grid; grid-template-columns: 1fr 1fr; gap: 2rem; align-items: center; padding: 2rem; border-radius: var(--radius-l); background: var(--bg-sunk); }
   .guide-foundation h2 { margin-top: 0; }
   .guide-foundation p { margin-block: 1rem; }
-  .guide-group { scroll-margin-top: 8rem; margin-block: 2rem; }
-  .guide-group > h3 { border-bottom: 1px solid var(--line); padding-bottom: 0.75rem; }
+  .guide-group { scroll-margin-top: 8rem; margin-block: 3rem; }
+  .guide-group > h3 { display: flex; gap: 0.8rem; align-items: center; font-size: 1.5rem; margin-bottom: 1rem; }
+  .guide-section-number { font: 500 1rem var(--font-mono); color: var(--accent); border: 1px solid var(--line); padding: 0.5rem; border-radius: 8px; }
+  .guide-more-label { font-size: 0.8rem; font-weight: 700; color: var(--fg-muted); margin-top: 1.3rem; }
   .guide-projects { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 1rem; margin-top: 1rem; align-items: start; }
   .guide-project { padding: 1.5rem; border: 1px solid var(--line); border-radius: var(--radius-m); background: var(--bg-elev); min-width: 0; }
   .guide-project h4 { font-size: 1.15rem; margin: 0; }

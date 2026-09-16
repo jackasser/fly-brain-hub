@@ -373,6 +373,32 @@ describe('dist/ (run `npm run build` first)', () => {
       }
     });
 
+    it('AC-18-10/11 visual routes render diagrams, flows and visible starting steps', () => {
+      for (const prefix of ['', 'ja/']) {
+        const article = body(`${prefix}${EXPLAINER}/index.html`);
+        for (const kind of ['explore', 'simulate', 'body', 'play']) {
+          expect([...article.matchAll(new RegExp(`data-guide-visual="${kind}"`, 'g'))]).toHaveLength(2);
+        }
+        expect([...article.matchAll(/data-guide-journey=/g)]).toHaveLength(4);
+        expect([...article.matchAll(/data-guide-flow=/g)]).toHaveLength(4);
+        expect([...article.matchAll(/data-guide-step=/g)]).toHaveLength(12);
+        expect([...article.matchAll(/data-guide-start=/g)]).toHaveLength(4);
+      }
+    });
+
+    it('AC-18-12 published pages include architecture and learning comparisons', () => {
+      for (const prefix of ['', 'ja/']) {
+        const article = body(`${prefix}${EXPLAINER}/index.html`);
+        expect([...article.matchAll(/data-simulation-pattern=/g)]).toHaveLength(5);
+        expect([...article.matchAll(/data-learning-pattern=/g)]).toHaveLength(3);
+        expect(article).toContain('data-counting-note');
+        expect(article).toContain('data-feedback');
+        for (const id of ['mario64-fly', 'fly-exe', 'neurohex', 'fly-dino']) {
+          expect(article).toContain(`href="/${prefix}projects/${id}"`);
+        }
+      }
+    });
+
     it('AC-18-7 overview, diagram and comparison are rendered', () => {
       for (const rel of [
         `ja/${EXPLAINER}/index.html`,

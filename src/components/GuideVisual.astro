@@ -1,0 +1,78 @@
+---
+import type { Locale } from '../i18n';
+interface Props { kind: 'explore' | 'simulate' | 'body' | 'play'; locale: Locale }
+const { kind, locale } = Astro.props;
+const labels = {
+  explore: { ja: '配線の模式図：選んだ神経細胞から、つながる細胞をたどる', en: 'Wiring schematic: follow connections from a selected neuron to its neighbors' },
+  simulate: { ja: '活動の模式図：刺激を受けた神経回路から、発火の記録を得る', en: 'Activity schematic: stimulate a neural circuit and record its spikes' },
+  body: { ja: '身体制御の模式図：制御値を仮想のハエへ渡し、脚の動きを見る', en: 'Body-control schematic: send control values to a virtual fly and observe its legs' },
+  play: { ja: 'チェスの模式図：盤面を神経回路への入力に変え、出力から指し手を選ぶ', en: 'Chess schematic: encode a board into neural input and read out a move' },
+};
+---
+<svg viewBox="0 0 400 240" role="img" aria-label={labels[kind][locale]} data-guide-visual={kind}>
+  <rect class="canvas" x="0" y="0" width="400" height="240" rx="18" />
+  <g class="grid">{[50,100,150,200,250,300,350].map(x => <path d={`M${x} 20V220`} />)}{[40,80,120,160,200].map(y => <path d={`M20 ${y}H380`} />)}</g>
+  {kind === 'explore' && <>
+    <path class="brain" d="M195 50C147 9 77 43 64 99C47 159 99 196 146 189L197 207L207 207L255 187C307 197 357 151 337 99C320 41 262 12 211 51" />
+    <g class="wire"><path d="M85 118L143 65L207 119L143 179L85 118M143 65L268 63L315 122L265 178L207 119L268 63M143 179L265 178M207 119L315 122" /></g>
+    <path class="signal" d="M143 65L207 119L265 178M207 119L315 122" />
+    <g class="node">{[[85,118],[143,65],[143,179],[268,63],[315,122],[265,178]].map(([cx,cy]) => <circle cx={cx} cy={cy} r="8" />)}</g>
+    <circle class="halo" cx="207" cy="119" r="26" /><circle class="active" cx="207" cy="119" r="12" />
+    <path class="cursor" d="M220 134L220 165L229 158L236 173L244 169L237 155L250 153Z" />
+  </>}
+  {kind === 'simulate' && <>
+    <rect class="panel" x="24" y="42" width="155" height="150" rx="12" />
+    <path class="signal" d="M38 119H51L61 83L70 149L80 119H94M100 119L136 78M100 119L141 158" />
+    <g class="node"><circle cx="100" cy="119" r="10" /><circle cx="136" cy="78" r="8" /><circle cx="141" cy="158" r="8" /></g>
+    <path class="arrow" d="M188 117H211M203 110L211 117L203 124" />
+    <rect class="panel" x="225" y="42" width="151" height="150" rx="12" />
+    <path class="wire" d="M242 65V169H361M242 93H361M242 128H361" />
+    <path class="signal" d="M247 92H263L267 64L271 92H310L314 64L318 92H355M247 128H283L287 107L291 128H335L339 107L343 128H355" />
+    <g class="spike">{[265,284,313,337,349].map(x => <path d={`M${x} 149V160`} />)}</g>
+    <text x="300" y="216">{locale === 'ja' ? '発火を記録' : 'Record spikes'}</text>
+  </>}
+  {kind === 'body' && <>
+    <path class="wire" d="M38 208H369M49 215H359M64 222H345" />
+    <g class="legs"><path d="M207 105L142 78L111 118M202 129L136 141L104 180M207 151L163 185L144 208M234 105L297 78L327 118M239 129L302 141L335 180M234 151L277 185L296 208" /></g>
+    <ellipse class="wing" cx="183" cy="115" rx="25" ry="61" transform="rotate(38 183 115)" />
+    <ellipse class="wing" cx="260" cy="115" rx="25" ry="61" transform="rotate(-38 260 115)" />
+    <ellipse class="active" cx="220" cy="149" rx="20" ry="39" /><ellipse class="node" cx="220" cy="111" rx="24" ry="27" />
+    <ellipse class="active" cx="220" cy="72" rx="24" ry="18" /><circle class="eye" cx="203" cy="70" r="9" /><circle class="eye" cx="237" cy="70" r="9" />
+    <path class="wire" d="M212 57L206 45M228 57L234 45" />
+    <rect class="panel" x="27" y="33" width="72" height="51" rx="8" />
+    <path class="signal" d="M39 50H86M39 68H86" /><circle class="active" cx="54" cy="50" r="5" /><circle class="active" cx="75" cy="68" r="5" />
+    <path class="arrow" d="M106 53H151M141 46L151 53L141 60" />
+  </>}
+  {kind === 'play' && <>
+    <g transform="translate(29 39)">
+      <rect class="panel" width="162" height="162" rx="6" />
+      {Array.from({length:8}, (_,row) => Array.from({length:8}, (_,col) => (row+col)%2 === 0 && <rect class="square" x={col*20+1} y={row*20+1} width="20" height="20" />))}
+      <path class="signal" d="M91 131V72M84 82L91 72L98 82" />
+      <circle class="active" cx="91" cy="130" r="7" /><circle class="target" cx="91" cy="70" r="8" />
+    </g>
+    <path class="arrow" d="M202 90H237M229 83L237 90L229 97" />
+    <path class="wire" d="M258 88L297 55L343 89L299 124L258 88M297 55L299 124" />
+    <g class="node">{[[258,88],[297,55],[343,89],[299,124]].map(([cx,cy]) => <circle cx={cx} cy={cy} r="8" />)}</g>
+    <path class="signal" d="M343 89L355 156H238M246 149L238 156L246 163" />
+    <text x="293" y="193">{locale === 'ja' ? '次の一手へ' : 'Read out a move'}</text>
+  </>}
+</svg>
+<style>
+  svg { width: 100%; height: auto; display: block; }
+  .canvas { fill: var(--bg-sunk); }
+  .grid { stroke: var(--line); stroke-width: 0.6; opacity: 0.65; }
+  .brain { fill: var(--accent-soft); stroke: var(--accent); stroke-width: 1; }
+  .wire { fill: none; stroke: var(--fg-faint); stroke-width: 1.5; }
+  .signal, .arrow { fill: none; stroke: var(--accent); stroke-width: 3; stroke-linecap: round; stroke-linejoin: round; }
+  .node { fill: var(--bg-elev); stroke: var(--accent); stroke-width: 2.5; }
+  .active, .spike { fill: var(--accent); stroke: var(--accent); stroke-width: 2; }
+  .halo { fill: var(--accent); opacity: 0.15; }
+  .cursor { fill: var(--fg); stroke: var(--bg-elev); stroke-width: 2; }
+  .panel { fill: var(--bg-elev); stroke: var(--line); stroke-width: 1.5; }
+  .legs { fill: none; stroke: var(--accent); stroke-width: 5; stroke-linecap: round; stroke-linejoin: round; }
+  .wing { fill: var(--bg-elev); fill-opacity: 0.85; stroke: var(--accent); stroke-width: 1.5; }
+  .eye { fill: var(--bg-elev); stroke: var(--accent); stroke-width: 2; }
+  .square { fill: var(--accent-soft); }
+  .target { fill: var(--bg-elev); stroke: var(--accent); stroke-width: 2; stroke-dasharray: 3 2; }
+  text { fill: var(--fg-muted); font-family: var(--font-sans); font-size: 13px; text-anchor: middle; }
+</style>

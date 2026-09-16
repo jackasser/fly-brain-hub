@@ -1,0 +1,106 @@
+---
+import { simulationPatterns, learningPatterns } from '../data/guide-patterns';
+import { localePath, type Locale } from '../i18n';
+interface Props { locale: Locale }
+const { locale } = Astro.props;
+const ja = locale === 'ja';
+const projectPath = (id: string) => localePath(locale, '/projects/' + id);
+---
+<section class="patterns" id="simulation-patterns" aria-labelledby="patterns-title">
+  <p class="eyebrow">{ja ? '同じ「ハエ脳」でも、構成は違う' : 'Different ways to build a fly-brain project'}</p>
+  <h2 id="patterns-title">{ja ? '脳と身体、どこまでシミュレーションする？' : 'What is simulated: the brain, the body, or both?'}</h2>
+  <p class="intro">{ja ? '掲載例では、脳の出力をゲーム操作などへ変換する構成が目立ちます。脳とハエの身体を両方計算する例もあります。' : 'Among listed examples, mapping neural output to game controls is a recurring approach. Some projects also couple a neural model to a simulated fly body.'}</p>
+  <p class="scope" data-counting-note>{ja ? '掲載説明と代表実装から見た傾向です。手法別の全件集計は行っておらず、割合や分野全体の順位を示すものではありません。' : 'This is a qualitative reading of listed descriptions and representative implementations, not an exhaustive count or a field-wide ranking.'}</p>
+  <div class="pattern-list">
+    {simulationPatterns.map((pattern, index) => <section class:list={['pattern', { coupled: pattern.id === 'coupled' }]} data-simulation-pattern={pattern.id} aria-labelledby={'pattern-' + pattern.id}>
+      <div class="pattern-description">
+        <h3 id={'pattern-' + pattern.id}><span class="number" aria-hidden="true">{index + 1}</span>{pattern[locale].title}</h3>
+        <dl class="parts">
+          <div><dt>{ja ? '脳' : 'Brain'}</dt><dd>{pattern[locale].brain}</dd></div>
+          <div><dt>{ja ? '身体' : 'Body'}</dt><dd>{pattern[locale].body}</dd></div>
+        </dl>
+      </div>
+      <div class="pattern-diagram">
+        <ol class="flow" aria-label={ja ? '構成の模式図' : 'Architecture schematic'}>
+          {pattern[locale].flow.map(label => <li>{label}</li>)}
+        </ol>
+        {pattern.id === 'coupled' && <p class="feedback" data-feedback>
+          <span aria-hidden="true">↖</span> {ja ? '身体・環境に応じた感覚入力を脳へ戻す（閉ループ）' : 'Return sensory input from body and environment to the brain (closed loop)'}
+        </p>}
+        <p class="description">{pattern[locale].note}</p>
+        <a class="example" href={projectPath(pattern.project)}>{ja ? '代表例：' : 'Example: '}{pattern.name}<span aria-hidden="true"> →</span></a>
+      </div>
+    </section>)}
+  </div>
+  <aside class="key-point">
+    <strong>{ja ? 'MuJoCo が担当するのは、身体の物理計算。' : 'MuJoCo handles the body physics.'}</strong>
+    <p>{ja ? '脳は別のモデルで計算し、神経活動を身体への指令へ変換します。両方を動かす場合でも、変換や歩行の仕組みを人が設計する部分が残ります。画面にハエが表示されるだけでは、脚や筋肉まで物理計算しているかはわかりません。' : 'Neural activity is computed by a separate model and mapped into body actions. Even a coupled system includes designed mappings and control mechanisms. A fly shown on screen does not by itself establish that legs or muscles are physically simulated.'}</p>
+  </aside>
+</section>
+
+<section class="patterns learning" id="learning-patterns" aria-labelledby="learning-title">
+  <p class="eyebrow">{ja ? 'もう一つの比較軸' : 'A separate question'}</p>
+  <h2 id="learning-title">{ja ? '学習するのは、どの部分？' : 'Which part learns?'}</h2>
+  <p class="intro">{ja ? '脳や身体を使うかどうかと、何を学習させるかは別の話です。次は代表的な例。枠内の「訓練対象」が、学習で調整される部分です。' : 'The choice of brain or body model is separate from the choice of what to train. These examples label the component that training adjusts.'}</p>
+  <div class="learning-grid">
+    {learningPatterns.map(pattern => <section class="learning-card" data-learning-pattern={pattern.id}>
+      <h3>{pattern[locale].title}</h3>
+      <ol class="flow learning-flow" aria-label={ja ? '学習する場所の模式図' : 'Training schematic'}>
+        {pattern[locale].flow.map((label, index) => <li class:list={{ trained: pattern.trained === index }}>
+          {pattern.trained === index && <small>{ja ? '訓練対象' : 'TRAINED'}</small>}{label}
+        </li>)}
+      </ol>
+      <p class="training-target"><strong>{ja ? '訓練する部分：' : 'What is trained: '}</strong>{pattern[locale].target}</p>
+      <p class="description">{pattern[locale].note}</p>
+      <a class="example" href={projectPath(pattern.project)}>{ja ? '代表例：' : 'Example: '}{pattern.name}<span aria-hidden="true"> →</span></a>
+    </section>)}
+  </div>
+  <p class="scope">{ja ? 'これは全手法を三つに限定する分類ではありません。たとえば視覚モデルの flyvis のように、配線の制約とモデルの訓練を組み合わせる実装もあります。' : 'These three examples are not an exhaustive taxonomy. Other implementations, such as the visual model flyvis, combine wiring constraints with model training.'} <a href={projectPath('flyvis')}>flyvis →</a></p>
+</section>
+
+<style>
+  .patterns { margin-block: 3rem; scroll-margin-top: 7rem; }
+  .eyebrow { color: var(--accent); font-size: 0.8rem; font-weight: 700; margin: 0 0 0.65rem; }
+  h2 { margin: 0 0 1rem; }
+  .intro { line-height: 1.8; max-width: 54rem; }
+  .scope { color: var(--fg-muted); font-size: 0.82rem; line-height: 1.75; margin-block: 0.65rem 1.5rem; }
+  .pattern-list { display: grid; gap: 0.9rem; }
+  .pattern { display: grid; grid-template-columns: 0.9fr 1.5fr; gap: 1.75rem; background: var(--bg-elev); border: 1px solid var(--line); border-radius: var(--radius-m); padding: 1.4rem; }
+  .coupled { border: 2px solid var(--accent); }
+  h3 { margin: 0 0 1rem; font-size: 1.05rem; line-height: 1.6; }
+  .pattern h3 { display: flex; align-items: baseline; gap: 0.65rem; }
+  .number { flex: none; color: var(--accent); font: 600 0.95rem var(--font-mono); }
+  .parts { display: grid; gap: 0.45rem; margin: 0; }
+  .parts > div { display: grid; grid-template-columns: 3rem 1fr; gap: 0.4rem; align-items: baseline; font-size: 0.82rem; }
+  dt { font-weight: 700; color: var(--accent); }
+  dd { margin: 0; color: var(--fg-muted); line-height: 1.65; }
+  .flow { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 1.3rem; }
+  .flow li { position: relative; display: grid; align-content: center; min-height: 3.4rem; text-align: center; padding: 0.6rem 0.4rem; font-size: 0.85rem; font-weight: 650; line-height: 1.6; background: var(--bg-sunk); border: 1px solid var(--line); border-radius: 8px; }
+  .flow li + li::before { content: '→'; position: absolute; left: -1.15rem; top: 35%; color: var(--accent); }
+  .description { font-size: 0.88rem; line-height: 1.8; color: var(--fg-muted); margin: 0.8rem 0 0; }
+  .feedback { text-align: center; font-size: 0.8rem; font-weight: 600; color: var(--accent); border: 1px dashed var(--accent); border-top: 0; border-radius: 0 0 12px 12px; margin: 0.4rem 0 0; padding: 0.65rem; line-height: 1.7; }
+  .example { display: inline-flex; align-items: center; gap: 0.35rem; min-height: 44px; font-size: 0.85rem; font-weight: 650; }
+  .key-point { margin-top: 1rem; padding: 1.3rem 1.5rem; border-left: 3px solid var(--accent); background: var(--accent-soft); border-radius: 0 10px 10px 0; }
+  .key-point p { font-size: 0.9rem; line-height: 1.8; margin: 0.6rem 0 0; }
+  .learning-grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 1rem; margin-block: 1.3rem; }
+  .learning-card { background: var(--bg-elev); border: 1px solid var(--line); border-radius: var(--radius-m); padding: 1.3rem; }
+  .learning-flow { grid-template-columns: 1fr; gap: 1.25rem; }
+  .learning-flow li + li::before { content: '↓'; left: 50%; top: -1.3rem; }
+  .learning-flow li { min-height: 4rem; }
+  .learning-flow .trained { border: 2px solid var(--accent); background: var(--accent-soft); }
+  .trained small { display: block; font-size: 0.65rem; color: var(--accent); }
+  .training-target { font-size: 0.8rem; line-height: 1.8; margin: 1.2rem 0 0; }
+  @media (max-width: 760px) {
+    .pattern { grid-template-columns: 1fr; gap: 1rem; }
+    .learning-grid { grid-template-columns: 1fr; }
+  }
+  /* The shared header becomes sticky at 640px. Keep its anchor clearance. */
+  @media (max-width: 639px) {
+    .patterns { scroll-margin-top: 1rem; }
+  }
+  @media (max-width: 420px) {
+    .flow { grid-template-columns: 1fr; gap: 1.25rem; }
+    .flow li + li::before { content: '↓'; left: 50%; top: -1.3rem; }
+    .pattern { padding: 1.1rem; }
+  }
+</style>

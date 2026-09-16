@@ -1,0 +1,77 @@
+---
+import GuideVisual from './GuideVisual.astro';
+import { guideJourneys } from '../data/explainer';
+import { localePath, type Locale } from '../i18n';
+interface Props { kind: keyof typeof guideJourneys; locale: Locale }
+const { kind, locale } = Astro.props;
+const journey = guideJourneys[kind];
+const copy = journey[locale];
+const ja = locale === 'ja';
+---
+<div class="journey" data-guide-journey={kind}>
+  <div class="journey-example">
+    <p class="eyebrow">{ja ? 'できること' : 'What you can do'}</p>
+    <h4>{copy.outcome}</h4>
+    <figure>
+      <GuideVisual kind={kind} locale={locale} />
+      <figcaption>{ja ? '仕組みの模式図 · 実際の画面や実験結果ではありません' : 'Schematic · not a screenshot or experimental result'}</figcaption>
+    </figure>
+    <div class="flow" data-guide-flow={kind} aria-label={ja ? '入力から結果まで' : 'From input to result'}>
+      {copy.flow.map((label, index) => <div>
+        <span>{ja ? ['入力', '処理', '結果'][index] : ['INPUT', 'PROCESS', 'RESULT'][index]}</span>
+        <strong>{label}</strong>
+      </div>)}
+    </div>
+  </div>
+  <div class="journey-how">
+    <p class="eyebrow">{ja ? 'やってみる · 3 ステップ' : 'Try it · 3 steps'}</p>
+    <p class="preparation"><strong>{ja ? '用意するもの' : 'Before you start'}</strong>{copy.preparation}</p>
+    <ol>
+      {copy.steps.map((step, index) => <li data-guide-step={index + 1}>
+        <span class="step-number" aria-hidden="true">{index + 1}</span>
+        <div><h5>{step.action}</h5><p>{step.result}</p></div>
+      </li>)}
+    </ol>
+    <a class="btn" data-guide-start={kind} href={localePath(locale, '/projects/' + journey.project)}>
+      {ja ? `${journey.name} の入口へ` : `Start with ${journey.name}`} <span aria-hidden="true">→</span>
+    </a>
+    <p class="next">{copy.next}</p>
+  </div>
+</div>
+<style>
+  .journey { display: grid; grid-template-columns: 1fr 1.12fr; border: 1px solid var(--line); border-radius: var(--radius-l); overflow: hidden; background: var(--bg-elev); }
+  .journey-example { padding: 1.75rem; background: var(--bg-sunk); }
+  .eyebrow { color: var(--accent); font-size: 0.8rem; font-weight: 750; letter-spacing: 0.035em; margin: 0 0 0.8rem; }
+  h4 { font-size: 1.5rem; line-height: 1.5; margin: 0; text-wrap: balance; }
+  figure { margin: 1.25rem 0; }
+  figcaption { font-size: 0.72rem; color: var(--fg-muted); margin-top: 0.65rem; text-align: center; }
+  .flow { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 1rem; }
+  .flow > div { padding: 0.7rem 0.45rem; background: var(--bg-elev); border: 1px solid var(--line); border-radius: 8px; text-align: center; position: relative; }
+  .flow > div + div::before { content: '→'; position: absolute; left: -0.94rem; top: 40%; color: var(--accent); }
+  .flow span { display: block; color: var(--fg-muted); font-size: 0.65rem; margin-bottom: 0.35rem; }
+  .flow strong { display: block; font-size: 0.85rem; line-height: 1.55; }
+  .journey-how { padding: 1.75rem; }
+  .preparation { font-size: 0.85rem; line-height: 1.65; margin: 0; color: var(--fg-muted); }
+  .preparation strong { display: block; color: var(--fg); margin-bottom: 0.2rem; }
+  ol { list-style: none; margin: 1.4rem 0; padding: 0; }
+  li { display: grid; grid-template-columns: 2rem 1fr; gap: 0.8rem; position: relative; padding-bottom: 1.3rem; }
+  li:last-child { padding-bottom: 0; }
+  li:not(:last-child)::before { content: ''; position: absolute; left: 0.94rem; top: 2rem; bottom: 0; border-left: 1px solid var(--line); }
+  .step-number { display: grid; place-items: center; border-radius: 50%; width: 2rem; height: 2rem; background: var(--accent-soft); color: var(--accent); font: 700 0.9rem var(--font-mono); }
+  h5 { font-size: 1rem; line-height: 1.5; margin: 0.2rem 0 0.4rem; }
+  li p { margin: 0; color: var(--fg-muted); font-size: 0.9rem; line-height: 1.75; }
+  .btn { font-size: 0.9rem; }
+  .next { font-size: 0.75rem; line-height: 1.6; color: var(--fg-muted); margin: 0.65rem 0 0; }
+  @media (max-width: 760px) {
+    .journey { grid-template-columns: 1fr; }
+    .journey-example, .journey-how { padding: 1.2rem; }
+    h4 { font-size: 1.3rem; }
+    figure { max-width: 28rem; margin-inline: auto; }
+  }
+  @media (max-width: 420px) {
+    .flow { grid-template-columns: 1fr; gap: 1rem; }
+    .flow > div { display: grid; grid-template-columns: 4rem 1fr; align-items: center; text-align: left; padding: 0.6rem 0.8rem; }
+    .flow span { margin-bottom: 0; }
+    .flow > div + div::before { content: '↓'; left: 50%; top: -1.2rem; }
+  }
+</style>

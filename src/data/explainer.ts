@@ -16,12 +16,12 @@ type GuideProject = {
 export const guideProjects: GuideProject[] = [
   {
     id: 'flywire-codex', group: 'explore', name: 'FlyWire Codex', checkedAt: '2026-09-16',
-    sources: ['https://github.com/murthylab/codex'],
+    sources: ['https://github.com/murthylab/codex', 'https://codex.flywire.ai/faq'],
     ja: {
       summary: 'まず配線図を見たい人向け。FlyWire の神経細胞と注釈をブラウザで調べる入口。',
       features: '神経細胞や注釈を探索・分析する Web アプリ。公開サービスと、自分で動かすためのコードがある。',
       io: '調べたい細胞を指定 → 細胞の情報と配線に関する情報を確認する。',
-      needs: '公開サービスはブラウザから利用。手元での運用には Python 環境とデータの準備が必要。',
+      needs: '公開サービスの探索機能はブラウザと Google ログインが必要。手元での運用には Python 環境とデータを準備する。',
       start: '詳細ページの公式サイトから探索を始める。自分で運用する場合は README のデータ初期化とローカル起動の順に進む。',
       limits: '配線や注釈を調べる道具。神経の時間変化を計算するシミュレーターとは役割が異なる。',
     },
@@ -29,7 +29,7 @@ export const guideProjects: GuideProject[] = [
       summary: 'A browser entry point for exploring FlyWire neurons and annotations.',
       features: 'Explore and analyze cells and annotations in a web application, with code for local hosting.',
       io: 'Choose cells to investigate → inspect their information and connectivity.',
-      needs: 'A browser for the hosted service; Python and prepared data for local hosting.',
+      needs: 'A browser and Google sign-in for interactive exploration; Python and prepared data for local hosting.',
       start: 'Open the official site from its project page. For local hosting, follow the README data setup and launch steps.',
       limits: 'A tool for exploring structure and annotations; activity over time requires a simulation model.',
     },
@@ -155,3 +155,114 @@ export const guideProjects: GuideProject[] = [
     },
   },
 ];
+
+// Starting routes summarize the primary sources attached to each selected project.
+// These are instructions for the real tools, not executable simulations on this page.
+type JourneyText = {
+  outcome: string; preparation: string; flow: [string, string, string];
+  steps: { action: string; result: string }[]; next: string;
+};
+export const guideJourneys: Record<typeof guideGroups[number]['id'], {
+  project: string; name: string; ja: JourneyText; en: JourneyText;
+}> = {
+  explore: {
+    project: 'flywire-codex', name: 'FlyWire Codex',
+    ja: {
+      outcome: '気になる細胞を選び、どこにつながるかをたどる。',
+      preparation: 'ブラウザ + Google ログイン。Python の準備は不要。',
+      flow: ['細胞を検索', '配線を探索', '接続先を確認'],
+      steps: [
+        { action: '公式サイトを開く', result: '下の入口から詳細ページの「公式サイト」へ。ログインし、FlyWire FAFB を選ぶ。' },
+        { action: '細胞の種類を検索', result: '検索欄で「T4a」を試す。該当する細胞の一覧を確認する。' },
+        { action: '細胞の情報を開く', result: '検索結果の細胞を選び、入力側・出力側の接続を調べる。' },
+      ],
+      next: '入口の詳細ページ →「公式サイト」から始める',
+    },
+    en: {
+      outcome: 'Choose a cell and trace which other cells it connects to.',
+      preparation: 'Browser + Google sign-in. No Python setup needed.',
+      flow: ['Search for cells', 'Explore wiring', 'Find connections'],
+      steps: [
+        { action: 'Open the official site', result: 'Use the project page below, sign in and select FlyWire FAFB.' },
+        { action: 'Search a cell type', result: 'Try T4a in the search field and inspect the matching cells.' },
+        { action: 'Open a cell', result: 'Inspect the selected cell and its input and output connections.' },
+      ],
+      next: 'Project page → Official website',
+    },
+  },
+  simulate: {
+    project: 'shiu-lif-model', name: 'Shiu model',
+    ja: {
+      outcome: '刺激する細胞を変え、発火の違いを比べる。',
+      preparation: 'Python のノートブック操作。README に Colab で始める案内あり。',
+      flow: ['刺激を指定', '回路を計算', '発火を記録'],
+      steps: [
+        { action: 'サンプルを開く', result: '詳細ページからリポジトリへ。README の Colab 案内、またはローカル環境で example.ipynb を開く。' },
+        { action: 'まず元の条件で実行', result: 'データの版と設定を揃えてサンプルを実行。発火時刻・頻度の出力を確認する。' },
+        { action: '刺激条件を変えて比較', result: '刺激頻度や抑制する細胞を変更して再実行。同じ条件の基準結果と比べる。' },
+      ],
+      next: '入口の詳細ページ → リポジトリの README / example.ipynb',
+    },
+    en: {
+      outcome: 'Change neural stimulation and compare the resulting spikes.',
+      preparation: 'Python notebook skills. The README also describes a Colab route.',
+      flow: ['Set a stimulus', 'Run the circuit', 'Record spikes'],
+      steps: [
+        { action: 'Open the example', result: 'Follow the repository README to Colab or open example.ipynb locally.' },
+        { action: 'Run the baseline', result: 'Match the data release and settings, then inspect spike times and rates.' },
+        { action: 'Change and compare', result: 'Change stimulation or silencing, rerun and compare with the baseline.' },
+      ],
+      next: 'Project page → Repository README / example.ipynb',
+    },
+  },
+  body: {
+    project: 'flybody', name: 'flybody',
+    ja: {
+      outcome: '仮想の脚に制御値を渡し、姿勢の変化を見る。',
+      preparation: 'Python + MuJoCo。まず身体の表示と制御を試す。',
+      flow: ['制御値を入力', '物理を計算', '姿勢を確認'],
+      steps: [
+        { action: '環境を準備する', result: '詳細ページから README の Installation へ。基本構成を導入し、tutorial notebook を開く。' },
+        { action: '身体を表示する', result: '教材の歩行環境を作り、ハエの画像を描画。まずモデルが表示されることを確かめる。' },
+        { action: '制御値を渡してみる', result: 'env.step(action) を進め、姿勢の変化を見る。歩かせるには別途制御器が必要。' },
+      ],
+      next: '入口の詳細ページ → README の Installation / tutorial notebook',
+    },
+    en: {
+      outcome: 'Send actions to virtual legs and observe changes in posture.',
+      preparation: 'Python + MuJoCo. Begin with body visualization and control.',
+      flow: ['Supply actions', 'Simulate physics', 'Observe posture'],
+      steps: [
+        { action: 'Prepare the environment', result: 'Follow the README core installation and open the tutorial notebook.' },
+        { action: 'Display the body', result: 'Create the walking environment and render an image to check the model loads.' },
+        { action: 'Try control actions', result: 'Advance env.step(action) and inspect posture. Walking requires a controller.' },
+      ],
+      next: 'Project page → README installation / tutorial notebook',
+    },
+  },
+  play: {
+    project: 'fly-chess-lab', name: 'Fly Chess Lab',
+    ja: {
+      outcome: '神経回路の信号が、チェスの一手になる様子を見る。',
+      preparation: 'WebAssembly 対応ブラウザ。最初に接続データの読み込みあり。',
+      flow: ['盤面を入力', '回路を計算', '指し手を選ぶ'],
+      steps: [
+        { action: '公開デモを開く', result: '詳細ページの「公式サイト」へ。初回の接続データ読み込みが終わるまで待つ。' },
+        { action: '対局を試す', result: '盤面で操作し、モデルが選ぶ手と活動記録を見る。強い棋力を目指すデモではない。' },
+        { action: '接続を切った結果と比較', result: 'シナプスを切る対照条件を試し、活動や着手の変化を確認する。' },
+      ],
+      next: '入口の詳細ページ →「公式サイト」の公開デモ',
+    },
+    en: {
+      outcome: 'Watch circuit signals turn into a chess move.',
+      preparation: 'WebAssembly-capable browser. Connection data loads on first use.',
+      flow: ['Encode the board', 'Read circuit signals', 'Choose a move'],
+      steps: [
+        { action: 'Open the public demo', result: 'Follow the official website link and wait for the connection data to load.' },
+        { action: 'Try a game', result: 'Use the board and inspect moves and activity records. Playing strength is limited.' },
+        { action: 'Compare a disconnected circuit', result: 'Try the disconnected-synapse control and inspect activity and move selection.' },
+      ],
+      next: 'Project page → Official website demo',
+    },
+  },
+};
