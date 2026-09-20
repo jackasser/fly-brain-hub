@@ -1,7 +1,7 @@
 ---
 import BaseLayout from '../../layouts/BaseLayout.astro';
 import ProjectGrid from '../ProjectGrid.astro';
-import FlyHero from '../FlyHero.astro';
+import FlyScroll from '../FlyScroll.astro';
 import { loadProjects } from '../../lib/load';
 import { countByCategory, featured, latest } from '../../lib/projects';
 import { CATEGORIES, CATEGORY_META } from '../../lib/taxonomy';
@@ -26,8 +26,7 @@ const viewAllCount = t(locale, 'home.viewAllCount').replace('{n}', String(projec
     <div class="hero__art">
       <span class="atlas-label">{t(locale, 'home.artLabel')}</span>
       <div class="atlas-orbit" aria-hidden="true"></div>
-      <FlyHero locale={locale} />
-      <span class="atlas-caption">{t(locale, 'home.artNote')}</span>
+      <FlyScroll locale={locale} />
     </div>
     <div class="hero__text">
       <p class="eyebrow">{t(locale, 'home.eyebrow')}</p>

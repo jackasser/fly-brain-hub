@@ -1,6 +1,9 @@
 import type { MessageKey } from './en';
 
 export const ja: Record<MessageKey, string> = {
+  'home.flyScroll': 'スクロールで、ハエを別の角度から。',
+  'home.flyModelNote': '模式モデル · 実測データではありません',
+  'home.flyModelLabel': '赤い複眼、2枚の翅、6本の脚を持つショウジョウバエの立体モデル',
   'site.name': 'Fly Brain Hub',
   'site.tagline': '世界中のハエ脳プロジェクトを、ジャンル別に。',
   'site.description':

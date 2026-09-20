@@ -15,14 +15,15 @@
     "org": "HHMI Janelia FlyEM / University of Cambridge / MRC LMB / Google Research",
     "region": "US",
     "license": "CC-BY-4.0",
-    "date": "2026-09-03",
+    "date": "2026-06-08",
     "addedAt": "2026-09-12",
     "featured": true,
-    "description_en": "The first complete wiring diagram of an adult male fruit fly's whole central nervous system: brain, optic lobes and ventral nerve cord in one volume, with more than 166,000 neurons. Released as open data under CC-BY, it is the dataset behind the September 2026 wave of fly-brain demos.",
-    "description_ja": "オスのショウジョウバエ成虫の中枢神経系（脳・視葉・腹側神経索）をひとつの体積として再構成した初の全配線図。16 万以上のニューロンを含み、CC-BY で公開されている。2026 年 9 月のハエ脳デモの波はこのデータから始まった。",
+    "description_en": "A complete wiring diagram of an adult male fruit fly’s central nervous system, combining the brain, optic lobes and ventral nerve cord with more than 166,000 neurons. The CC-BY dataset reached v1.0 on 2026-06-08; the Cell paper was published on 2026-09-03. These are separate release events.",
+    "description_ja": "オスのショウジョウバエ成虫の脳・視葉・腹側神経索をまとめた中枢神経系の全配線図。16万以上のニューロンを含み、CC-BYで利用できる。v1.0データ公開は2026-06-08、Cell論文公開は2026-09-03で、データの版公開と論文の発表は別の出来事。",
     "sourceRefs": [
       "https://male-cns.janelia.org/download/",
-      "https://www.janelia.org/project-team/flyem/male-cns-connectome"
+      "https://www.janelia.org/project-team/flyem/male-cns-connectome",
+      "https://male-cns.janelia.org/"
     ]
   },
   {
@@ -4444,6 +4445,614 @@
     "description_ja": "ブームをタイムラインからではなく取材から書いた Becky Ferreira の記事（2026-09-15）。発端となった大学院生の Minecraft のハエが 1 日で数百万回再生に達した経緯をたどり、Doom や Beat Saber、ビットコイン取引といった遊びの並びに、同じ公開データでより硬い問い（学習に関わる回路の特定）に取り組む研究者を置く。そのうえで、生化学を含まない構造の地図は意識の候補にはならないと明言する。2024 年のメス脳に対するオス版であり、細胞レベルで両者を比較できる最初の機会だという科学的文脈も示している。",
     "sourceRefs": [
       "https://www.404media.co/a-digital-fly-brain-has-taken-over-the-internet/"
+    ]
+  },
+  {
+    "id": "flylab",
+    "name": "FlyLab",
+    "url": "https://github.com/Sudharsanselvaraj/Flylab",
+    "repoUrl": "https://github.com/Sudharsanselvaraj/Flylab",
+    "category": "demo",
+    "tags": [
+      "browser-control",
+      "embodiment"
+    ],
+    "datasets": [
+      "malecns"
+    ],
+    "org": "Sudharsanselvaraj",
+    "license": "MIT (code); CC-BY-4.0 (data)",
+    "date": "2026",
+    "addedAt": "2026-09-20",
+    "description_en": "A research prototype that turns Chromium screenshots into keyboard actions through a learned controller and simulated foreleg contacts. It includes MaleCNS activity views and execution traces. The demonstrated task is a fixed-layout, single-line HTML heading exercise; it does not establish general coding ability. The hosted showcase is static, while execution requires a local runtime.",
+    "description_ja": "Chromiumの画面画像を学習済み制御器で読み、仮想の前脚とキーボードの接触を通してキー操作する研究試作。MaleCNSの活動表示と実行記録を備える。対象は固定レイアウトの単一行HTML見出し課題で、汎用的なコーディング能力の実証ではない。公開サイトは静的紹介で、実行にはローカル環境が必要。",
+    "sourceRefs": [
+      "https://github.com/Sudharsanselvaraj/Flylab",
+      "https://api.github.com/repos/Sudharsanselvaraj/Flylab"
+    ]
+  },
+  {
+    "id": "flydoom",
+    "name": "FlyDoom",
+    "url": "https://github.com/eganeganegan/flydoom",
+    "repoUrl": "https://github.com/eganeganegan/flydoom",
+    "category": "demo",
+    "tags": [
+      "doom",
+      "reinforcement-learning",
+      "controls"
+    ],
+    "datasets": [
+      "malecns"
+    ],
+    "org": "eganeganegan",
+    "license": "unknown (code); CC-BY-4.0 (data)",
+    "date": "2026",
+    "addedAt": "2026-09-20",
+    "description_en": "A VizDoom research framework for testing sparse recurrent controllers derived from MaleCNS. It supports PPO and plasticity experiments alongside degree-preserving rewires, random graphs and conventional neural-network baselines. Fixed and trainable components are experimental choices; the framework itself is not evidence that biological wiring outperforms those controls.",
+    "description_ja": "MaleCNS由来の疎な再帰制御器をVizDoomで調べる研究基盤。PPOや可塑性の実験に加え、次数を保つ配線変更、ランダムグラフ、通常のニューラルネットワークとの比較を用意する。固定する部分と学習する部分は実験上の選択であり、基盤の存在だけで生物配線の優位性が示されたわけではない。",
+    "sourceRefs": [
+      "https://github.com/eganeganegan/flydoom",
+      "https://api.github.com/repos/eganeganegan/flydoom"
+    ]
+  },
+  {
+    "id": "fly-swing",
+    "name": "fly-swing",
+    "url": "https://github.com/JHC56/fly-swing",
+    "repoUrl": "https://github.com/JHC56/fly-swing",
+    "category": "demo",
+    "tags": [
+      "mujoco",
+      "escape-circuit"
+    ],
+    "datasets": [
+      "malecns"
+    ],
+    "org": "JHC56",
+    "license": "MIT (code); CC-BY-4.0 (data)",
+    "date": "2026",
+    "addedAt": "2026-09-20",
+    "description_en": "A MuJoCo rope-swinging experiment driven by an extracted visual and escape circuit, with an engineered memory system choosing movement directions. Its body is a non-rotating capsule. The full-CNS display uses a separate offline computation and does not drive the controller; neither web swinging nor the added memory is a biological fly capability.",
+    "description_ja": "抽出した視覚・逃避回路をMuJoCoのロープ移動へ接続する実験。移動方向には独自の記憶機構を使い、身体は回転しないカプセルとして表す。全CNSの表示は制御とは別のオフライン計算で、全脳が身体を動かしているわけではない。糸による移動や追加の記憶は人工的な仕組み。",
+    "sourceRefs": [
+      "https://github.com/JHC56/fly-swing",
+      "https://api.github.com/repos/JHC56/fly-swing"
+    ]
+  },
+  {
+    "id": "train-your-fly",
+    "name": "train-your-fly",
+    "url": "https://github.com/eudald-seeslab/train-your-fly",
+    "repoUrl": "https://github.com/eudald-seeslab/train-your-fly",
+    "category": "simulation",
+    "tags": [
+      "image-classification",
+      "pytorch",
+      "learning"
+    ],
+    "datasets": [
+      "flywire-fafb"
+    ],
+    "org": "eudald-seeslab",
+    "license": "Apache-2.0 (code); CC-BY-NC-4.0 (FlyWire data)",
+    "date": "2025",
+    "addedAt": "2026-09-20",
+    "description_en": "A PyTorch Geometric workflow that combines FlyWire v783 wiring with a compound-eye input model for image classification. Connectivity is fixed, but synaptic gains, optional thresholds and readout parameters can be learned. It is a trainable classifier constrained by a connectome, rather than an unchanged biological brain or a readout-only learning experiment.",
+    "description_ja": "FlyWire v783の配線と複眼入力モデルを組み合わせ、PyTorch Geometricで画像分類を学習するワークフロー。接続の有無を固定しながら、シナプスの係数、任意の閾値、読み出しを学習できる。生体の脳をそのまま動かすものでも、出力層だけを訓練する実験でもない。",
+    "sourceRefs": [
+      "https://github.com/eudald-seeslab/train-your-fly",
+      "https://api.github.com/repos/eudald-seeslab/train-your-fly"
+    ]
+  },
+  {
+    "id": "axonweave",
+    "name": "AxonWeave",
+    "url": "https://github.com/dhakalnirajan/axonweave",
+    "repoUrl": "https://github.com/dhakalnirajan/axonweave",
+    "category": "tool",
+    "tags": [
+      "sparse-networks",
+      "machine-learning"
+    ],
+    "datasets": [
+      "malecns"
+    ],
+    "org": "dhakalnirajan",
+    "license": "unknown (code); CC-BY-4.0 (data)",
+    "date": "2026",
+    "addedAt": "2026-09-20",
+    "description_en": "A sparse-network toolkit for using MaleCNS in NumPy/SciPy, PyTorch and TensorFlow/Keras. It preserves graph connectivity while allowing edge gains to be trained, and exposes assumptions about signs and receptors as model settings. Anatomical connections supply the structure; the numerical dynamics and learning rules remain modeling choices.",
+    "description_ja": "MaleCNSをNumPy/SciPy、PyTorch、TensorFlow/Kerasで利用する疎なネットワーク基盤。接続構造を保ちながら辺の係数を学習でき、符号や受容体の仮定もモデル設定として扱う。解剖学的な配線が構造を与える一方、数値的な活動や学習則は計算モデル上の選択となる。",
+    "sourceRefs": [
+      "https://github.com/dhakalnirajan/axonweave",
+      "https://api.github.com/repos/dhakalnirajan/axonweave"
+    ]
+  },
+  {
+    "id": "malecns-mps",
+    "name": "MaleCNS on Apple MPS",
+    "url": "https://github.com/seohyunjun/mps-malecns-model",
+    "repoUrl": "https://github.com/seohyunjun/mps-malecns-model",
+    "category": "simulation",
+    "tags": [
+      "apple-silicon",
+      "pytorch",
+      "stimulation"
+    ],
+    "datasets": [
+      "malecns"
+    ],
+    "org": "seohyunjun",
+    "license": "unknown (code); CC-BY-4.0 (data)",
+    "date": "2026",
+    "addedAt": "2026-09-20",
+    "description_en": "A PyTorch MPS implementation for running MaleCNS stimulation experiments on a Mac, with 3D activity reports and a small grid-navigation task using a fixed neural encoder and trained output layer. The README also records limited activity in a basic stimulation run. Success on a small fixed-goal grid should not be read as general locomotion or a validated whole-brain behavior.",
+    "description_ja": "MacのPyTorch MPSでMaleCNSへの刺激実験を行い、3D活動レポートを作る実装。固定した神経エンコーダと学習する出力層による小さな格子移動課題も含む。基本刺激では活動が限られたこともREADMEに記載される。固定目標の格子課題の成功を、一般的な移動能力や生体の全脳行動の再現とは扱わない。",
+    "sourceRefs": [
+      "https://github.com/seohyunjun/mps-malecns-model",
+      "https://api.github.com/repos/seohyunjun/mps-malecns-model"
+    ]
+  },
+  {
+    "id": "connectome-os",
+    "name": "Connectome OS",
+    "url": "https://github.com/ruvnet/Connectome-OS",
+    "repoUrl": "https://github.com/ruvnet/Connectome-OS",
+    "category": "tool",
+    "tags": [
+      "rust",
+      "debugging",
+      "alpha"
+    ],
+    "datasets": [
+      "flywire-fafb"
+    ],
+    "org": "ruvnet",
+    "license": "unknown (code); CC-BY-NC-4.0 (FlyWire data)",
+    "date": "2026",
+    "addedAt": "2026-09-20",
+    "description_en": "An alpha Rust environment for stimulating, cutting and inspecting connectome-derived networks, with FlyWire and synthetic-network demonstrations. It is intended as an experimental debugging platform. The README separates working demonstrations from planned components, including MuJoCo body integration, so the roadmap is not a demonstration of embodied fly behavior.",
+    "description_ja": "配線由来のネットワークに刺激や切断を加え、挙動を調べるRustのアルファ版実験環境。FlyWireと合成ネットワークのデモを備える。READMEでは動作するデモと将来の構成要素を区別しており、MuJoCoの身体結合などの計画を、身体を持つハエの行動実証とは扱わない。",
+    "sourceRefs": [
+      "https://github.com/ruvnet/Connectome-OS",
+      "https://api.github.com/repos/ruvnet/Connectome-OS"
+    ]
+  },
+  {
+    "id": "cocoa",
+    "name": "cocoa",
+    "url": "https://github.com/flyconnectome/cocoa",
+    "repoUrl": "https://github.com/flyconnectome/cocoa",
+    "category": "tool",
+    "tags": [
+      "cross-dataset",
+      "cell-types"
+    ],
+    "datasets": [
+      "flywire-fafb",
+      "hemibrain",
+      "manc",
+      "malecns"
+    ],
+    "org": "flyconnectome",
+    "license": "GPL-3.0 (code); CC-BY-4.0 (data); CC-BY-NC-4.0 (FlyWire data)",
+    "date": "2023",
+    "addedAt": "2026-09-20",
+    "description_en": "A Python library for comparing and jointly clustering neurons across connectomes, including FlyWire, hemibrain, MANC and MaleCNS. It helps investigate cell-type correspondence across different reconstructions. The documented FANC and BANC integrations remain TODO items and are not counted as implemented support here.",
+    "description_ja": "FlyWire、hemibrain、MANC、MaleCNSなどのコネクトームをまたいでニューロンを比較し、共同クラスタリングを行うPythonライブラリ。異なる再構成の細胞型対応を調べるための基盤。READMEのFANC・BANC対応はTODOであり、利用可能な機能には含めていない。",
+    "sourceRefs": [
+      "https://github.com/flyconnectome/cocoa",
+      "https://api.github.com/repos/flyconnectome/cocoa"
+    ]
+  },
+  {
+    "id": "connecto",
+    "name": "Connecto",
+    "url": "https://github.com/schlegelp/connecto",
+    "repoUrl": "https://github.com/schlegelp/connecto",
+    "category": "tool",
+    "tags": [
+      "cave",
+      "neuprint",
+      "cross-dataset"
+    ],
+    "datasets": [],
+    "org": "schlegelp",
+    "license": "GPL-3.0 (code)",
+    "date": "2022",
+    "addedAt": "2026-09-20",
+    "description_en": "A Python interface that brings CAVE and neuPrint-backed connectomes behind a common query layer. Its dataset capability matrix distinguishes access to connectivity, morphology and annotations. It reduces differences between data services without implying that every dataset exposes the same information or operations.",
+    "description_ja": "CAVEとneuPrintを使うコネクトームを共通の問い合わせ窓口で扱うPythonライブラリ。接続、形態、注釈など、データセットごとに取得可能な情報を機能表で区別する。サービスの違いを吸収するための道具で、すべてのデータセットが同じ情報や操作を提供するわけではない。",
+    "sourceRefs": [
+      "https://github.com/schlegelp/connecto",
+      "https://api.github.com/repos/schlegelp/connecto"
+    ]
+  },
+  {
+    "id": "drocat",
+    "name": "DROCAT",
+    "url": "https://github.com/Swida-Alba/Drosophila-cross-dataset-connectome-analysis",
+    "repoUrl": "https://github.com/Swida-Alba/Drosophila-cross-dataset-connectome-analysis",
+    "category": "tool",
+    "tags": [
+      "cross-dataset",
+      "visualization",
+      "neuronbridge"
+    ],
+    "datasets": [],
+    "org": "Swida-Alba",
+    "license": "MIT (code)",
+    "date": "2023",
+    "addedAt": "2026-09-20",
+    "description_en": "A Python and web-UI toolkit for cross-dataset circuit analysis, path finding, 3D morphology views and finding experimental lines through NeuronBridge. The reviewed README describes version 4.5.0. Capabilities differ across datasets: BANC morphology-similarity analysis has deferred functionality even where other BANC operations are available.",
+    "description_ja": "複数データセットの回路解析、経路探索、3D形態表示、NeuronBridgeによる実験用系統探しをまとめたPythonとWeb UIのツール群。確認したREADMEはv4.5.0。データセット間で対応機能に差があり、BANCの一部操作が使えても、形態類似性解析には未対応の部分がある。",
+    "sourceRefs": [
+      "https://github.com/Swida-Alba/Drosophila-cross-dataset-connectome-analysis",
+      "https://api.github.com/repos/Swida-Alba/Drosophila-cross-dataset-connectome-analysis"
+    ]
+  },
+  {
+    "id": "neuvid",
+    "name": "neuVid",
+    "url": "https://github.com/connectome-neuprint/neuVid",
+    "repoUrl": "https://github.com/connectome-neuprint/neuVid",
+    "category": "tool",
+    "tags": [
+      "blender",
+      "visualization",
+      "video"
+    ],
+    "datasets": [],
+    "org": "connectome-neuprint",
+    "license": "unknown (code)",
+    "date": "2020",
+    "addedAt": "2026-09-20",
+    "description_en": "Tools for producing anatomical explanatory videos from connectome data using Blender or VVDViewer. neuPrint and Neuroglancer resources can supply neuron geometry and scene inputs. This is a workflow for composing and rendering scientific visualizations, rather than a simulator of neural activity or fly behavior.",
+    "description_ja": "コネクトームの形態データからBlenderやVVDViewerで解説用動画を制作するツール。neuPrintやNeuroglancerのリソースを神経形状やシーン入力に利用できる。科学的な可視化の構成・描画を支えるもので、神経活動やハエの行動を計算するシミュレータではない。",
+    "sourceRefs": [
+      "https://github.com/connectome-neuprint/neuVid",
+      "https://api.github.com/repos/connectome-neuprint/neuVid"
+    ]
+  },
+  {
+    "id": "drosophila-neurotransmitters",
+    "name": "Drosophila Neurotransmitters",
+    "url": "https://github.com/flyconnectome/drosophila_neurotransmitters",
+    "repoUrl": "https://github.com/flyconnectome/drosophila_neurotransmitters",
+    "category": "tool",
+    "tags": [
+      "neurotransmitters",
+      "reference"
+    ],
+    "datasets": [],
+    "org": "flyconnectome",
+    "license": "CC-BY-4.0",
+    "date": "2024",
+    "addedAt": "2026-09-20",
+    "description_en": "A curated reference of neurotransmitter assignments for Drosophila cell types, grounded in the experimental literature. It offers supporting evidence for interpreting connectome annotations and comparing predicted transmitters with published observations. The repository provides reference tables, not a new whole-brain reconstruction.",
+    "description_ja": "ショウジョウバエの細胞型ごとの神経伝達物質情報を、実験文献に基づいて整理した参照資料。コネクトームの注釈を解釈し、伝達物質の予測と既報の観察を比較する際の根拠を探せる。新しい全脳再構成データではなく、文献に対応づけられた表を提供する。",
+    "sourceRefs": [
+      "https://github.com/flyconnectome/drosophila_neurotransmitters",
+      "https://api.github.com/repos/flyconnectome/drosophila_neurotransmitters"
+    ]
+  },
+  {
+    "id": "male-visual-system-code",
+    "name": "Male visual system connectome analysis",
+    "url": "https://github.com/reiserlab/male-drosophila-visual-system-connectome-code",
+    "repoUrl": "https://github.com/reiserlab/male-drosophila-visual-system-connectome-code",
+    "category": "tool",
+    "tags": [
+      "optic-lobe",
+      "reproducibility"
+    ],
+    "datasets": [
+      "optic-lobe"
+    ],
+    "org": "reiserlab",
+    "license": "GPL-3.0 (code); CC-BY-4.0 (data)",
+    "date": "2024",
+    "addedAt": "2026-09-20",
+    "description_en": "Analysis code supporting Nern and colleagues’ 2025 study of the male Drosophila visual-system connectome. It provides a reproducible entry point into the study’s computations and figures, complementing the interactive Cell Type Explorer. This is the associated research-code resource, rather than an additional connectome dataset.",
+    "description_ja": "Nernらによる2025年の雄ショウジョウバエ視覚系コネクトーム研究を支える解析コード。計算や図の作成をたどる入口となり、対話的なCell Type Explorerを補完する。同じ研究に付随する再現用コードとして掲載し、別のコネクトームデータセットとは数えない。",
+    "sourceRefs": [
+      "https://github.com/reiserlab/male-drosophila-visual-system-connectome-code",
+      "https://api.github.com/repos/reiserlab/male-drosophila-visual-system-connectome-code"
+    ]
+  },
+  {
+    "id": "eoscircuits",
+    "name": "EOScircuits",
+    "url": "https://github.com/FlyBrainLab/EOScircuits",
+    "repoUrl": "https://github.com/FlyBrainLab/EOScircuits",
+    "category": "simulation",
+    "tags": [
+      "olfaction",
+      "flybrainlab"
+    ],
+    "datasets": [],
+    "org": "FlyBrainLab",
+    "license": "unknown (code)",
+    "date": "2021",
+    "addedAt": "2026-09-20",
+    "description_en": "Executable early-olfactory-system circuit libraries for FlyBrainLab and Neurokernel, covering antenna, antennal-lobe and mushroom-body models. They help assemble and run sensory-processing models from earlier circuit research. This is an established modular modeling resource, rather than a newly released whole-brain game agent.",
+    "description_ja": "FlyBrainLabとNeurokernelで動かす初期嗅覚系の回路ライブラリ。触角、触角葉、キノコ体のモデルを含み、過去の回路研究をもとに感覚処理モデルを組み立てて実行するために使う。以前からあるモジュール型の研究基盤で、全脳を用いた新作ゲームエージェントではない。",
+    "sourceRefs": [
+      "https://github.com/FlyBrainLab/EOScircuits",
+      "https://api.github.com/repos/FlyBrainLab/EOScircuits"
+    ]
+  },
+  {
+    "id": "fly-space-program",
+    "name": "Fly Space Program",
+    "url": "https://github.com/steph4n-gh/fly-space-program",
+    "repoUrl": "https://github.com/steph4n-gh/fly-space-program",
+    "category": "demo",
+    "tags": [
+      "rocket",
+      "controls",
+      "simulation"
+    ],
+    "datasets": [
+      "malecns"
+    ],
+    "org": "steph4n-gh",
+    "license": "unknown (code); CC-BY-4.0 (data)",
+    "date": "2026",
+    "addedAt": "2026-09-20",
+    "description_en": "A simulated rocket-control experiment combining MaleCNS-derived dynamics with trained command readouts. The author reports 60 successful landings in 80 unseen-start trials across ten tasks, versus none in a vision-blocked control. Failures remain part of the report. The result does not establish completion of every planned mission or operation of the proposed physical Fly Cube.",
+    "description_ja": "MaleCNS由来の活動と学習した指令読み出しを組み合わせる仮想ロケット制御実験。作者は10課題の未知初期条件で80回中60回の着陸成功、視覚を遮る対照では0回と報告し、失敗例も残す。すべての計画ミッションの達成や、構想段階の実機Fly Cubeの動作実証ではない。",
+    "sourceRefs": [
+      "https://github.com/steph4n-gh/fly-space-program",
+      "https://api.github.com/repos/steph4n-gh/fly-space-program"
+    ]
+  },
+  {
+    "id": "flyocr",
+    "name": "FlyOCR",
+    "url": "https://github.com/jerryjliu/fly_ocr",
+    "repoUrl": "https://github.com/jerryjliu/fly_ocr",
+    "category": "demo",
+    "tags": [
+      "ocr",
+      "controls"
+    ],
+    "datasets": [
+      "malecns"
+    ],
+    "org": "jerryjliu",
+    "license": "MIT (code); CC-BY-4.0 (data)",
+    "date": "2026",
+    "addedAt": "2026-09-20",
+    "description_en": "An OCR experiment that passes printed characters through a fixed MaleCNS circuit and learns a small decoder for the resulting activity. It includes native computation, Python tooling and a research report with baseline comparisons. Conventional classifiers outperform the fly model in reported comparisons, so the work should not be described as proving an advantage of biological wiring.",
+    "description_ja": "印刷文字を固定したMaleCNS回路へ入力し、活動から文字を読む小さなデコーダを学習するOCR実験。ネイティブ計算、Pythonツール、対照比較を含む研究報告を公開する。通常の分類器がハエモデルを上回る比較もあり、生物配線の優位性を実証した成果とは扱わない。",
+    "sourceRefs": [
+      "https://github.com/jerryjliu/fly_ocr",
+      "https://api.github.com/repos/jerryjliu/fly_ocr",
+      "https://github.com/jerryjliu/fly_ocr/blob/main/docs/research-report.md"
+    ]
+  },
+  {
+    "id": "music-on-the-fly",
+    "name": "Music on the Fly",
+    "url": "https://github.com/matsuo-koya/music-on-the-fly",
+    "repoUrl": "https://github.com/matsuo-koya/music-on-the-fly",
+    "category": "demo",
+    "tags": [
+      "music",
+      "generative-art",
+      "browser"
+    ],
+    "datasets": [
+      "flywire-fafb"
+    ],
+    "org": "Koya Matsuo",
+    "license": "unknown (code); CC-BY-NC-4.0 (FlyWire data)",
+    "date": "2026-09-18",
+    "addedAt": "2026-09-20",
+    "description_en": "Koya Matsuo’s browser music work maps FlyWire v783 wiring through artificial dynamics and human-designed musical rules, with MIDI and video export. Its network display uses a layout rather than anatomical neuron positions. It is a generative artwork informed by a connectome, not a recording of music composed by a living fly.",
+    "description_ja": "松尾公也氏によるブラウザ音楽作品。FlyWire v783の配線を人工的なダイナミクスと人が設計した音楽規則に結び、MIDIや映像を書き出せる。表示位置は解剖座標ではなくレイアウト。コネクトームを用いた生成作品であり、生きたハエが作曲した音楽の記録ではない。",
+    "sourceRefs": [
+      "https://github.com/matsuo-koya/music-on-the-fly",
+      "https://api.github.com/repos/matsuo-koya/music-on-the-fly",
+      "https://www.techno-edge.net/article/2026/09/18/5507.html"
+    ],
+    "region": "JP"
+  },
+  {
+    "id": "faiku",
+    "name": "Faiku",
+    "url": "https://github.com/xyzzyapps/faiku",
+    "repoUrl": "https://github.com/xyzzyapps/faiku",
+    "category": "demo",
+    "tags": [
+      "drawing",
+      "mushroom-body",
+      "learning"
+    ],
+    "datasets": [
+      "malecns"
+    ],
+    "org": "xyzzyapps",
+    "license": "unknown (code); CC-BY-4.0 (data)",
+    "date": "2026",
+    "addedAt": "2026-09-20",
+    "description_en": "A mushroom-body learning experiment that traces target Japanese and English glyphs as 2D movements. The repository distinguishes a MaleCNS-based route from a simplified eight-channel fallback. Tracing provided letters or verse is a motor-learning task here; it does not demonstrate autonomous poetry composition or semantic understanding.",
+    "description_ja": "キノコ体の学習を使い、日本語・英語の見本の文字を2Dの動作軌跡で描く実験。MaleCNSを使う方式と8チャネルの簡略版を区別する。与えられた文字や詩をなぞる運動学習課題であり、自律的に詩を作る能力や文章の意味理解を示すものではない。",
+    "sourceRefs": [
+      "https://github.com/xyzzyapps/faiku",
+      "https://api.github.com/repos/xyzzyapps/faiku"
+    ]
+  },
+  {
+    "id": "fruit-fly-fashion",
+    "name": "Fruit Fly Fashion",
+    "url": "https://github.com/jtc268/fruit-fly-fashion",
+    "repoUrl": "https://github.com/jtc268/fruit-fly-fashion",
+    "category": "demo",
+    "tags": [
+      "fashion",
+      "generative-art"
+    ],
+    "datasets": [
+      "malecns"
+    ],
+    "org": "jtc268",
+    "license": "MIT (code); CC-BY-4.0 (data)",
+    "date": "2026",
+    "addedAt": "2026-09-20",
+    "description_en": "A fashion-art experiment using MaleCNS spike vectors to change the position, rotation and scale of existing print designs. Humans supply the source graphics and the original colors are preserved. The project explores a connectome-driven transformation of artwork, rather than a fly independently inventing garment designs from nothing.",
+    "description_ja": "MaleCNSのスパイクベクトルを使い、既存のプリント図案の位置・角度・大きさを変える服飾アート実験。元の図案は人が与え、色も保持する。コネクトームによる図案の変形を探る作品であり、ハエがゼロから衣服のデザインを発明する仕組みではない。",
+    "sourceRefs": [
+      "https://github.com/jtc268/fruit-fly-fashion",
+      "https://api.github.com/repos/jtc268/fruit-fly-fashion"
+    ]
+  },
+  {
+    "id": "fly-odor-onoff",
+    "name": "fly-odor-onoff",
+    "url": "https://github.com/yukincom/fly-odor-onoff",
+    "repoUrl": "https://github.com/yukincom/fly-odor-onoff",
+    "category": "simulation",
+    "tags": [
+      "olfaction",
+      "intervention",
+      "controls"
+    ],
+    "datasets": [
+      "malecns"
+    ],
+    "org": "yukincom",
+    "license": "unknown (code); CC-BY-4.0 (data)",
+    "date": "2026",
+    "addedAt": "2026-09-20",
+    "description_en": "An odor ON/OFF intervention study using the fixed MaleCNS LIF model derived from fly-brain-minecraft. It investigates persistent activity in four DM1/VA2 projection neurons and how blocking input during the OFF period changes that activity while retaining ON responses. The results concern this model and intervention, not a biological validation or repair of the entire circuit.",
+    "description_ja": "fly-brain-minecraft由来の固定MaleCNS LIFモデルを使った臭気ON/OFF介入実験。DM1・VA2の4投射ニューロンに残る活動を調べ、OFF期間の入力遮断で持続活動を抑えつつON反応を保てるか検討する。このモデルと介入条件での結果であり、生体検証や回路全体の修正を達成したものではない。",
+    "sourceRefs": [
+      "https://github.com/yukincom/fly-odor-onoff",
+      "https://api.github.com/repos/yukincom/fly-odor-onoff"
+    ]
+  },
+  {
+    "id": "neurosecretory-connectome",
+    "name": "Synaptic connectome of a neurosecretory network",
+    "url": "https://elifesciences.org/reviewed-preprints/102684v2",
+    "category": "media",
+    "tags": [
+      "reviewed-preprint",
+      "neuroendocrine"
+    ],
+    "datasets": [],
+    "org": "Theresa H McKim et al.",
+    "date": "2026-09-04",
+    "addedAt": "2026-09-20",
+    "description_en": "An eLife reviewed preprint integrating connectivity and transcriptomic evidence to examine a neurosecretory network in the adult fly brain. It develops predictions about endocrine and motor coordination and reports selected functional experiments. This entry points to the September 2026 second version; the first reviewed preprint appeared in November 2024.",
+    "description_ja": "成体ハエ脳の神経分泌ネットワークを、配線とトランスクリプトームの情報から調べたeLifeの査読済みプレプリント。内分泌と運動の協調に関する予測と一部の機能実験を示す。掲載対象は2026年9月の第2版で、最初の査読済みプレプリントは2024年11月に公開された。",
+    "sourceRefs": [
+      "https://elifesciences.org/reviewed-preprints/102684v2"
+    ]
+  },
+  {
+    "id": "gustatory-connectome-study",
+    "name": "The complete gustatory connectome of adult Drosophila",
+    "url": "https://www.janelia.org/publication/the-complete-gustatory-connectome-of-adult-drosophila-reveals-how-taste-guides-feeding",
+    "category": "media",
+    "tags": [
+      "gustation",
+      "cell",
+      "circuit-analysis"
+    ],
+    "datasets": [
+      "malecns"
+    ],
+    "org": "Janelia Research Campus and collaborators",
+    "date": "2026-09-03",
+    "addedAt": "2026-09-20",
+    "description_en": "A Cell study reconstructing adult male gustatory pathways across the brain and ventral nerve cord, relating taste circuits to feeding, foraging and social behavior. It examines a sensory system within the whole-CNS wiring resource. The circuit analysis is distinct from the dataset release and from a simulation demonstrating those behaviors.",
+    "description_ja": "成体オスの脳と腹側神経索にまたがる味覚経路を再構成し、摂食・探索・社会行動との関係を調べたCell論文。全中枢神経系の配線資料を使って感覚回路を解析する研究であり、データセット自体の公開や、それらの行動を実演するシミュレーションとは区別する。",
+    "sourceRefs": [
+      "https://www.janelia.org/publication/the-complete-gustatory-connectome-of-adult-drosophila-reveals-how-taste-guides-feeding"
+    ]
+  },
+  {
+    "id": "orientation-maps-model",
+    "name": "Connectome-Based Modelling Reveals Orientation Maps",
+    "url": "https://arxiv.org/abs/2609.01330",
+    "category": "media",
+    "tags": [
+      "preprint",
+      "vision",
+      "spiking"
+    ],
+    "datasets": [],
+    "org": "Jia-Nuo Liew et al.",
+    "date": "2026-09-01",
+    "addedAt": "2026-09-20",
+    "description_en": "A preprint combining connectome structure with a spiking model to investigate orientation-selective representations in the Drosophila optic lobe. It reports orientation maps emerging in the computational model. Those modeled responses should be distinguished from direct physiological measurements of the living visual system.",
+    "description_ja": "コネクトームの構造とスパイキングモデルを組み合わせ、ショウジョウバエ視葉の輪郭方向表現を調べるプレプリント。計算モデルで現れる方向マップを報告する。モデルが示す応答と、生きた視覚系で直接測定した生理学的な結果を区別して読む必要がある。",
+    "sourceRefs": [
+      "https://arxiv.org/abs/2609.01330"
+    ]
+  },
+  {
+    "id": "early-olfactory-functional-logic",
+    "name": "The Connectome and the Functional Logic of the Early Olfactory System",
+    "url": "https://arxiv.org/abs/2608.19290",
+    "category": "media",
+    "tags": [
+      "preprint",
+      "olfaction",
+      "review"
+    ],
+    "datasets": [],
+    "org": "Aurel A. Lazar / Yiyin Zhou",
+    "date": "2026-08-19",
+    "addedAt": "2026-09-20",
+    "description_en": "A preprint reviewing the Drosophila early olfactory system through connectivity, synaptic evidence and executable circuit models. It considers feedforward pathways embedded in feedback networks and argues for linking wiring diagrams to functional computations. It offers context for interpreting connectome models rather than a new whole-brain benchmark result.",
+    "description_ja": "ショウジョウバエの初期嗅覚系を、配線、シナプスの知見、実行可能な回路モデルから整理するプレプリント。フィードバック網の中にある順方向経路を扱い、配線図を機能的な計算と結びつける必要性を論じる。全脳モデルの新しい性能記録ではなく、回路モデルを理解するための資料。",
+    "sourceRefs": [
+      "https://arxiv.org/abs/2608.19290"
+    ]
+  },
+  {
+    "id": "flynn",
+    "name": "FLYNN: Robot Navigation using Fly Brain Topology",
+    "url": "https://arxiv.org/abs/2607.00025",
+    "category": "media",
+    "tags": [
+      "preprint",
+      "robotics",
+      "navigation"
+    ],
+    "datasets": [],
+    "org": "Benquan Wang / Jingdao Chen",
+    "date": "2026-07-13",
+    "addedAt": "2026-09-20",
+    "description_en": "A preprint on recurrent neural networks shaped by fly-brain connectivity and trained for visual navigation in MuJoCo. The authors report robustness to unfamiliar conditions and sensory loss relative to their comparison networks. This entry follows the July 2026 revision and describes simulated navigation, not a demonstrated physical robot deployment.",
+    "description_ja": "ハエ脳の配線構造を持つ再帰ニューラルネットワークを、MuJoCoでの視覚ナビゲーションに学習させるプレプリント。作者は比較ネットワークに対する未知条件や感覚欠損への耐性を報告する。2026年7月改訂版のシミュレーション研究であり、実機ロボットでの運用成功としては扱わない。",
+    "sourceRefs": [
+      "https://arxiv.org/abs/2607.00025"
+    ]
+  },
+  {
+    "id": "flygm",
+    "name": "FlyGM: Whole-Brain Graph Model for Whole-Body Locomotion",
+    "url": "https://arxiv.org/abs/2602.17997",
+    "category": "media",
+    "tags": [
+      "preprint",
+      "reinforcement-learning",
+      "locomotion"
+    ],
+    "datasets": [],
+    "org": "Zehao Jin / Yaoye Zhu / Chen Zhang / Yanan Sui",
+    "date": "2026-06-14",
+    "addedAt": "2026-09-20",
+    "description_en": "A preprint using a whole-brain connectomic graph as the structure of a learned controller for a biomechanical fly model. Deep reinforcement learning connects the graph to whole-body locomotion tasks, with comparisons reported by the authors. The June 2026 revision concerns engineered control in a simulated body, not a direct replay of measured biological neural activity.",
+    "description_ja": "全脳コネクトームのグラフを学習する制御器の構造として使い、物理身体モデルを動かすプレプリント。深層強化学習で全身の運動課題へ接続し、作者が比較結果を報告する。2026年6月改訂版で、シミュレーション内の工学的な制御を扱う。計測した生体神経活動をそのまま再生するものではない。",
+    "sourceRefs": [
+      "https://arxiv.org/abs/2602.17997"
     ]
   }
 ]

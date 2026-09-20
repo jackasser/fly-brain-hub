@@ -1,4 +1,7 @@
 export const en = {
+  'home.flyScroll': 'Scroll to see another side.',
+  'home.flyModelNote': 'Schematic model · Not measured anatomy',
+  'home.flyModelLabel': 'A three-dimensional fruit fly with red compound eyes, two wings and six legs',
   'site.name': 'Fly Brain Hub',
   'site.tagline': 'Every fruit-fly brain project on Earth, sorted.',
   'site.description':

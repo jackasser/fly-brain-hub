@@ -51,4 +51,14 @@ describe('R-01 projects.json', () => {
       expect(p.description_en).not.toBe(p.description_ja);
     }
   });
+
+  it('AC-01-9 distinguishes the MaleCNS v1.0 release from its paper publication', () => {
+    const entry = parsed.find((p) => p.id === 'malecns')!;
+    expect(entry.date).toBe('2026-06-08');
+    expect(entry.sourceRefs).toContain('https://male-cns.janelia.org/');
+    for (const description of [entry.description_en, entry.description_ja]) {
+      expect(description).toContain('2026-06-08');
+      expect(description).toContain('2026-09-03');
+    }
+  });
 });
