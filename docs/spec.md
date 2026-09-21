@@ -551,3 +551,40 @@ AdSense の審査が通るまで（R-07 の「広告無効かつ本番ビルド�
 | AC-21-3 | reduced-motionでは姿勢が静止し、JS無効・WebGL不可でもSVGと検索が使える | `e2e/fly-scroll.spec.ts` |
 | AC-21-4 | モバイル幅でも3Dが表示され横にはみ出さない | `e2e/fly-scroll.spec.ts` |
 | AC-21-5 | 画面内にハエがあるときは最初のスクロールから姿勢が変わる。モバイルでヒーロー上端が画面上端に達するまで待たず、戻すと初期姿勢を復元する | `e2e/fly-scroll.spec.ts` |
+
+## R-22 日次の自動収集（2026-09-21 ユーザー指示「毎日最新情報を自動で取得して更新」「できるだけコードで実行」）
+
+毎日 1 回、前回追加分より後に公開された事例を集めて `projects.json` に足す。
+**判断（一次ソースを読んで載せるか決め、説明文を書く）以外はスクリプトに寄せる。**
+クラウド上の隔離セッションから実行するため、`gh` CLI やローカルの環境変数に依存しない。
+
+### `scripts/collect-candidates.mjs`（収集）
+
+- GitHub の検索 API だけを使う。`created:>=<since>` を付けた多言語の検索語（英・中・韓・日）と `topic:` の掃引に加え、
+  人気の取りこぼしを拾うため `sort=stars` の掃引も回す。`GITHUB_TOKEN` があれば使い、無くても動く。
+- **1 件ごとの `repos/{owner}/{repo}` は呼ばない。** 必要な項目（star・言語・ライセンス・作成日・homepage・fork か）は検索結果に含まれるため、
+  認証なしの core 60 回/時に収まる。README は `raw.githubusercontent.com` から取るので API 回数を消費しない。
+- 既に載っているものは `url` と `repoUrl` の集合（小文字・末尾スラッシュ除去）で除外する。`id` では突き合わせない。
+  fork と、同一リポジトリの重複も落とす。
+- 出力は候補の JSON と README のローカル複製だけ。`projects.json` は書き換えない。
+
+### `scripts/add-entries.mjs`（追加）
+
+- 新規エントリの JSON を受け取り、`projects.json` に追記する。2 スペース整形・末尾改行で書き戻し、既存の並びと内容は変えない。
+- 追記前に、`id` の重複・`url` / `repoUrl` の重複・必須キーの欠落・説明文の文字数（EN 60〜600 / JA 40〜600）・`addedAt` の形式を検査し、
+  1 件でも問題があれば何も書かない。スキーマ全体の検査は `npm run check`（AC-01-6）が担う。
+
+### 反映
+
+- 収集 → 一次ソース確認 → 追加 → `refresh-stars` → `npm run check` → `npm run build` → `npm run test:dist` の順で、
+  すべて green のときだけ `master` に push する。1 件も足せなかった日は何もコミットしない。
+  E2E はブラウザが用意できる環境でだけ回す（クラウド実行では必須ゲートにしない）。
+- `GITHUB_TOKEN` が無い環境では `refresh-stars` は全件スキップになるため実行しない（データは変えない）。
+
+| AC | Given / When / Then | テスト |
+|---|---|---|
+| AC-22-1 | `buildSearchUrls(since)` が全ての検索語と `topic:` を含み、各 URL に `created:>=<since>` が入り、`sort=stars` の掃引も含む | `collect.test.ts` |
+| AC-22-2 | `selectCandidates` が fork・既存の `url` / `repoUrl`・同一リポジトリの重複を落とし、star の多い順に返す | `collect.test.ts` |
+| AC-22-3 | `collect` が検索 API 以外のエンドポイントを呼ばない（1 件ごとの `repos/` を叩かない） | `collect.test.ts` |
+| AC-22-4 | `validateEntries` が id 重複・URL 重複・必須キー欠落・説明文の文字数超過・`addedAt` の形式違反を検出する | `collect.test.ts` |
+| AC-22-5 | `appendEntries` が既存の並びと内容を変えずに末尾へ足す | `collect.test.ts` |

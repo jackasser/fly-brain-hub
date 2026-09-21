@@ -17,7 +17,9 @@
     "check": "astro sync && astro check && vitest run",
     "verify": "npm run check && npm run build && npm run test:dist && npm run test:e2e",
     "linkcheck": "linkinator dist --recurse --skip \"^https?://(?!127\\.0\\.0\\.1)\"",
-    "refresh-stars": "node scripts/refresh-stars.mjs"
+    "refresh-stars": "node scripts/refresh-stars.mjs",
+    "collect": "node scripts/collect-candidates.mjs",
+    "add-entries": "node scripts/add-entries.mjs"
   },
   "dependencies": {
     "@astrojs/rss": "^4.0.19",
