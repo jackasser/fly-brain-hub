@@ -2,10 +2,13 @@ import { describe, expect, it } from 'vitest';
 import {
   SEARCH_TERMS,
   SEARCH_TOPICS,
+  STAR_SWEEP_TERMS,
   buildSearchUrls,
+  candidatesFromItems,
   collect,
   existingUrls,
   readmeUrl,
+  searchQueries,
   selectCandidates,
 } from '../../scripts/collect-candidates.mjs';
 import { appendEntries, validateEntries } from '../../scripts/add-entries.mjs';
@@ -88,6 +91,31 @@ describe('R-22 collect-candidates', () => {
     for (const url of called) expect(url.startsWith('https://api.github.com/search/repositories?')).toBe(true);
     expect(called.some((u) => /api\.github\.com\/repos\//.test(u))).toBe(false);
     expect(candidates.map((c) => c.fullName)).toEqual(['o/new']);
+  });
+
+  it('AC-22-6 searchQueries exposes the same sweep as plain query strings for another transport', () => {
+    const queries = searchQueries('2026-09-21', { starSince: '2026-09-16' });
+    expect(queries.length).toBe(SEARCH_TERMS.length + SEARCH_TOPICS.length + STAR_SWEEP_TERMS.length);
+    for (const entry of queries) {
+      expect(entry.q).toContain('created:>=');
+      expect(entry.order).toBe('desc');
+    }
+    for (const term of SEARCH_TERMS) expect(queries.some((e) => e.q.startsWith(`${term} `))).toBe(true);
+    for (const topic of SEARCH_TOPICS) expect(queries.some((e) => e.q.startsWith(`topic:${topic} `))).toBe(true);
+    const starSweep = queries.filter((e) => e.sort === 'stars');
+    expect(starSweep.length).toBe(STAR_SWEEP_TERMS.length);
+    for (const entry of starSweep) expect(entry.q).toContain('created:>=2026-09-16');
+    // the direct-API path is built from exactly these queries
+    expect(buildSearchUrls('2026-09-21', { starSince: '2026-09-16' }).length).toBe(queries.length);
+  });
+
+  it('AC-22-7 candidatesFromItems matches the API path for the same items', async () => {
+    const items = [item('o/a'), item('o/keep', { stargazers_count: 5 }), item('o/fork', { fork: true })];
+    const offline = candidatesFromItems(items, existing);
+    const fetchFn = async () => ({ ok: true, status: 200, json: async () => ({ items }) });
+    const { candidates } = await collect({ fetchFn: fetchFn as never, since: '2026-09-17', entries: existing });
+    expect(offline.map((c) => c.fullName)).toEqual(['o/keep']);
+    expect(offline).toEqual(candidates);
   });
 
   it('collect keeps going when one search request fails', async () => {

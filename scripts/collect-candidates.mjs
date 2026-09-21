@@ -2,10 +2,13 @@
 // R-22: collect fly-connectome repositories published since a given date.
 // Writes candidates and their READMEs to a working directory; never touches src/data/projects.json.
 // Usage: node scripts/collect-candidates.mjs [--since YYYY-MM-DD] [--out DIR] [--readmes N]
+//        --print-queries            print the queries instead of running them
+//        --from-json <file>         build candidates from raw search items collected elsewhere
 //        GITHUB_TOKEN is used when present (higher search rate limit) but is not required.
 import { mkdir, readFile, writeFile } from 'node:fs/promises';
 import { fileURLToPath } from 'node:url';
-import { dirname, join } from 'node:path';
+import { join } from 'node:path';
+import { tmpdir } from 'node:os';
 
 const DATA = fileURLToPath(new URL('../src/data/projects.json', import.meta.url));
 
@@ -43,18 +46,25 @@ function searchUrl(q, { sort, perPage = 50 } = {}) {
 }
 
 /**
- * Every search URL for one run.
+ * Every query for one run, as plain search strings.
+ * Use these with whatever GitHub search transport is available: this script's own fetch,
+ * or a sanctioned search tool in environments where api.github.com is closed to this session.
  * @param {string} since YYYY-MM-DD, inclusive
  * @param {{starSince?: string, perPage?: number}} [opts] starSince widens the star sweep window
  */
-export function buildSearchUrls(since, { starSince, perPage = 50 } = {}) {
-  const urls = [];
-  for (const term of SEARCH_TERMS) urls.push(searchUrl(`${term} created:>=${since}`, { perPage }));
-  for (const topic of SEARCH_TOPICS) urls.push(searchUrl(`topic:${topic} created:>=${since}`, { perPage }));
+export function searchQueries(since, { starSince, perPage = 50 } = {}) {
+  const queries = [];
+  for (const term of SEARCH_TERMS) queries.push({ q: `${term} created:>=${since}`, sort: 'updated', order: 'desc', perPage });
+  for (const topic of SEARCH_TOPICS) queries.push({ q: `topic:${topic} created:>=${since}`, sort: 'updated', order: 'desc', perPage });
   for (const term of STAR_SWEEP_TERMS) {
-    urls.push(searchUrl(`${term} created:>=${starSince ?? since}`, { sort: 'stars', perPage }));
+    queries.push({ q: `${term} created:>=${starSince ?? since}`, sort: 'stars', order: 'desc', perPage });
   }
-  return urls;
+  return queries;
+}
+
+/** The same queries as URLs, for the direct-API path. */
+export function buildSearchUrls(since, opts = {}) {
+  return searchQueries(since, opts).map(({ q, sort, perPage }) => searchUrl(q, { sort, perPage }));
 }
 
 const canonical = (url) => (url ? url.replace(/\/+$/, '').toLowerCase() : '');
@@ -107,6 +117,11 @@ export function selectCandidates(items, existing, { minStars = 0 } = {}) {
   return [...seen.values()].sort((a, b) => b.stars - a.stars || a.createdAt.localeCompare(b.createdAt));
 }
 
+/** Raw search items (from any transport) reduced to ranked, deduplicated candidates. */
+export function candidatesFromItems(items, entries) {
+  return selectCandidates(items, existingUrls(entries));
+}
+
 /** READMEs come from the raw host, which does not spend API quota. */
 export function readmeUrl(fullName) {
   return `https://raw.githubusercontent.com/${fullName}/HEAD/README.md`;
@@ -149,17 +164,43 @@ async function main() {
   const lastAdded = entries.reduce((max, e) => (e.addedAt > max ? e.addedAt : max), '0000-00-00');
   const since = arg('--since', lastAdded);
   const starSince = arg('--star-since', new Date(Date.parse(`${since}T00:00:00Z`) - 5 * 864e5).toISOString().slice(0, 10));
-  const out = arg('--out', join(dirname(DATA), '..', '..', '.cache', 'collect'));
+  const out = arg('--out', join(tmpdir(), 'fly-brain-hub-collect'));
   const readmeCount = Number(arg('--readmes', '40'));
+  const fromJson = arg('--from-json', null);
 
-  const { candidates, errors, queriesRun } = await collect({
-    fetchFn: fetch,
-    since,
-    starSince,
-    entries,
-    token: process.env.GITHUB_TOKEN,
-    pauseMs: process.env.GITHUB_TOKEN ? 2100 : 6500,
-  });
+  // Environments where api.github.com is closed to this session ask for the queries,
+  // run them through their own search tool, and hand the raw items back with --from-json.
+  if (process.argv.includes('--print-queries')) {
+    for (const { q, sort, order, perPage } of searchQueries(since, { starSince })) {
+      console.log(JSON.stringify({ query: q, sort, order, perPage }));
+    }
+    console.error(`${SEARCH_TERMS.length + SEARCH_TOPICS.length + STAR_SWEEP_TERMS.length} queries for since=${since} (stars from ${starSince})`);
+    return;
+  }
+
+  let candidates;
+  let errors = [];
+  let queriesRun = 0;
+  if (fromJson) {
+    const raw = JSON.parse(await readFile(fromJson, 'utf8'));
+    const items = Array.isArray(raw) ? raw.flatMap((r) => (Array.isArray(r?.items) ? r.items : [r])) : (raw.items ?? []);
+    candidates = candidatesFromItems(items, entries);
+    console.log(`from ${fromJson}: ${items.length} raw items`);
+  } else {
+    const run = await collect({
+      fetchFn: fetch,
+      since,
+      starSince,
+      entries,
+      token: process.env.GITHUB_TOKEN,
+      pauseMs: process.env.GITHUB_TOKEN ? 2100 : 6500,
+    });
+    ({ candidates, errors, queriesRun } = run);
+    if (errors.length === queriesRun && queriesRun > 0) {
+      console.error('every search failed. If this session cannot reach api.github.com, run with');
+      console.error('  --print-queries, search with the tool this environment sanctions, then --from-json <file>');
+    }
+  }
 
   const withDescription = candidates.filter((c) => (c.description ?? '').length > 40);
   const shortlist = withDescription.slice(0, readmeCount);
@@ -180,7 +221,8 @@ async function main() {
 
   await writeFile(join(out, 'candidates.json'), `${JSON.stringify({ since, starSince, queriesRun, errors, candidates: fetched }, null, 2)}\n`, 'utf8');
   console.log(`since ${since} (stars swept from ${starSince}) | ${queriesRun} queries, ${errors.length} failed`);
-  console.log(`${candidates.length} new repos, ${withDescription.length} with a description, ${fetched.length} READMEs fetched into ${out}`);
+  const ok = fetched.filter((f) => f.readmeFile).length;
+  console.log(`${candidates.length} new repos, ${withDescription.length} with a description, ${ok}/${fetched.length} READMEs fetched into ${out}`);
   for (const repo of fetched) {
     const bytes = repo.readmeBytes ?? 0;
     console.log(`${String(repo.stars).padStart(4)} ${repo.createdAt} ${String(bytes).padStart(6)}B ${repo.fullName} | ${(repo.description ?? '').slice(0, 90)}`);

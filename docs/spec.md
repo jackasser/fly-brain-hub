@@ -588,3 +588,21 @@ AdSense の審査が通るまで（R-07 の「広告無効かつ本番ビルド�
 | AC-22-3 | `collect` が検索 API 以外のエンドポイントを呼ばない（1 件ごとの `repos/` を叩かない） | `collect.test.ts` |
 | AC-22-4 | `validateEntries` が id 重複・URL 重複・必須キー欠落・説明文の文字数超過・`addedAt` の形式違反を検出する | `collect.test.ts` |
 | AC-22-5 | `appendEntries` が既存の並びと内容を変えずに末尾へ足す | `collect.test.ts` |
+
+### 検索 API が閉じている環境（2026-09-22 追記）
+
+クラウドのセッションは GitHub アクセスが対象リポジトリだけにスコープされ、`api.github.com/search/repositories` は
+トークンの有無にかかわらず 403 を返す（`raw.githubusercontent.com` と自リポジトリの `repos/` は通る）。
+そのため収集の**問い合わせ経路だけ**を差し替えられるようにする。クエリの組み立て・重複除外・順位付けはスクリプトのまま。
+
+- `--print-queries`：検索文字列を 1 行 1 JSON で出す。実行環境が認めた検索ツールにそのまま渡す
+- `--from-json <file>`：その検索結果（生の items、配列でも `{items:[...]}` の配列でも可）から候補を作る
+- 既定の出力先はリポジトリ外（OS の一時ディレクトリ）。作業ファイルをコミットしない
+
+この環境では `refresh-stars` も他リポジトリの `repos/` が 403 になるため実行しない。
+新規エントリの `stars` は検索結果の値をそのまま記録し、`starsUpdatedAt` を同日にする。
+
+| AC | Given / When / Then | テスト |
+|---|---|---|
+| AC-22-6 | `searchQueries(since)` が全検索語・`topic:`・star 掃引を素の検索文字列として返し、`buildSearchUrls` がそれと同数の URL を作る | `collect.test.ts` |
+| AC-22-7 | `candidatesFromItems` が、同じ items に対して検索 API 経由と同じ候補集合を返す | `collect.test.ts` |
