@@ -8788,5 +8788,775 @@
     "sourceRefs": [
       "https://raw.githubusercontent.com/seowol-dev/flybrain-dino/HEAD/README.md"
     ]
+  },
+  {
+    "id": "flybrain-reservoir",
+    "name": "flybrain-reservoir",
+    "url": "https://github.com/MilanKalajdzic/flybrain-reservoir",
+    "repoUrl": "https://github.com/MilanKalajdzic/flybrain-reservoir",
+    "category": "simulation",
+    "tags": [
+      "reservoir-computing",
+      "echo-state-network",
+      "negative-result",
+      "controls",
+      "time-series",
+      "malecns",
+      "flywire"
+    ],
+    "datasets": [
+      "malecns",
+      "flywire-fafb"
+    ],
+    "org": "Milan Kalajdzic (@MilanKalajdzic)",
+    "license": "MIT",
+    "language": "Python",
+    "date": "2026-09-21",
+    "addedAt": "2026-09-26",
+    "stars": 1,
+    "starsUpdatedAt": "2026-09-26",
+    "description_en": "Asks one narrow question and answers it in the negative: is measured wiring a better reservoir than random wiring with matching statistics? The male CNS (166,700 neurons) becomes the recurrent layer of an echo state network fed daily market data, against rewirings that preserve each neuron's partner count. On forecasting there is no edge either way. On memory capacity the fly comes last, 8-11x behind random wiring, because its dense knots saturate before the rest of it moves. Per-region and per-neuron gains, a NARMA-10 benchmark and a replication on FlyWire all agree.",
+    "description_ja": "問いを一つに絞り、否定で答えている。実測の配線は、統計量をそろえた無作為配線より良いリザバーになるのか。雄性中枢神経系 166,700 ニューロンをエコーステートネットワークの再帰層にして日次の市場データを流し込み、各ニューロンの結合相手数を保ったまま配線を入れ替えた対照と比べる。予測性能はどちらにも差が出ない。記憶容量では実物のハエが最下位で、全神経系では無作為配線の 8〜11 分の 1 にとどまる。密な結び目が先に飽和し、残りがほとんど動かないためだという。脳領域ごと・ニューロンごとにゲインを最適化しても、NARMA-10 でも、FlyWire での再現でも結論は変わらない。",
+    "sourceRefs": [
+      "https://raw.githubusercontent.com/MilanKalajdzic/flybrain-reservoir/HEAD/README.md"
+    ]
+  },
+  {
+    "id": "supertruth-connectome",
+    "name": "SuperTruth Connectome Study",
+    "url": "https://supertruth.ai/research/connectome",
+    "repoUrl": "https://github.com/evil-robot/supertruth-connectome-public",
+    "category": "simulation",
+    "tags": [
+      "pre-registered",
+      "controls",
+      "fixed-substrate",
+      "health-data",
+      "llm-comparison",
+      "malecns"
+    ],
+    "datasets": [
+      "malecns"
+    ],
+    "org": "Jason Alan Snyder, SuperTruth Inc. (@evil-robot)",
+    "license": "MIT",
+    "language": "Python",
+    "date": "2026-09-20",
+    "addedAt": "2026-09-26",
+    "stars": 0,
+    "starsUpdatedAt": "2026-09-26",
+    "description_en": "A pre-registered study that holds the MaleCNS v1.0 wiring fixed (166,700 cells, 6,242,118 connections of five or more synapses), trains only the connection strengths and the way in and out, and asks it to reproduce a health-record trust score on 20,000 synthetic records. Its headline result undercuts the headline: a scrambled copy and a size-matched random graph scored just as well, so what mattered was the kind of substrate, not the fly's anatomy. Four language models got the same 300 records for comparison. The protocol, five controls and decision rules were dated before the first run.",
+    "description_ja": "MaleCNS v1.0 の配線（166,700 細胞、5 シナプス以上の結合 6,242,118 本）を一切変えずに固定し、結合の強さと入出力の取り方だけを学習させて、合成医療レコード 20,000 件の信頼度スコアを再現させた事前登録研究。見出しを自分で崩しているのが良い。各細胞の結合数と符号を保ったまま入れ替えた対照も、密度をそろえた無作為グラフも同じ精度を出したので、効いていたのはハエの解剖学ではなく「固定された疎な基盤」そのものだと結論している。同じ 300 件を言語モデル 4 種にも解かせて比較した。手順・5 つの対照・判定基準は初回実行前に日付入りで確定させている。",
+    "sourceRefs": [
+      "https://raw.githubusercontent.com/evil-robot/supertruth-connectome-public/HEAD/README.md",
+      "https://supertruth.ai/research/connectome"
+    ]
+  },
+  {
+    "id": "desktop-fly-android",
+    "name": "desktop-fly-android",
+    "url": "https://github.com/lan450/desktop-fly-android",
+    "repoUrl": "https://github.com/lan450/desktop-fly-android",
+    "category": "demo",
+    "tags": [
+      "android",
+      "desktop-pet",
+      "port",
+      "parity-test",
+      "escape",
+      "malecns",
+      "flywire"
+    ],
+    "datasets": [
+      "flywire-fafb",
+      "malecns"
+    ],
+    "org": "lan450 (@lan450)",
+    "license": "MIT",
+    "language": "Java",
+    "date": "2026-09-25",
+    "addedAt": "2026-09-26",
+    "stars": 0,
+    "starsUpdatedAt": "2026-09-26",
+    "description_en": "An Android rewrite of DesktopFly in plain Java, with no Gradle and no third-party dependencies, and it is interesting mainly as a check on the original. The same circuits run here: 668 neurons and 18,968 synapses of the FlyWire v783 escape and steering pathway at 1 kHz, plus 1,045 neurons of the MaleCNS v1.0 nerve cord driving six legs. A mirror of the Swift random-number stream lets it compare value by value against the original's self-test, and it reports the same numbers, including a first giant-fibre spike 4 ms after a looming stimulus. Touch is the looming threat; a swipe is an air puff.",
+    "description_ja": "DesktopFly の Android 移植。Gradle も外部依存も使わない素の Java で書かれており、面白いのは移植そのものより元実装の検証になっている点。回路は同じで、FlyWire v783 の逃避・旋回経路 668 ニューロン / 18,968 シナプスを 1 kHz で、MaleCNS v1.0 の神経索 1,045 ニューロンを六脚の駆動に使う。Swift 側の乱数生成を忠実に写した鏡を用意して本家の自己テストと値を突き合わせ、迫り来る刺激から巨大繊維の初発火まで 4 ms といった数値が一致したと報告している。指で押さえると迫来刺激、素早くなぞると気流になる。端末が熱いほど脚の時計が速くなる。",
+    "sourceRefs": [
+      "https://raw.githubusercontent.com/lan450/desktop-fly-android/HEAD/README.md"
+    ]
+  },
+  {
+    "id": "fly-terrarium",
+    "name": "fly-terrarium",
+    "url": "https://s31fdev.github.io/fly-terrarium/",
+    "repoUrl": "https://github.com/s31fdev/fly-terrarium",
+    "category": "body",
+    "tags": [
+      "neuromechfly",
+      "mujoco",
+      "route-following",
+      "looming",
+      "browser",
+      "flywire"
+    ],
+    "datasets": [
+      "flywire-fafb"
+    ],
+    "org": "s31fdev (@s31fdev)",
+    "license": "MIT",
+    "language": "Python",
+    "date": "2026-09-25",
+    "addedAt": "2026-09-26",
+    "stars": 0,
+    "starsUpdatedAt": "2026-09-26",
+    "description_en": "A learning project that stays honest about being one. A NeuroMechFly v2 body walks a route written in a YAML file across a flat arena and writes out a video, the trajectory as a table and a plot of it. It can also walk towards what it sees and escape a looming pillar, and in that case the decision comes from a whole-brain model of 138,639 neurons rather than from the route file. The same brain runs in the browser as a terrarium page. The README gives the timings plainly: one second of model time takes about twelve seconds on the author's machine.",
+    "description_ja": "学習プロジェクトだと名乗ったうえで、その通りの中身を丁寧に作ってある。NeuroMechFly v2 の身体が YAML に書いた経路を平らな闘技場で歩き、動画と時刻付きの軌跡表と俯瞰図を書き出す。見たものに向かって歩いたり、迫ってくる柱から逃げたりもでき、その判断だけは経路ファイルではなく 138,639 ニューロンの全脳モデルが出す。同じ脳はブラウザ版のテラリウムでも動く。README は速度も隠さず書いていて、著者の機械ではモデル内の 1 秒を回すのに実時間で 12 秒ほどかかるという。",
+    "sourceRefs": [
+      "https://raw.githubusercontent.com/s31fdev/fly-terrarium/HEAD/README.md",
+      "https://s31fdev.github.io/fly-terrarium/"
+    ]
+  },
+  {
+    "id": "giant-fiber-gf1",
+    "name": "GiantFiber (GF-1)",
+    "url": "https://github.com/reacherwu/giant-fiber",
+    "repoUrl": "https://github.com/reacherwu/giant-fiber",
+    "category": "body",
+    "tags": [
+      "drone",
+      "px4",
+      "mavlink",
+      "looming",
+      "giant-fiber",
+      "reflex",
+      "malecns",
+      "flywire"
+    ],
+    "datasets": [
+      "flywire-fafb",
+      "malecns"
+    ],
+    "org": "reacherwu (@reacherwu)",
+    "license": "Apache-2.0",
+    "language": "Python",
+    "date": "2026-09-25",
+    "addedAt": "2026-09-26",
+    "stars": 0,
+    "starsUpdatedAt": "2026-09-26",
+    "description_en": "A reflex layer that sits underneath a flight controller rather than inside the planning loop, built from circuit motifs lifted out of the connectome: lobula Col4 cells computing angular expansion, two named giant-fibre descending cells, wide-field tangential cells for left-right asymmetry, and a sixteen-wedge central-complex ring that puts the aircraft back on heading after a roll. It preempts PX4 over MAVLink. The figures come from hardware-in-the-loop simulation, not a flown aircraft, and the repo is clear that the topology is a prior, not a running simulation of the measured network.",
+    "description_ja": "飛行制御の計画ループの中ではなく、その下に置く反射層。コネクトームから取り出した回路のかたちを使う。ロブラの Col4 細胞が視角の拡大を計算し、名前のついた巨大繊維の下行細胞 2 本、左右差を出す広視野の接線細胞、ロール後に機体を元の方位へ戻す中心複合体の 16 分割リングが続く。MAVLink 経由で PX4 に割り込む。掲げられている数値は実機の飛行ではなく hardware-in-the-loop シミュレーションのもので、配線は事前知識として使っているだけで実測ネットワークをそのまま走らせているわけではない、と明記している。",
+    "sourceRefs": [
+      "https://raw.githubusercontent.com/reacherwu/giant-fiber/HEAD/README.md"
+    ]
+  },
+  {
+    "id": "reflexguard",
+    "name": "ReflexGuard",
+    "url": "https://github.com/mrgrit/ReflexGuard",
+    "repoUrl": "https://github.com/mrgrit/ReflexGuard",
+    "category": "body",
+    "tags": [
+      "wheelchair",
+      "assistive",
+      "collision-avoidance",
+      "webots",
+      "shared-control",
+      "malecns"
+    ],
+    "datasets": [
+      "malecns"
+    ],
+    "org": "mrgrit (@mrgrit)",
+    "license": "unknown",
+    "language": "Python",
+    "date": "2026-09-24",
+    "addedAt": "2026-09-26",
+    "stars": 0,
+    "starsUpdatedAt": "2026-09-26",
+    "description_en": "Collision avoidance for a powered wheelchair, where the rider drives and the system only steps in when something is closing fast. A reduced MaleCNS v1.0 circuit of 187 neurons and 185 edges runs as a leaky integrate-and-fire model on a GPU behind an authenticated interface; a rule-based mock is kept as a separate mode for comparison. The README refuses the obvious overclaim: this is not a whole brain and not a physiologically validated model, and the validation so far is in a Webots simulation of three corridors, not on a real chair.",
+    "description_ja": "電動車椅子の衝突回避。運転するのは利用者で、危険が迫ったときだけ系が介入する。MaleCNS v1.0 から切り出した 187 ニューロン・185 辺の縮小回路を GPU 上で leaky integrate-and-fire として走らせ、認証つきの脳 API の向こうに置く。比較用にルールベースの模擬版も別モードとして残してある。README は誇張を自分で潰していて、これは全脳でも生理学的に検証されたモデルでもなく、現時点の検証範囲は 3 種類の廊下を用意した Webots シミュレーションであって実機の車椅子ではない、と書いている。大会提出用の保安版という位置づけ。",
+    "sourceRefs": [
+      "https://raw.githubusercontent.com/mrgrit/ReflexGuard/HEAD/README.md"
+    ]
+  },
+  {
+    "id": "flydefence",
+    "name": "FlyDefence",
+    "url": "https://github.com/david93518/flydefence",
+    "repoUrl": "https://github.com/david93518/flydefence",
+    "category": "tool",
+    "tags": [
+      "security",
+      "blue-team",
+      "negative-result",
+      "controls",
+      "rewiring",
+      "malecns"
+    ],
+    "datasets": [
+      "malecns"
+    ],
+    "org": "david93518 (@david93518)",
+    "license": "unknown",
+    "language": "Python",
+    "date": "2026-09-25",
+    "addedAt": "2026-09-26",
+    "stars": 0,
+    "starsUpdatedAt": "2026-09-26",
+    "description_en": "A local security investigation workbench with a connectome laboratory bolted on, and the value here is the result it reports against itself. A MaleCNS v1.0 subgraph of 5,269 neurons and 152,689 directed edges runs an engineering update rule, and the repo says plainly that its activity values are neither firing rates nor attack probabilities. Held-out network-intrusion data gives the real wiring 76.77% average precision against 77.20%, 77.28% and 76.06% for three degree-preserving rewirings, and 82.34% for the encoder alone. The biological topology did not help.",
+    "description_ja": "ローカルで動かすセキュリティ調査の作業台に、コネクトームの実験室を併設したもの。価値があるのは自分に不利な結果をそのまま載せている点。MaleCNS v1.0 から取った 5,269 ニューロン・152,689 有向辺の部分グラフを工学的な更新則で回すが、その活動値は発火率でも攻撃確率でもないと明言している。ネットワーク侵入データのホールドアウト評価で、実配線の平均適合率は 76.77% にとどまり、次数を保って配線を入れ替えた 3 つの対照（77.20% / 77.28% / 76.06%）を上回らず、符号化器だけの 82.34% にも届かなかった。生物由来の位相は効かなかった、と結論している。",
+    "sourceRefs": [
+      "https://raw.githubusercontent.com/david93518/flydefence/HEAD/README.md"
+    ]
+  },
+  {
+    "id": "flymsg",
+    "name": "flymsg",
+    "url": "https://github.com/gianlucamazza/flymsg",
+    "repoUrl": "https://github.com/gianlucamazza/flymsg",
+    "category": "simulation",
+    "tags": [
+      "validation",
+      "replication",
+      "pre-registered",
+      "dimorphism",
+      "threejs",
+      "malecns",
+      "flywire"
+    ],
+    "datasets": [
+      "malecns",
+      "flywire-fafb"
+    ],
+    "org": "Gianluca Mazza (@gianlucamazza)",
+    "license": "MIT",
+    "language": "Python",
+    "date": "2026-09-21",
+    "addedAt": "2026-09-26",
+    "stars": 0,
+    "starsUpdatedAt": "2026-09-26",
+    "description_en": "A whole-nervous-system spiking model of MaleCNS v1.0 that spends most of its effort checking itself rather than on demos. It runs a battery of circuits whose function is known from experiments, with controls, dose-response and latency-order checks, and reports passing all 29 with no compensating adjustment. Separately it re-runs the published brian2 model of Shiu et al. on the female FlyWire brain and agrees within noise, a comparison that turned up six places where an earlier version of this code had quietly diverged. A browser page replays the activity on real neuron surfaces.",
+    "description_ja": "MaleCNS v1.0 を丸ごとスパイキングモデルにしたものだが、労力の多くはデモではなく自己検証に向いている。実験から機能がわかっている回路を並べ、対照・用量反応・潜時の順序まで含めて検査し、補正なしで 29 項目すべてを通ったと報告する。別途、Shiu らの公開 brian2 モデルを雌の FlyWire 脳で回し直して誤差の範囲で一致することを確かめており、その過程で自分の旧版が公開モデルから静かにずれていた箇所を 6 つ見つけている。モデルの選択は事前登録した規則に従う。ブラウザ側では実際のニューロン表面に活動を重ねて再生できる。",
+    "sourceRefs": [
+      "https://raw.githubusercontent.com/gianlucamazza/flymsg/HEAD/README.md"
+    ]
+  },
+  {
+    "id": "fly-number-recognition",
+    "name": "Fly Number Recognition",
+    "url": "https://github.com/alexgrossidev/FruitFly",
+    "repoUrl": "https://github.com/alexgrossidev/FruitFly",
+    "category": "simulation",
+    "tags": [
+      "connectome-constrained",
+      "negative-result",
+      "rewiring",
+      "pytorch",
+      "recurrent",
+      "malecns"
+    ],
+    "datasets": [
+      "malecns"
+    ],
+    "org": "Alex Grossi (@alexgrossidev)",
+    "license": "unknown",
+    "language": "Python",
+    "date": "2026-09-24",
+    "addedAt": "2026-09-26",
+    "stars": 0,
+    "starsUpdatedAt": "2026-09-26",
+    "description_en": "A hundred real neurons and 3,630 real connections compiled into a recurrent network in PyTorch, trained to say whether a stream of ten digits contained a 6 or a 7. Gradient descent may change a connection's strength but may never invent one that the animal does not have. It works, and the author leads with the part that deflates it: a degree-preserving rewiring of the same neurons learns the task exactly as well, so the result is about connectome-constrained learning in general and not about this fly. A viewer replays the trained activity on the real neuron positions.",
+    "description_ja": "実在の 100 ニューロンと 3,630 本の結合を PyTorch の再帰ネットワークにコンパイルし、10 桁の数字列に 6 か 7 が含まれていたかを答えさせる。勾配降下は結合の強さを変えてよいが、動物に無い結合を作ることは許されない。課題は解けるのだが、著者はそれを自分でしぼませる結果を先に置く。同じニューロンで次数を保って配線を入れ替えた対照がまったく同じ性能で学習してしまうので、これはコネクトーム制約つき学習一般の話であって、このハエの配線の話ではない、と書いている。学習後の活動は実際のニューロン位置の上で再生できる。",
+    "sourceRefs": [
+      "https://raw.githubusercontent.com/alexgrossidev/FruitFly/HEAD/README.md"
+    ]
+  },
+  {
+    "id": "flyconnectome-embodied-lab",
+    "name": "FlyConnectome Embodied Behavior Lab",
+    "url": "https://github.com/nickliqian/FlyConnectome",
+    "repoUrl": "https://github.com/nickliqian/FlyConnectome",
+    "category": "simulation",
+    "tags": [
+      "olfaction",
+      "ring-attractor",
+      "neuromechfly",
+      "mujoco",
+      "offline",
+      "navis",
+      "flywire"
+    ],
+    "datasets": [
+      "flywire-fafb"
+    ],
+    "org": "nickliqian (@nickliqian)",
+    "license": "Apache-2.0",
+    "language": "JavaScript",
+    "date": "2026-09-22",
+    "addedAt": "2026-09-26",
+    "stars": 1,
+    "starsUpdatedAt": "2026-09-26",
+    "description_en": "Four rungs of the same ladder, each runnable offline on one machine. The first draws single-neuron morphology and a synapse network from reconstructions bundled with navis. The second is a spiking olfactory chain from receptor neurons through projection neurons and Kenyon cells, in a single HTML file. The third adds a central-complex ring attractor holding a heading while the agent closes a loop with its environment. The fourth hands control to a NeuroMechFly v2 body in MuJoCo. A separate sandbox scene exists to check neurons in 3D and to ablate parts of the olfactory chain.",
+    "description_ja": "同じ梯子を 4 段に分け、どの段も 1 台のマシンで完全オフラインで回せるようにしてある。L0 は navis に同梱された再構成から単一ニューロンの形態と ROI ごとのシナプス結合図を描く。L1 は受容ニューロンから投射ニューロン・キノコ体細胞へ至る嗅覚回路のスパイク仿真を HTML 1 ファイルにまとめたもの。L2 は中心複合体の環状アトラクタで方位を保ちながら環境と閉ループを作る。L3 では MuJoCo 上の NeuroMechFly v2 の身体に制御を渡す。別に 3D の検証用シーンがあり、ニューロンを見ながら嗅覚回路の一部を切って影響を見られる。",
+    "sourceRefs": [
+      "https://raw.githubusercontent.com/nickliqian/FlyConnectome/HEAD/README.md"
+    ]
+  },
+  {
+    "id": "flyvigilante",
+    "name": "FlyVigilante",
+    "url": "https://flyvigilante.vercel.app",
+    "repoUrl": "https://github.com/AwesomeZun/FlyVigilante",
+    "category": "tool",
+    "tags": [
+      "pharmacovigilance",
+      "faers",
+      "triage",
+      "dashboard",
+      "hackathon",
+      "malecns"
+    ],
+    "datasets": [
+      "malecns"
+    ],
+    "org": "AwesomeZun (@AwesomeZun)",
+    "license": "Apache-2.0",
+    "language": "TypeScript",
+    "date": "2026-09-25",
+    "addedAt": "2026-09-26",
+    "stars": 0,
+    "starsUpdatedAt": "2026-09-26",
+    "description_en": "Drug-safety case triage arranged after the layers of a fly's nervous system: wide cheap intake, cheap reflex judgements, sparse memory, rare deliberation, and a narrow bottleneck to a human queue. The bottleneck it targets is measured in the repo's own warehouse: 422,459 adverse-event reports in one quarter. A MaleCNS v1.0 central-brain subgraph of 49,244 neurons and 1.05 million signed connections runs as a firing-rate model in the browser at 30 Hz, so a decision lights the matching cell population and spreads along measured wiring. The routing policy itself is deterministic engineering.",
+    "description_ja": "医薬品安全性監視のケース振り分けを、ハエ神経系の層構成になぞらえて組んだもの。感覚は広く安く受け、反射は安く、記憶は疎に、熟慮はまれに、行動は狭い出口から人間の待ち行列へ出す。狙っている詰まりは実測値で、自前のデータ倉庫で 1 四半期あたり 422,459 件の有害事象報告がある。MaleCNS v1.0 の中央脳から取った 49,244 ニューロン・符号つき結合 105 万本の部分グラフをブラウザ上で 30 Hz の発火率モデルとして回し、エージェントの判断が対応するニューロン集団を点灯させると実測配線に沿って活動が広がる。振り分け自体は決定論的な工学で、コネクトームが決めているわけではない。",
+    "sourceRefs": [
+      "https://raw.githubusercontent.com/AwesomeZun/FlyVigilante/HEAD/README.md",
+      "https://flyvigilante.vercel.app"
+    ]
+  },
+  {
+    "id": "fly-brain-leetcode",
+    "name": "Fly Brain LeetCode",
+    "url": "https://github.com/pragyaangaur/Fly-Brain-LeetCode",
+    "repoUrl": "https://github.com/pragyaangaur/Fly-Brain-LeetCode",
+    "category": "simulation",
+    "tags": [
+      "readout",
+      "negative-result",
+      "shuffled-control",
+      "baseline",
+      "descending-neurons",
+      "flywire"
+    ],
+    "datasets": [
+      "flywire-fafb"
+    ],
+    "org": "Pragyaan Gaur (@pragyaangaur)",
+    "license": "MIT",
+    "language": "Python",
+    "date": "2026-09-25",
+    "addedAt": "2026-09-26",
+    "stars": 0,
+    "starsUpdatedAt": "2026-09-26",
+    "description_en": "Problems are fed one symbol at a time into the taste, touch and smell neurons of the FlyWire v783 brain (138,639 neurons, 2.7 million connections), the wiring is never changed, and answers are read off 1,303 descending neurons by a trained linear readout. It is judged on hidden tests, all-or-nothing, and is accepted on 3 of 12 easy problems. The interesting part is the control columns: a shuffled rewiring matches or beats the fly on most problems, and an order-blind lookup table on symbol counts beats both on some, which is what the readout is really leaning on.",
+    "description_ja": "問題を記号 1 つずつ、FlyWire v783 の脳（138,639 ニューロン・270 万結合）の味覚・触覚・嗅覚ニューロンに流し込み、配線は一切変えずに、1,303 本の下行ニューロンから線形の読み出しだけを学習させて答えを取り出す。判定は隠しテスト全通過のみを正解とする方式で、Easy 12 問のうち 3 問が Accepted。面白いのは対照の列で、結合先を入れ替えた版がほとんどの問題で同等かそれ以上を出し、記号の出現数だけを見て順序を無視する参照表がさらにそれを上回る問題もある。読み出しが実際に頼っているものが見えてくる。",
+    "sourceRefs": [
+      "https://raw.githubusercontent.com/pragyaangaur/Fly-Brain-LeetCode/HEAD/README.md"
+    ]
+  },
+  {
+    "id": "fly-admin",
+    "name": "Fly Admin",
+    "url": "https://github.com/valerypetrov/fly-admin",
+    "repoUrl": "https://github.com/valerypetrov/fly-admin",
+    "category": "demo",
+    "tags": [
+      "database",
+      "clickhouse",
+      "dopamine",
+      "sandbox",
+      "live-ui",
+      "flywire"
+    ],
+    "datasets": [
+      "flywire-fafb"
+    ],
+    "org": "Valery Petrov (@valerypetrov)",
+    "license": "unknown",
+    "language": "Python",
+    "date": "2026-09-25",
+    "addedAt": "2026-09-26",
+    "stars": 0,
+    "starsUpdatedAt": "2026-09-26",
+    "description_en": "The whole FlyWire v783 brain, 139,255 neurons and 54.5 million synapses, runs as a spiking simulation and looks after a throwaway local database server. Trouble in the database arrives as tastes, touches and looming shadows; the fly acts through its own motor neurons and a fix earns a burst of dopamine. What lifts it above the gag is the list of known limits: Kenyon cells never fire because nothing here smells, walking is never chosen, reward credit spills between actions, weights never decay, and the brain runs slower than real time.",
+    "description_ja": "FlyWire v783 の脳を丸ごと（139,255 ニューロン、5,450 万シナプス）スパイキングで走らせ、使い捨てのローカルデータベースサーバーの面倒を見させる。データベースの不調は味・接触・迫ってくる影として脳に届き、ハエは自分の運動ニューロンを通して操作し、問題が直るとドーパミンが出て学習する。冗談で終わっていないのは「既知の限界」の一覧があるからで、匂いの入力が無いのでキノコ体細胞は一度も発火しない、歩行の下行ニューロンを十分に駆動する感覚が無いので歩行は選ばれない、報酬の帰属が別の行動にこぼれる、重みが減衰しない、脳は実時間より遅い、と並べている。",
+    "sourceRefs": [
+      "https://raw.githubusercontent.com/valerypetrov/fly-admin/HEAD/README.md"
+    ]
+  },
+  {
+    "id": "flappyfly-baltap",
+    "name": "Flappy Fly",
+    "url": "https://github.com/baltap/FlappyFly",
+    "repoUrl": "https://github.com/baltap/FlappyFly",
+    "category": "demo",
+    "tags": [
+      "browser",
+      "game",
+      "dopamine",
+      "learning-curve",
+      "optic-lobe",
+      "malecns"
+    ],
+    "datasets": [
+      "malecns"
+    ],
+    "org": "baltap (@baltap)",
+    "license": "unknown",
+    "language": "JavaScript",
+    "date": "2026-09-25",
+    "addedAt": "2026-09-26",
+    "stars": 0,
+    "starsUpdatedAt": "2026-09-26",
+    "description_en": "The game is projected onto the fly's compound eye and travels through its own optic lobe wiring, taken from the male central nervous system connectome; 79,992 spiking neurons are simulated every millisecond in the browser with every spike drawn at its real position. Each crash or cleared pipe releases dopamine that changes synapses, so a newborn fly crashes into nearly every pipe and a few hundred lives later clears dozens in a row. Switches turn learning, exploration and the innate gap attraction off separately, which makes the claim checkable.",
+    "description_ja": "画面のゲームをハエの複眼に投影し、雄性中枢神経系コネクトームから取った視葉の配線を通して信号を伝える。79,992 個のスパイキングニューロンを 1 ミリ秒ごとにブラウザ内で計算し、全スパイクを実際の位置に描く。土管に当たるか抜けるかのたびにドーパミンが出てシナプスが変わるので、生まれたてのハエはほぼ毎回ぶつかり、300 回ほど死んだあとには何十本も続けて抜ける。学習・探索・生得的な隙間への誘引をそれぞれ切れるスイッチがあり、飛行ニューロンだけに任せるモードもあるので、主張を自分で確かめられるようになっている。",
+    "sourceRefs": [
+      "https://raw.githubusercontent.com/baltap/FlappyFly/HEAD/README.md"
+    ]
+  },
+  {
+    "id": "flybrain-banana-quest",
+    "name": "电子果蝇·香蕉大作战 / Digital Fruit Fly Knowledge Base",
+    "url": "https://github.com/professorwang/flybrain-banana-quest",
+    "repoUrl": "https://github.com/professorwang/flybrain-banana-quest",
+    "category": "demo",
+    "tags": [
+      "chinese",
+      "knowledge-base",
+      "browser",
+      "game",
+      "lif",
+      "fact-check",
+      "flywire"
+    ],
+    "datasets": [
+      "flywire-fafb"
+    ],
+    "org": "professorwang (@professorwang)",
+    "license": "unknown",
+    "language": "JavaScript",
+    "date": "2026-09-25",
+    "addedAt": "2026-09-26",
+    "stars": 0,
+    "starsUpdatedAt": "2026-09-26",
+    "description_en": "Two halves that support each other: a browser game in which a leaky integrate-and-fire network on the FlyWire connectome (139,255 neurons, 2,698,236 synapses) gates a fly's movement in a 2D sandbox, and a Chinese-language reference covering the timeline, the papers, the data platforms and the open-source stack behind the 2026 embodied whole-brain emulation story. The reference does the unglamorous work: it records the criticisms as well as the claims, fixes one neuron count that several Chinese outlets reported wrongly, and states which numbers it follows and why.",
+    "description_ja": "互いを支える二つの半分でできている。片方は FlyWire コネクトーム（139,255 ニューロン、2,698,236 シナプス）上の leaky integrate-and-fire ネットワークが 2D サンドボックス内のハエの動きを門制御するブラウザゲーム。もう片方は、2026 年の具身化全脳エミュレーション騒動について、時系列・主要論文・データ基盤・オープンソースのスタックをまとめた中国語の知識ベース。地味だが効くのは後者で、主張だけでなく批判（腹神経索が仿真に入っていない、視覚系は装飾的だと当人が認めている等）も併記し、中国語圏の一部媒体が取り違えたニューロン数を訂正し、どの数字を採用したかを明記している。",
+    "sourceRefs": [
+      "https://raw.githubusercontent.com/professorwang/flybrain-banana-quest/HEAD/README.md"
+    ]
+  },
+  {
+    "id": "flyrace",
+    "name": "FlyRace",
+    "url": "https://github.com/nedcut/flyrace",
+    "repoUrl": "https://github.com/nedcut/flyrace",
+    "category": "demo",
+    "tags": [
+      "negative-result",
+      "pre-registered",
+      "racing",
+      "browser",
+      "threejs",
+      "malecns"
+    ],
+    "datasets": [
+      "malecns"
+    ],
+    "org": "Ned Cutler (@nedcut)",
+    "license": "MIT",
+    "language": "TypeScript",
+    "date": "2026-09-25",
+    "addedAt": "2026-09-26",
+    "stars": 0,
+    "starsUpdatedAt": "2026-09-26",
+    "description_en": "A browser time-trial racer that was meant to have a connectome-driven opponent and ships without one, which is the point. The project set a pre-registered gate before any training was allowed to start: could an ordinary image network, given any of ten camera and sensor arrangements, predict hard braking well enough on courses it had not seen? None of the ten passed, so the gate closed and the recorded negative result names every score and notes that none of the three budgeted training runs was spent. The fly brain panel survives only as an untrained exhibit, and no fly opponent is planned.",
+    "description_ja": "コネクトーム駆動の対戦相手を載せるはずだったブラウザのタイムアタックだが、結局載せずに公開している。そしてそれが価値になっている。学習を始める前に事前登録した関門を置いた。カメラとセンサーの構成 10 通りのいずれかで、ごく普通の画像ネットワークが未知のコースで強いブレーキを十分に予測できるか。10 通りとも通らず関門は閉じ、記録された否定的結果には各スコアと、割り当てた 3 回の学習のうち 0 回しか使わなかったことが書かれている。脳のパネルは未学習の展示として残るだけで、ハエの対戦相手を作る予定は無いと明言している。",
+    "sourceRefs": [
+      "https://raw.githubusercontent.com/nedcut/flyrace/HEAD/README.md"
+    ]
+  },
+  {
+    "id": "fly-in-the-bottle",
+    "name": "fly-in-the-bottle",
+    "url": "https://github.com/dimm0909/fly-in-the-bottle",
+    "repoUrl": "https://github.com/dimm0909/fly-in-the-bottle",
+    "category": "demo",
+    "tags": [
+      "desktop-widget",
+      "electron",
+      "threejs",
+      "flybody",
+      "cpp",
+      "malecns"
+    ],
+    "datasets": [
+      "malecns"
+    ],
+    "org": "dimm0909 (@dimm0909)",
+    "license": "unknown",
+    "language": "JavaScript",
+    "date": "2026-09-21",
+    "addedAt": "2026-09-26",
+    "stars": 1,
+    "starsUpdatedAt": "2026-09-26",
+    "description_en": "A desktop widget: an anatomical fly in a glass jar you can poke, rotate and shake, in a frameless transparent window that can sit on the wallpaper beneath every other window. The behaviour is not animation. A separate C++ process simulates the MaleCNS connectome, 164,606 neurons, event-driven so it costs almost nothing at rest, and four named descending neurons decide when the fly flies, turns, walks or reacts to a poke. The body is the FlyBody model with two-segment leg inverse kinematics. The README says the widget did not start on Windows, which Linux and X11 are the tested path.",
+    "description_ja": "デスクトップのウィジェット。ガラス瓶に入った解剖学的なハエを、つつく・回す・振ることができる。枠なしの透明ウィンドウで、すべてのウィンドウの下の「壁紙の上」に置くこともできる。動きはアニメーションではない。別プロセスの C++ が MaleCNS コネクトーム 164,606 ニューロンをイベント駆動で計算し、静止時はほぼ負荷が無く、名前のついた下行ニューロン 4 種が飛ぶ・曲がる・歩く・つつかれた後どうするかを決める。身体は FlyBody のモデルで、脚は二節の逆運動学で動かす。README は Windows では起動しなかったと明記しており、確認済みの経路は Linux と X11 だけ。",
+    "sourceRefs": [
+      "https://raw.githubusercontent.com/dimm0909/fly-in-the-bottle/HEAD/README.md"
+    ]
+  },
+  {
+    "id": "flyleno",
+    "name": "FlyLeno",
+    "url": "https://flyleno.viosarcade.xyz/",
+    "repoUrl": "https://github.com/AgitationSkeleton/flyleno",
+    "category": "demo",
+    "tags": [
+      "browser",
+      "ragdoll",
+      "audio-input",
+      "dopamine",
+      "threejs",
+      "web-worker",
+      "flywire"
+    ],
+    "datasets": [
+      "flywire-fafb"
+    ],
+    "org": "AgitationSkeleton (@AgitationSkeleton)",
+    "license": "unknown",
+    "language": "JavaScript",
+    "date": "2026-09-22",
+    "addedAt": "2026-09-26",
+    "stars": 0,
+    "starsUpdatedAt": "2026-09-26",
+    "description_en": "A whole-brain spiking model of FlyWire v783, 138,639 neurons and 15.1 million connections, runs in a web worker and puppeteers a ragdoll host on a talk-show stage. The unusual part is the input side: stage events such as applause, a thrown tomato or a metal pipe stimulate sensory neurons, a music playlist is fed into auditory neurons, and the audience reaction reaches dopamine neurons, which is what shapes what the model chooses next. On the output side the same neurons drive the ragdoll's muscles, a babbling lip-synced voice, and fly-like grooming and feeding.",
+    "description_ja": "FlyWire v783 の全脳スパイキングモデル（138,639 ニューロン、1,510 万結合）を Web Worker で走らせ、トーク番組の舞台に立つラグドールの司会者を操る。変わっているのは入力側で、拍手・投げつけられたトマト・金属パイプといった舞台上の出来事が感覚ニューロンを刺激し、音楽のプレイリストは聴覚ニューロンに流し込まれ、観客の反応はドーパミンニューロンに届いてモデルの次の選択を変える。出力側では同じニューロンがラグドールの筋肉、口の動きに同期したでたらめな発声、そしてハエらしい毛づくろいや摂食を駆動する。ビルド手順の無い静的サイト。",
+    "sourceRefs": [
+      "https://raw.githubusercontent.com/AgitationSkeleton/flyleno/HEAD/README.md",
+      "https://flyleno.viosarcade.xyz/"
+    ]
+  },
+  {
+    "id": "creature-lab",
+    "name": "Creature Lab",
+    "url": "https://rathatart.github.io/creature-lab/",
+    "repoUrl": "https://github.com/RathaTart/creature-lab",
+    "category": "simulation",
+    "tags": [
+      "ablation",
+      "maze",
+      "neuromechfly",
+      "mujoco",
+      "reinforcement-learning",
+      "flywire"
+    ],
+    "datasets": [
+      "flywire-fafb"
+    ],
+    "org": "RathaTart (@RathaTart)",
+    "license": "MIT",
+    "language": "Python",
+    "date": "2026-09-21",
+    "addedAt": "2026-09-26",
+    "stars": 0,
+    "starsUpdatedAt": "2026-09-26",
+    "description_en": "Three experiments sharing one interface. The first replays recorded physics on NeuroMechFly body geometry and lets you build terrain. The second is the one worth the visit: measured FlyWire connectivity with simulated spikes and a trained motor readout runs ten mazes, and you can cut connections or silence the descending output and compare against the recorded outcome. The third trains a policy in a maze with four pursuers. The public page is explicit that it plays saved recordings and starts no training; live runs need the local install.",
+    "description_ja": "一つの画面に 3 つの実験が載っている。1 つ目は NeuroMechFly の身体形状の上で記録済みの物理を再生し、地形を作れるもの。見る価値があるのは 2 つ目で、実測の FlyWire 結合とスパイク仿真、学習済みの運動読み出しで 10 種類の迷路を走らせ、結合を切ったり下行出力を黙らせたりして記録済みの結果と比べられる。3 つ目は追跡者 4 体のいる迷路で方策を学習させる。公開ページは保存済みの記録を再生しているだけで学習は走らないと明記していて、実時間の実行はローカル導入が要る、としている。",
+    "sourceRefs": [
+      "https://raw.githubusercontent.com/RathaTart/creature-lab/HEAD/README.md",
+      "https://rathatart.github.io/creature-lab/"
+    ]
+  },
+  {
+    "id": "matrix-das-moscas",
+    "name": "A Matrix das Moscas",
+    "url": "https://github.com/Zidanski/matrix-das-moscas",
+    "repoUrl": "https://github.com/Zidanski/matrix-das-moscas",
+    "category": "simulation",
+    "tags": [
+      "portuguese",
+      "event-driven",
+      "cpu",
+      "multi-agent",
+      "sex-differences",
+      "malecns",
+      "flywire"
+    ],
+    "datasets": [
+      "flywire-fafb",
+      "malecns"
+    ],
+    "org": "Zidanski (@Zidanski)",
+    "license": "unknown",
+    "language": "Python",
+    "date": "2026-09-21",
+    "addedAt": "2026-09-26",
+    "stars": 0,
+    "starsUpdatedAt": "2026-09-26",
+    "description_en": "Six flies share one 3D world, three running FlyWire v783 and three running MaleCNS v1.0, both under the leaky integrate-and-fire model of Shiu et al. on an event-driven CPU engine, so one world is inhabited by two different measured nervous systems at once. The rule the project holds itself to is stated first: the world code never moves a fly. The world turns physical situations into sensory input and reacts to what the flies do; every movement is read out of simulated neurons. It runs a hundred simulated days, with a sugar-to-motor-neuron validation recorded before the world was built.",
+    "description_ja": "一つの 3D 世界に 6 匹のハエが同居し、3 匹は FlyWire v783、3 匹は MaleCNS v1.0 で、どちらも Shiu らの leaky integrate-and-fire モデルをイベント駆動の CPU エンジンで走らせる。つまり同じ世界に、測定された 2 つの神経系が同時に住んでいる。守ると決めた規則が最初に書かれていて、世界側のコードは決してハエを動かさない。世界は物理的な状況を感覚入力に変換し、ハエがしたことに反応するだけで、動きはすべて仿真ニューロンの読み出しから出る。100 日ぶんを走らせて指標を出す。世界を作る前に糖から運動ニューロンへの応答で検証を済ませている。",
+    "sourceRefs": [
+      "https://raw.githubusercontent.com/Zidanski/matrix-das-moscas/HEAD/README.md"
+    ]
+  },
+  {
+    "id": "flyface",
+    "name": "FlyFace",
+    "url": "https://github.com/8S8642/FlyFace",
+    "repoUrl": "https://github.com/8S8642/FlyFace",
+    "category": "simulation",
+    "tags": [
+      "vision",
+      "faces",
+      "negative-result",
+      "reproducible-pipeline",
+      "unvalidated-readout",
+      "malecns"
+    ],
+    "datasets": [
+      "malecns"
+    ],
+    "org": "FlyFace contributors (@8S8642)",
+    "license": "MIT",
+    "language": "Python",
+    "date": "2026-09-21",
+    "addedAt": "2026-09-26",
+    "stars": 0,
+    "starsUpdatedAt": "2026-09-26",
+    "description_en": "Presents photographs of human faces to a simulation built from MaleCNS v1.0 and records what the neurons do. The playful framing is an A/B preference, but the structured output keeps every measurement and marks the descending-neuron orientation readout as unvalidated. The result is a negative one and is stated as such: responses are specific to individual images, and no global ranking emerges that matches human attractiveness ratings, nor the inverse of them. The pipeline verifies checksums on about 1.1 GB of source data before building the graph.",
+    "description_ja": "人間の顔写真を MaleCNS v1.0 から組み立てた仿真に見せ、ニューロンの応答を記録する。遊びとしては A/B の「好み」を出すが、構造化された出力の側は測定値を一つずつ残し、下行ニューロンの方位読み出しは未検証だと明示的に印をつける。結果は否定的で、そう書いてある。応答は個々の画像には特異的だが、人間の魅力評価に一致する全体的な順位も、その逆の順位も現れない。比較の基準として人間の評点つき顔データセットを取得し、パイプラインは約 1.1 GB の元データのチェックサムを検証してからグラフを構築する。",
+    "sourceRefs": [
+      "https://raw.githubusercontent.com/8S8642/FlyFace/HEAD/README.md"
+    ]
+  },
+  {
+    "id": "flybrain-home-assistant",
+    "name": "FlyBrain (Home Assistant)",
+    "url": "https://github.com/aliforfaen/FlyBrain",
+    "repoUrl": "https://github.com/aliforfaen/FlyBrain",
+    "category": "tool",
+    "tags": [
+      "home-automation",
+      "home-assistant",
+      "thermosensory",
+      "frozen-brain",
+      "gpu",
+      "flywire"
+    ],
+    "datasets": [
+      "flywire-fafb"
+    ],
+    "org": "aliforfaen (@aliforfaen)",
+    "license": "MIT",
+    "language": "Python",
+    "date": "2026-09-25",
+    "addedAt": "2026-09-26",
+    "stars": 0,
+    "starsUpdatedAt": "2026-09-26",
+    "description_en": "Puts a house on both ends of a fly brain. The FlyWire v783 connectome, 138,639 neurons and 15,091,983 synapses, runs as a spiking network on a consumer graphics card; a room thermometer drives its thermosensory neurons, a small trained readout turns the resulting spikes into a colour, and that colour is sent to a lamp. The brain is frozen and never learns, only the readout is trained, and the README is blunt that nothing in a fly brain knows what a kitchen light is: that mapping belongs to the author, and the code says so.",
+    "description_ja": "ハエの脳の両端に家をつないだもの。FlyWire v783 コネクトーム（138,639 ニューロン、15,091,983 シナプス）をコンシューマ向け GPU 上でスパイキングネットワークとして走らせ、部屋の温度計が温度感覚ニューロンを駆動し、その出力スパイクを小さな学習済み読み出しが色に変え、その色を照明に送る。脳は凍結されていて学習せず、学習するのは読み出しだけ。README は率直で、ハエの脳の中に台所の照明を知っている部分は無い、その対応づけは作者のものであり、コードにもそう書いてあると述べている。",
+    "sourceRefs": [
+      "https://raw.githubusercontent.com/aliforfaen/FlyBrain/HEAD/README.md"
+    ]
+  },
+  {
+    "id": "fly-brain-viz",
+    "name": "Fly Brain Explorer",
+    "url": "https://github.com/rashmina-a/fly-brain-viz",
+    "repoUrl": "https://github.com/rashmina-a/fly-brain-viz",
+    "category": "tool",
+    "tags": [
+      "explorer",
+      "3d",
+      "neurotransmitter",
+      "olfaction",
+      "genetic-algorithm",
+      "malecns"
+    ],
+    "datasets": [
+      "malecns"
+    ],
+    "org": "rashmina-a (@rashmina-a)",
+    "license": "unknown",
+    "language": "JavaScript",
+    "date": "2026-09-25",
+    "addedAt": "2026-09-26",
+    "stars": 0,
+    "starsUpdatedAt": "2026-09-26",
+    "description_en": "Two pages served by one small Python server, no build step. The first draws the male central nervous system connectome in 3D, colours neurons by neurotransmitter, and lets you fire a stimulus, pull up a single neuron's skeleton and follow its real connectivity. The second drops an agent running the olfactory chain from receptor neurons through projection neurons to Kenyon cells and mushroom-body output neurons, with dopaminergic learning, into a 2D foraging world, and evolves its sensorimotor policy at hundreds of generations per second before you experiment on the trained fly.",
+    "description_ja": "小さな Python サーバーが 2 ページを配るだけで、ビルド手順は無い。1 つ目は雄性中枢神経系のコネクトームを 3D で描き、神経伝達物質で色分けし、刺激を与えて発火させたり、特定のニューロンの骨格と実際の結合をたどったりできる。2 つ目は、受容ニューロンから投射ニューロン・キノコ体細胞・キノコ体出力ニューロンへ至る嗅覚回路とドーパミン学習を積んだエージェントを 2D の採餌世界に置き、その感覚運動方策を毎秒数百世代という速さで進化させる。まず学習させてから、できあがったハエで実験する作りになっている。",
+    "sourceRefs": [
+      "https://raw.githubusercontent.com/rashmina-a/fly-brain-viz/HEAD/README.md"
+    ]
+  },
+  {
+    "id": "fly-trading",
+    "name": "Fly Trading",
+    "url": "https://github.com/youn-sm/fly-trading",
+    "repoUrl": "https://github.com/youn-sm/fly-trading",
+    "category": "demo",
+    "tags": [
+      "replication",
+      "taste",
+      "mn9",
+      "paper-trading",
+      "korean",
+      "video",
+      "flywire"
+    ],
+    "datasets": [
+      "flywire-fafb"
+    ],
+    "org": "youn-sm (@youn-sm)",
+    "license": "unknown",
+    "language": "Python",
+    "date": "2026-09-25",
+    "addedAt": "2026-09-26",
+    "stars": 0,
+    "starsUpdatedAt": "2026-09-26",
+    "description_en": "A short-video project with a replication hidden inside it. Five-day price rises stimulate 21 sweet-taste receptor neurons and five-day falls stimulate 21 bitter ones; the signal spreads through 127,400 neurons and 52.79 million synapses, and a buy is called when the feeding motor neuron MN9 fires strongly. Before any of that, the repo reimplements the published whole-brain model in numpy and reproduces its numbers: sugar at 150 Hz drives MN9 to about 110 Hz, and adding bitter input drops it to about 4 Hz. It states plainly that this is a backtest with no real orders and no advice.",
+    "description_ja": "短い動画のための企画だが、中に再現実験が入っている。直近 5 日の上昇分で甘味の受容ニューロン 21 個を、下落分で苦味の 21 個を刺激し、信号が 127,400 ニューロン・5,279 万シナプスを伝わって、摂食の運動ニューロン MN9 が強く発火すれば買い、しなければ売りとする。その前段として、公開されている全脳モデルを numpy で実装し直し、公表値を再現している。糖 150 Hz で MN9 が約 110 Hz、そこに苦味を混ぜると約 4 Hz まで落ちる。過去データによる模擬売買であり、実際の注文も投資助言も無いと明記している。",
+    "sourceRefs": [
+      "https://raw.githubusercontent.com/youn-sm/fly-trading/HEAD/README.md"
+    ]
+  },
+  {
+    "id": "visualizing-flywire",
+    "name": "Visualising Fruit Fly Neurons",
+    "url": "https://github.com/zack-maz/visualizing-flywire",
+    "repoUrl": "https://github.com/zack-maz/visualizing-flywire",
+    "category": "tool",
+    "tags": [
+      "visualization",
+      "umap",
+      "point-cloud",
+      "sensory-motor-depth",
+      "cell-types",
+      "flywire"
+    ],
+    "datasets": [
+      "flywire-fafb"
+    ],
+    "org": "Zack Maz (@zack-maz)",
+    "license": "unknown",
+    "language": "TypeScript",
+    "date": "2026-09-22",
+    "addedAt": "2026-09-26",
+    "stars": 0,
+    "starsUpdatedAt": "2026-09-26",
+    "description_en": "All 139,248 neurons of the adult brain as a point cloud, one point each, with several ways of arranging them. Anatomical places each at its anchor point inside the neuropil meshes; soma position moves them to their cell bodies and notes that 15% have none in the brain and stay put; mirrored folds the right hemisphere onto the left so matching neurons overlap. Beyond anatomy it offers dimensionality reductions of each neuron's input and output region profile and of who it connects to, and an axis giving how many steps a neuron sits from the sensory periphery.",
+    "description_ja": "成虫脳の 139,248 ニューロンを 1 個 1 点の点群にして、並べ方をいくつも用意したもの。解剖学的配置では神経網のメッシュの中の各ニューロンの基準点に置き、細胞体配置では細胞体の位置へ移すが、脳内に細胞体を持たない 15%（多くは感覚ニューロン）はそのまま残ると注記する。鏡像配置では右半球を左に折り重ねて対応するニューロンを重ねられる。解剖学以外では、入出力の領域プロファイルと結合相手それぞれについての次元削減、そして感覚の末端から何段目かを横軸に取る配置がある。色分けと検索は半球・領域・細胞型など複数の分類で行える。",
+    "sourceRefs": [
+      "https://raw.githubusercontent.com/zack-maz/visualizing-flywire/HEAD/README.md"
+    ]
   }
 ]
