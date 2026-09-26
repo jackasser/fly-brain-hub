@@ -9558,5 +9558,304 @@
     "sourceRefs": [
       "https://raw.githubusercontent.com/zack-maz/visualizing-flywire/HEAD/README.md"
     ]
+  },
+  {
+    "id": "brainfly",
+    "name": "brainfly",
+    "url": "https://github.com/joshuabradley012/brainfly",
+    "repoUrl": "https://github.com/joshuabradley012/brainfly",
+    "category": "simulation",
+    "tags": [
+      "malecns",
+      "null-control",
+      "pre-registered",
+      "optomotor",
+      "neuromechfly",
+      "negative-results"
+    ],
+    "datasets": [
+      "malecns"
+    ],
+    "org": "Joshua Bradley (@joshuabradley012)",
+    "license": "MIT",
+    "language": "Python",
+    "date": "2026-09-26",
+    "addedAt": "2026-09-27",
+    "stars": 0,
+    "starsUpdatedAt": "2026-09-27",
+    "description_en": "An attempt to close the loop from the MaleCNS connectome to a walking body, labelling every layer as validated, fitted or guessed. Each rung must match real-fly data and stop working when the wiring is scrambled. Tiling a fitted optic-lobe network onto the male eye gives correct direction preferences for all 16 T4/T5 types and a giant-fibre escape spike to looming; HS cells and DNa02 follow a rotating drum and eight NeuroMechFly flies turn with it, while three random rewirings abolish the signal. The whole-brain rung has failed five times and the fifth network still fails one of its two nulls.",
+    "description_ja": "MaleCNS コネクトームから歩く身体までを閉じようとする試み。各層を「検証済み・当てはめ・推測」に分けて明示し、段ごとに実測データとの一致と、配線を入れ替えると壊れることの両方を課す。視葉モデルを雄の眼に敷き直すと T4/T5 16 型すべてが正しい方向選択性を示し、迫り来る円板に巨大繊維が逃避スパイクを出す。回転ドラムに HS 細胞と操舵ニューロン DNa02 が追随し、NeuroMechFly の 8 匹がドラムと同じ向きに回るが、入力量を保った無作為再配線 3 回すべてで信号は消える。全脳の段は 5 回失敗し、5 回目も 2 つの帰無対照の片方を通っていない。",
+    "sourceRefs": [
+      "https://raw.githubusercontent.com/joshuabradley012/brainfly/HEAD/README.md"
+    ]
+  },
+  {
+    "id": "fly-connectome-learning",
+    "name": "A fruit fly connectome that learns",
+    "url": "https://github.com/owevertonguedes/fly-connectome-learning",
+    "repoUrl": "https://github.com/owevertonguedes/fly-connectome-learning",
+    "category": "simulation",
+    "tags": [
+      "malecns",
+      "mushroom-body",
+      "associative-learning",
+      "shuffled-control",
+      "negative-results"
+    ],
+    "datasets": [
+      "malecns"
+    ],
+    "org": "Weverton Guedes (@owevertonguedes)",
+    "license": "MIT",
+    "language": "Python",
+    "date": "2026-09-26",
+    "addedAt": "2026-09-27",
+    "stars": 0,
+    "starsUpdatedAt": "2026-09-27",
+    "description_en": "Runs the classic punished-odour experiment on the male-cns v1.0 mushroom body and adds the controls that say whether the learning is real. Across five odour pairs, 200 flies each, avoidance of the punished odour rises from about 45% to 70-80% over 15 trials; punishment with no odour stays near chance, and shuffled wiring never learns because the punishment dopamine neuron reaches 409 Kenyon cells in the real graph but only 10 after shuffling. It also reports why the whole-brain model cannot learn this: two odours light up nearly the same Kenyon cells, 99% overlap at default inhibition.",
+    "description_ja": "male-cns v1.0 のキノコ体で、匂いに罰を与える古典的な学習実験を走らせ、学習が本物かを言える対照を添える。5 つの匂いペア各 200 匹で、罰を受けた匂いの回避は 15 試行にかけて約 45% から 70〜80% に上がる。匂い無しで罰だけ与える条件は偶然水準のまま、配線を入れ替えた条件は学習しない（罰のドーパミンニューロンが実配線では 409 個のケニヨン細胞に届くのに、入れ替え後は 10 個しか届かないため）。全脳モデルで学習できない理由も報告している。既定の抑制では 2 つの匂いがほぼ同じケニヨン細胞を光らせ、重なりが 99% に達する。",
+    "sourceRefs": [
+      "https://raw.githubusercontent.com/owevertonguedes/fly-connectome-learning/HEAD/README.md"
+    ]
+  },
+  {
+    "id": "kenyon-mushroom-memory",
+    "name": "Kenyon",
+    "url": "https://github.com/Aur1ety/Kenyon",
+    "repoUrl": "https://github.com/Aur1ety/Kenyon",
+    "category": "simulation",
+    "tags": [
+      "malecns",
+      "mushroom-body",
+      "memory",
+      "lesion",
+      "descending-neurons",
+      "negative-results"
+    ],
+    "datasets": [
+      "malecns"
+    ],
+    "org": "@Aur1ety",
+    "license": "unknown",
+    "language": "Python",
+    "date": "2026-09-26",
+    "addedAt": "2026-09-27",
+    "stars": 0,
+    "starsUpdatedAt": "2026-09-27",
+    "description_en": "Builds the mushroom body out of MaleCNS synapse counts, adds the published dopamine rule, and reports what the wiring decides rather than what the author fitted. Memory specificity, spread to similar odours and the direction of choice come out of the anatomy; the size of the memory is one calibration and is not counted. The failures are listed beside the successes: two memories in the same compartment do not coexist, there is no pattern completion, the real APL loop does not sharpen the odour code, and the recurrent whole-brain model cannot produce a sparse Kenyon code at any threshold.",
+    "description_ja": "MaleCNS のシナプス数からキノコ体を組み立て、公開されているドーパミン学習則を足し、配線が決めた部分と自分で当てはめた部分を分けて報告する。記憶の特異性、似た匂いへの広がり、選択の向きは解剖から出てくる一方、記憶の大きさは較正なので成果に数えない。失敗も成功の隣に並ぶ。同じ区画に 2 つの記憶は共存せず、パターン補完は起きず、実際の APL ループは匂いコードを鋭くせず、再帰的な全脳モデルはどの閾値でも疎なケニヨン細胞コードを作れない。記憶が下行ニューロンに届く経路も、9 個のシナプスに依存する弱いものだと書いている。",
+    "sourceRefs": [
+      "https://raw.githubusercontent.com/Aur1ety/Kenyon/HEAD/README.md"
+    ]
+  },
+  {
+    "id": "fruitfly-blackjack",
+    "name": "fruitfly-blackjack",
+    "url": "https://github.com/rmz-24/fruitfly-blackjack",
+    "repoUrl": "https://github.com/rmz-24/fruitfly-blackjack",
+    "category": "simulation",
+    "tags": [
+      "flywire",
+      "mushroom-body",
+      "reinforcement-learning",
+      "closed-loop",
+      "control-condition"
+    ],
+    "datasets": [
+      "flywire-fafb"
+    ],
+    "org": "@rmz-24",
+    "license": "GPL-2.0",
+    "language": "Python",
+    "date": "2026-09-26",
+    "addedAt": "2026-09-27",
+    "stars": 0,
+    "starsUpdatedAt": "2026-09-27",
+    "description_en": "Cards are presented to the FlyWire v783 brain as odours on projection neurons, a dopamine-like error signal reshapes Kenyon-cell to output-neuron synapses, and the learned weights are written back into the connectome so the spiking brain plays hands on its own. The mushroom-body readout agrees with basic strategy 97.5% of the time against 91.4% for a control that reads the projection neurons directly, which is the measured value of the Kenyon expansion. It also reports that driving projection neurons naively ignites the whole antennal lobe until a clamp is added.",
+    "description_ja": "カードを匂いとして FlyWire v783 の投射ニューロンに与え、ドーパミン様の予測誤差でケニヨン細胞から出力ニューロンへのシナプスを書き換え、学習した重みをコネクトームに戻して、スパイキングの脳自身にブラックジャックを打たせる。キノコ体の読み出しは基本戦略と 97.5% 一致し、投射ニューロンを直接読む対照の 91.4% を上回る。この差がケニヨン細胞による展開の効き目にあたる。投射ニューロンを素朴に駆動すると触角葉全体が燃え上がり、どの匂いでもケニヨン細胞の 55〜72% が発火してしまうこと、そこにクランプを入れて初めて疎な符号になることも書いている。",
+    "sourceRefs": [
+      "https://raw.githubusercontent.com/rmz-24/fruitfly-blackjack/HEAD/README.md"
+    ]
+  },
+  {
+    "id": "flyspeare",
+    "name": "flyspeare",
+    "url": "https://github.com/owenautosport/flyspeare",
+    "repoUrl": "https://github.com/owenautosport/flyspeare",
+    "category": "simulation",
+    "tags": [
+      "flywire",
+      "mushroom-body",
+      "dopamine",
+      "sleep",
+      "neuromechfly",
+      "browser"
+    ],
+    "datasets": [
+      "flywire-fafb"
+    ],
+    "org": "@owenautosport",
+    "license": "MIT",
+    "language": "Python",
+    "date": "2026-09-26",
+    "addedAt": "2026-09-27",
+    "stars": 1,
+    "starsUpdatedAt": "2026-09-27",
+    "description_en": "A mushroom body built from FlyWire v783 synapse counts (168 projection neurons, 2,456 Kenyon cells, 29 MBON types) learns to type Shakespeare from dopamine alone, over about a week of compute per fly. Memory phases follow the lobes: the gamma lobe forgets within an hour, alpha-beta holds for days, and the fly replays rewarded moments into long-term memory while it sleeps. The README is explicit that a fly cannot type: the 26 keys are invented action channels, the senses are simplified, the typing animation is not physics, and the fly's words about how it feels are rules over measurements.",
+    "description_ja": "FlyWire v783 のシナプス数から組んだキノコ体（投射ニューロン 168 本、ケニヨン細胞 2,456 個、MBON 29 型）が、ドーパミンだけを頼りにシェイクスピア全集をタイプすることを学ぶ。1 匹あたり計算はおよそ 1 週間。記憶の持続は葉に対応し、γ 葉は 1 時間ほどで忘れ、αβ 葉は数日保ち、夜は眠って報酬のあった場面を長期記憶に再生する。README は「ハエはタイプできない」と明記する。26 個のキーは downstream に置いた人工的な行動チャネルで、感覚は簡略化され、タイプの動作は物理ではなくアニメーション、「気持ち」の言葉も測定値に規則を当てただけだとしている。",
+    "sourceRefs": [
+      "https://raw.githubusercontent.com/owenautosport/flyspeare/HEAD/README.md"
+    ]
+  },
+  {
+    "id": "cns2fpga",
+    "name": "CNS2FPGA",
+    "url": "https://github.com/LengQingSnow/CNS2FPGA",
+    "repoUrl": "https://github.com/LengQingSnow/CNS2FPGA",
+    "category": "tool",
+    "tags": [
+      "malecns",
+      "fpga",
+      "hardware",
+      "fixed-point",
+      "courtship-song",
+      "reproducibility"
+    ],
+    "datasets": [
+      "malecns"
+    ],
+    "org": "@LengQingSnow",
+    "license": "MIT",
+    "language": "Python",
+    "date": "2026-09-26",
+    "addedAt": "2026-09-27",
+    "stars": 1,
+    "starsUpdatedAt": "2026-09-27",
+    "description_en": "Compiles subgraphs of MaleCNS v1.0 into a time-multiplexed FPGA engine and keeps the whole numbered workflow, from subgraph extraction through CPU reference models and fixed-point compilation to measurements on an ALINX AXKU115 board at 200 MHz. Two circuits are checked against the fixed-point CPU model: a 6,279-neuron courtship-song candidate over 13 recorded conditions, and a 226-neuron LC10a to DNa02 candidate over 560 ordered spike events. The README states plainly that these are implementation-fidelity results for a chosen LIF model, not a claim about measured fly activity.",
+    "description_ja": "MaleCNS v1.0 の部分回路を時分割多重の FPGA エンジンにコンパイルし、部分グラフ抽出から CPU 参照モデル、固定小数点化、RTL 検証、ALINX AXKU115 ボード上 200 MHz での実測までを番号付きの手順として丸ごと残す。2 つの回路が固定小数点 CPU モデルと突き合わせて検証されている。ニューロン 6,279 個の求愛歌の候補回路は記録した 13 条件で、226 個の LC10a→DNa02 候補回路は左側入力試行の 560 個の順序付きスパイクで一致した。README は、これらが選んだ LIF モデルの実装一致の検証であって、実測のハエの活動や行動を再現した主張ではないと明言している。",
+    "sourceRefs": [
+      "https://raw.githubusercontent.com/LengQingSnow/CNS2FPGA/HEAD/README.md"
+    ]
+  },
+  {
+    "id": "pfpg-fruit-fly-playground",
+    "name": "Ragdoll playground + fly brain",
+    "url": "https://github.com/kenprosi/PFPG---fruit-fly-playground",
+    "repoUrl": "https://github.com/kenprosi/PFPG---fruit-fly-playground",
+    "category": "demo",
+    "tags": [
+      "flywire",
+      "browser",
+      "ragdoll",
+      "web-worker",
+      "mushroom-body",
+      "learning"
+    ],
+    "datasets": [
+      "flywire-fafb"
+    ],
+    "org": "@kenprosi",
+    "license": "MIT",
+    "language": "JavaScript",
+    "date": "2026-09-26",
+    "addedAt": "2026-09-27",
+    "stars": 1,
+    "starsUpdatedAt": "2026-09-27",
+    "description_en": "A browser ragdoll sandbox in which a body can be given the whole FlyWire v783 brain, 139,255 neurons and about 2.7 million connections, running in a Web Worker. Bodies are particle lattices that dent, break and heal; the brain senses pain, smell, taste, looming and being lifted, and dopamine at PPL1 and PAM weakens mushroom-body synapses so it avoids a smell it was hit while sensing. A separate section lists what is rules rather than neurons: there is no nerve cord in the data, so reflexes, walking and the choice of direction are code.",
+    "description_ja": "ブラウザで動くラグドールの砂場で、人体に FlyWire v783 の全脳（139,255 ニューロン、約 270 万結合）を Web Worker 上で載せられる。身体は粒子格子でできていて、へこみ、割れ、治る。脳は痛み・匂い・味・迫ってくるもの・持ち上げられる感覚を受け取り、PPL1 と PAM のドーパミンがキノコ体のシナプスを弱めるので、叩かれたときに嗅いでいた匂いを後で避けるようになる。「ニューロンではなく規則である部分」を別項で列挙している。データに腹側神経索が含まれないため、反射・歩行・向かう方向の選択はコードだと明記する。",
+    "sourceRefs": [
+      "https://raw.githubusercontent.com/kenprosi/PFPG---fruit-fly-playground/HEAD/README.md"
+    ]
+  },
+  {
+    "id": "anatomi-lalat",
+    "name": "Anatomi Lalat Buah 3D",
+    "url": "https://github.com/sofanaja44/anatomi-lalat",
+    "repoUrl": "https://github.com/sofanaja44/anatomi-lalat",
+    "category": "tool",
+    "tags": [
+      "flywire",
+      "anatomy",
+      "neuropil",
+      "threejs",
+      "indonesian",
+      "education"
+    ],
+    "datasets": [
+      "flywire-fafb"
+    ],
+    "org": "@sofanaja44",
+    "license": "unknown",
+    "language": "JavaScript",
+    "date": "2026-09-26",
+    "addedAt": "2026-09-27",
+    "stars": 0,
+    "starsUpdatedAt": "2026-09-27",
+    "description_en": "An Indonesian-language 3D anatomy viewer for Drosophila melanogaster with 123 annotated parts, all geometry generated procedurally in Three.js with no external mesh or texture files. The brain layer can switch from a schematic placeholder to 43 real FlyWire neuropil meshes, taken from the surface archive bundled in the fafbseg Python package so no FlyWire account is needed, plus neuron skeletons converted from Codex SWC files. Photoreceptor axons are drawn from the actual positions of about 780 modelled ommatidia per eye.",
+    "description_ja": "インドネシア語で書かれた Drosophila melanogaster の 3D 解剖ビューア。注釈付きの部位は 123 個で、ジオメトリはすべて Three.js の手続き生成、外部メッシュやテクスチャ画像を一切使わない。脳の層は模式表示から、実際の FlyWire ニューロピルメッシュ 43 領域に切り替わる。メッシュは fafbseg パッケージに同梱された表面アーカイブから取るので FlyWire のアカウントは要らず、神経の骨格は Codex の SWC ファイルから変換する。光受容細胞の軸索は、片眼あたり約 780 個モデル化した個眼の実際の位置から引かれている。",
+    "sourceRefs": [
+      "https://raw.githubusercontent.com/sofanaja44/anatomi-lalat/HEAD/README.md"
+    ]
+  },
+  {
+    "id": "fly-drone-fpv",
+    "name": "Fly Drone",
+    "url": "https://github.com/hldrnwnv/fly-drone",
+    "repoUrl": "https://github.com/hldrnwnv/fly-drone",
+    "category": "body",
+    "tags": [
+      "malecns",
+      "drone",
+      "mujoco",
+      "dna02",
+      "shuffled-control",
+      "negative-results"
+    ],
+    "datasets": [
+      "malecns"
+    ],
+    "org": "@hldrnwnv",
+    "license": "unknown",
+    "language": "Python",
+    "date": "2026-09-26",
+    "addedAt": "2026-09-27",
+    "stars": 0,
+    "starsUpdatedAt": "2026-09-27",
+    "description_en": "Asks whether MaleCNS wiring can pick which way a virtual quadcopter should yaw. A target angle drives left or right LC10a cells, activity propagates through the fixed graph, and a linear decoder reads the sign of the turn off the two DNa02 descending neurons; a geometric controller and three degree-preserving shuffled graphs fly the same runs. The negatives are kept: driving the four rotors straight from wing motor neurons crashed after 1.23 s with no b1/b2 spikes, and odour-only navigation reached 4 of 8 targets against 6 of 8 for direct concentrations and 0 of 8 with the sides swapped.",
+    "description_ja": "MaleCNS の配線が、仮想クアッドコプターの旋回方向を選べるかを問う実験。目標の角度で左右の LC10a を駆動し、固定されたグラフを活動が伝わり、下行ニューロン DNa02 の左右差から線形デコーダが旋回の符号を読む。比較には幾何制御器と、入出力次数を保ったまま無作為に入れ替えたグラフ 3 本を同じ条件で飛ばす。否定的な結果も残している。翅の運動ニューロンから 4 つのローターを直接動かす試みは 1.23 秒で墜落し、b1・b2 はスパイクを出さなかった。匂いだけの誘導は 8 回中 4 回到達で、濃度を直接使う対照の 6 回、左右を入れ替えた 0 回の間だった。",
+    "sourceRefs": [
+      "https://raw.githubusercontent.com/hldrnwnv/fly-drone/HEAD/README.md"
+    ]
+  },
+  {
+    "id": "uam-simulator-malecns",
+    "name": "UAM 학습 시뮬레이터",
+    "url": "https://rgh112.github.io/uam-simulator/",
+    "repoUrl": "https://github.com/rgh112/uam-simulator",
+    "category": "body",
+    "tags": [
+      "malecns",
+      "uam",
+      "browser",
+      "reinforcement-learning",
+      "korean",
+      "threejs"
+    ],
+    "datasets": [
+      "malecns"
+    ],
+    "org": "@rgh112",
+    "license": "unknown",
+    "language": "HTML",
+    "date": "2026-09-26",
+    "addedAt": "2026-09-27",
+    "stars": 0,
+    "starsUpdatedAt": "2026-09-27",
+    "description_en": "A Korean-language browser simulator in which two urban air mobility aircraft fly in 3D and a recurrent network wired from MaleCNS v1.0 picks checkpoints and the return leg, trained by reward from the flight itself. The extract is a 350-neuron subcircuit of 13 types with 15,182 directed connections, keeping the original body IDs, edge directions and synapse counts, with the extraction conditions recorded in a manifest. The page is careful about what it shows: attitude stabilisation and rotor control are fixed, and the bundled example is one seed after 20 training rounds.",
+    "description_ja": "韓国語のブラウザ用シミュレータ。2 機の UAM 機体が 3D で飛び、MaleCNS v1.0 の配線から作った再帰型ネットワークが点検地点と帰投を選ぶ。学習は飛行から得た報酬で行う。使うのは 13 型・350 ニューロンの部分回路で、有向結合は 15,182 本。元の ID と結合方向、シナプス数をそのまま保ち、抽出条件はマニフェストに記録されている。見せ方にも慎重で、姿勢安定化とローター制御は固定、同梱の例は 20 回の報酬学習を経た単一シードの動作確認であり、コネクトームが優れていることの証明ではないと断っている。",
+    "sourceRefs": [
+      "https://raw.githubusercontent.com/rgh112/uam-simulator/HEAD/README.md",
+      "https://rgh112.github.io/uam-simulator/"
+    ]
   }
 ]
