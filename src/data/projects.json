@@ -11187,5 +11187,294 @@
     "sourceRefs": [
       "https://raw.githubusercontent.com/nazkari86-lab/flybrain/HEAD/README.md"
     ]
+  },
+  {
+    "id": "fly-connectome-wiring",
+    "name": "fly-connectome-wiring",
+    "url": "https://github.com/kosmoKwan/fly-connectome-wiring",
+    "repoUrl": "https://github.com/kosmoKwan/fly-connectome-wiring",
+    "category": "simulation",
+    "tags": [
+      "leg-motor-system",
+      "rewiring-controls",
+      "rate-model",
+      "jax",
+      "preregistration",
+      "malecns",
+      "manc"
+    ],
+    "datasets": [
+      "malecns",
+      "manc"
+    ],
+    "org": "Guan et al. (HKUST)",
+    "region": "HK",
+    "license": "MIT",
+    "language": "Python",
+    "date": "2026-09-30",
+    "addedAt": "2026-10-01",
+    "stars": 0,
+    "starsUpdatedAt": "2026-10-01",
+    "description_en": "Fixed-weight rate models of the adult fly leg motor system, built from MaleCNS v1.0 and MANC v1.0 and compared with six families of rewired networks under criteria fixed before the runs. It also runs the motor-input reassignment, rescue, capped-reassignment and sign-perturbation experiments. The manuscript build recomputes every reported number from the data and fails on any mismatch; noise streams are seeded, so a confirmation run reproduces the archived window to within 1e-16. Neither connectome is redistributed: you supply the public flat files.",
+    "description_ja": "成体ハエの脚運動系を MaleCNS v1.0 と MANC v1.0 の 2 つのコネクトームから固定重みのレートモデルとして組み、実行前に決めた基準で 6 系統の再配線ネットワークと比較する。付随する原稿の、運動入力の付け替え・救済・上限付き付け替え・符号摍乱の実験も回す。原稿のビルドは掲載する数値をすべてデータから再計算し、1 つでも合わなければ失敗する。ノイズ列は種を固定してあり、確認実行は保存済みの記録を 1e-16 以内で再現する。コネクトーム自体は再配布せず、公開フラットファイルは利用者が用意する。",
+    "sourceRefs": [
+      "https://raw.githubusercontent.com/kosmoKwan/fly-connectome-wiring/HEAD/README.md",
+      "https://github.com/kosmoKwan/fly-connectome-wiring"
+    ]
+  },
+  {
+    "id": "fly-cx-navigation-servo",
+    "name": "fly-cx-navigation-servo",
+    "url": "https://github.com/miwamasa/fly-cx-navigation-servo",
+    "repoUrl": "https://github.com/miwamasa/fly-cx-navigation-servo",
+    "category": "simulation",
+    "tags": [
+      "central-complex",
+      "ring-attractor",
+      "heading-direction",
+      "servo-control",
+      "quantization",
+      "malecns"
+    ],
+    "datasets": [
+      "malecns"
+    ],
+    "org": "miwamasa (@miwamasa)",
+    "license": "unknown",
+    "language": "HTML",
+    "date": "2026-09-30",
+    "addedAt": "2026-10-01",
+    "stars": 0,
+    "starsUpdatedAt": "2026-10-01",
+    "description_en": "A rate model of the fly central complex extracted from MaleCNS v1.0, 2,308 neurons and 187,137 signed connections in a 1 MB quantized file, with two write-ups on it. The first recovers the heading ring from connectivity alone and finds ring-attractor motifs and a shifted comparator in the kernels; quantizing the weights acts as pruning, and a 166-neuron, 932-synapse circuit still steers in closed loop. The second argues the plain wiring is a heading servo, not a travel servo, and tests the two missing multiplications as a declared circuit. What is not from the wiring is marked an assumption.",
+    "description_ja": "MaleCNS v1.0 から取り出したハエ中心複合体のレートモデル。2,308 ニューロンと符号付き 187,137 結合を 1 MB の量子化ファイルに入れ、その上に 2 本の論考を置く。前半は接続だけから方位のリングを取り戻し、結合カーネルの中にリングアトラクタのモティーフとシフトした比較器を見つける。重みの量子化は枝刈りに相当し、166 ニューロン・932 シナプスの回路でも閉ループで操舵できる。後半は同じ回路を制御理論として読み、素の配線は進行方向のサーボでなく方位のサーボだと論じ、足りない 2 つの乗算を明示の回路として追加して試す。シナプス数を越える部分はすべてモデルの仮定と明記されている。",
+    "sourceRefs": [
+      "https://raw.githubusercontent.com/miwamasa/fly-cx-navigation-servo/HEAD/README.md",
+      "https://github.com/miwamasa/fly-cx-navigation-servo"
+    ]
+  },
+  {
+    "id": "chessfly",
+    "name": "ChessFly",
+    "url": "https://znatgost.github.io/chessfly/",
+    "repoUrl": "https://github.com/znatgost/chessfly",
+    "category": "demo",
+    "tags": [
+      "chess",
+      "mushroom-body",
+      "kenyon-cells",
+      "self-play",
+      "dopamine",
+      "shuffled-control",
+      "flywire"
+    ],
+    "datasets": [
+      "flywire-fafb"
+    ],
+    "org": "znatgost (@znatgost)",
+    "license": "MIT",
+    "language": "JavaScript",
+    "date": "2026-09-30",
+    "addedAt": "2026-10-01",
+    "stars": 0,
+    "starsUpdatedAt": "2026-10-01",
+    "description_en": "Takes the input wiring of a real mushroom body from FlyWire v783, 285 olfactory projection neurons, 5,177 Kenyon cells and 21,509 connections, and shows it a chessboard instead of odours. Only the Kenyon cell to output neuron synapses change, under a dopamine-like prediction error, and the fly teaches itself by self-play in a browser tab: by 5,000 games it prices a knight at 3.1 and a queen at 11.0 pawns unprompted. The headline is negative: the measured wiring rates 1690 against 1695 for the same cells with inputs shuffled, and the earlier all-random design is about 60 points stronger.",
+    "description_ja": "FlyWire v783 の実際のキノコ体入力配線、喰覚投射ニューロン 285 本・ケニヨン細胞 5,177 個・その間の 21,509 結合を取ってきて、匂いの代わりにチェス盤を見せる。変わるのはケニヨン細胞→出力ニューロンのシナプスだけで、ドーパミン相当の予測誤差で学ぶ。ブラウザ上の自己対局で育てると、5,000 局でナイト 3.1・クィーン 11.0 ポーンという価値表を誰にも教わらずに作る。主な結果は否定的で、実測配線のレート 1690 に対して入力をシャッフルした同じ細胞が 1695、初期の完全ランダム設計は約 60 点強い。作者はそれを現実さでなく容量の差と説明している。",
+    "sourceRefs": [
+      "https://raw.githubusercontent.com/znatgost/chessfly/HEAD/README.md",
+      "https://znatgost.github.io/chessfly/"
+    ]
+  },
+  {
+    "id": "fly-chess-s1ms4",
+    "name": "fly-chess (backprop vs dopamine)",
+    "url": "https://github.com/S1MS4/fly-chess",
+    "repoUrl": "https://github.com/S1MS4/fly-chess",
+    "category": "simulation",
+    "tags": [
+      "chess",
+      "backprop",
+      "dopamine",
+      "mushroom-body",
+      "lesion",
+      "shuffled-control",
+      "tensorflow",
+      "malecns"
+    ],
+    "datasets": [
+      "malecns"
+    ],
+    "org": "S1MS4 (@S1MS4)",
+    "license": "MIT",
+    "language": "Python",
+    "date": "2026-09-30",
+    "addedAt": "2026-10-01",
+    "stars": 0,
+    "starsUpdatedAt": "2026-10-01",
+    "description_en": "Two ways of making the MaleCNS wiring play chess, built so they can be compared. One keeps every connection's place and sign but trains its strength with backprop on Lichess positions; the other freezes the measured brain and lets only the mushroom body change under dopamine. The board enters through photoreceptors binned into an eight by eight grid of the eye, spreads for twelve steps, and is read out of the descending neurons. A sliced custom sparse gradient keeps a ten-million-connection backward pass in 8 GB. Shuffled-wiring and lesion controls are flags, but no strength is measured yet.",
+    "description_ja": "MaleCNS の配線にチェスを指させる 2 つのやり方を、比較できる形で並べる。一方は各結合の位置と符号を保ったまま強さを Lichess の局面で誤差逆伝播学習し、他方は測定された脳を凍結してキノコ体だけをドーパミンで変える。盤面は視細胞を目の 8×8 グリッドにまとめて入れ、12 ステップ伝わって下行ニューロンから手として読み出される。自作の分割スパース勾配で、1,000 万結合の逆伝播を 8 GB 内に収めている。シャッフル配線と領域別損傷の対照はフラグとして組まれているが、測定された棋力はまだ無い。README は見積りだと明記し、ハエのコネクトームでの測定値は誰も公表していないと書いている。",
+    "sourceRefs": [
+      "https://raw.githubusercontent.com/S1MS4/fly-chess/HEAD/README.md",
+      "https://github.com/S1MS4/fly-chess"
+    ]
+  },
+  {
+    "id": "fly-tamagotchi",
+    "name": "Fly Tamagotchi",
+    "url": "https://github.com/ameerul-muminin/fly-tamagotchi",
+    "repoUrl": "https://github.com/ameerul-muminin/fly-tamagotchi",
+    "category": "demo",
+    "tags": [
+      "virtual-pet",
+      "feeding",
+      "mn9",
+      "phone-sensors",
+      "shuffled-control",
+      "shiu-model",
+      "flywire"
+    ],
+    "datasets": [
+      "flywire-fafb"
+    ],
+    "org": "ameerul-muminin (@ameerul-muminin)",
+    "license": "MIT",
+    "language": "Python",
+    "date": "2026-09-30",
+    "addedAt": "2026-10-01",
+    "stars": 0,
+    "starsUpdatedAt": "2026-10-01",
+    "description_en": "A pet fly whose eating is decided by wiring rather than a rule. A phone tap is sugar, a shake is bitter, and the fly feeds only when the proboscis motor neuron MN9 passes 20 spikes per second in a re-built Shiu et al. 2024 model on FlyWire release 630. Give it both at once and it mostly refuses, which also falls out of the wiring. The authors report MN9 at 68.4 against 67.0 in the original, a shuffled-wiring brain that never eats, and a 19,698-neuron slice matching the full brain. Each state is labelled brain or game rule; hunger, light, mood and fainting are game rules.",
+    "description_ja": "食うかどうかをルールでなく配線が決めるバーチャルペットのハエ。スマホのタップが砂糖、揺すと苦味、カメラを覆うと暗闇になり、FlyWire release 630 上で再現した Shiu ら 2024 のモデルで口器運動ニューロン MN9 が毎秒 20 スパイクを超えたときだけ食べる。砂糖と苦味を同時に与えるとほぼ拒むが、これも配線から出てくる。作者は MN9 の発火率を 68.4±4.6 対原著 67.0±6.7 と報告し、配線をシャッフルした脳は決して食べないこと、全脳と一致する 19,698 ニューロンの部分網を使っていることも示している。画面上の各状態には「脳」か「ゲームのルール」かが常に表示され、空腹・明るさ・気分・気絶は後者だと断っている。",
+    "sourceRefs": [
+      "https://raw.githubusercontent.com/ameerul-muminin/fly-tamagotchi/HEAD/README.md",
+      "https://github.com/ameerul-muminin/fly-tamagotchi"
+    ]
+  },
+  {
+    "id": "fly-gets-a-software-job",
+    "name": "Fly Gets a Software Job",
+    "url": "https://github.com/nevchr/Fly-Gets-a-Software-Job",
+    "repoUrl": "https://github.com/nevchr/Fly-Gets-a-Software-Job",
+    "category": "demo",
+    "tags": [
+      "job-hunt",
+      "descending-neurons",
+      "websocket",
+      "three-js",
+      "visualization",
+      "malecns"
+    ],
+    "datasets": [
+      "malecns"
+    ],
+    "org": "nevchr (@nevchr)",
+    "license": "unknown",
+    "language": "Python",
+    "date": "2026-09-30",
+    "addedAt": "2026-10-01",
+    "stars": 0,
+    "starsUpdatedAt": "2026-10-01",
+    "description_en": "One fruit fly applies for software jobs forever, and every visitor watches the same career: the same applications, interviews, rejections and rare offers. The backend loads a MaleCNS v1.0 runtime with 166,700 neurons and 25,582,938 processed model edges, encodes the career state as sensory input and decodes descending neurons into the next action; a seeded mock backend is kept for tests and the interface says which is running. The anatomy panel draws 125,020 mapped soma positions and seven traced skeletons, and calls the spark travelling along a branch an illustrative animation.",
+    "description_ja": "1 匹のショウジョウバエが永遠にソフトウェア職に応募し続け、訪問者全員が同じキャリアを見る。応募・面接・不揁用・まれな内定もすべて共有される。バックエンドは 166,700 ニューロンと処理済み 25,582,938 辺の MaleCNS v1.0 ランタイムを読み込み、キャリアの状態を感覚入力に符号化して下行ニューロンから次の行動を読み出す。テスト用に種を固定したモックも残してあり、どちらが稼働中かを画面が常に示す。解剖ビューアは 125,020 点の細胞体位置と 7 本の追跡済み骨格を描くが、染みが枝を伝う演出は記録でも予測でもない例示アニメーションだと README に断ってある。",
+    "sourceRefs": [
+      "https://raw.githubusercontent.com/nevchr/Fly-Gets-a-Software-Job/HEAD/README.md",
+      "https://github.com/nevchr/Fly-Gets-a-Software-Job"
+    ]
+  },
+  {
+    "id": "bionose-edge",
+    "name": "BioNose-Edge",
+    "url": "https://github.com/Ali-Rashidi-80/bionose-edge",
+    "repoUrl": "https://github.com/Ali-Rashidi-80/bionose-edge",
+    "category": "tool",
+    "tags": [
+      "electronic-nose",
+      "gas-sensor",
+      "kenyon-cells",
+      "embedded",
+      "no-std",
+      "negative-result",
+      "flywire"
+    ],
+    "datasets": [
+      "flywire-fafb"
+    ],
+    "org": "Ali Rashidi (@Ali-Rashidi-80)",
+    "license": "MIT OR Apache-2.0",
+    "language": "Rust",
+    "date": "2026-09-30",
+    "addedAt": "2026-10-01",
+    "stars": 0,
+    "starsUpdatedAt": "2026-10-01",
+    "description_en": "An olfactory front end for gas sensors on microcontrollers, in no-std Rust with no heap allocation, and an unusual case of a project whose headline is that the fly circuit lost. On 13,535 unseen samples from the UCI gas sensor drift set, spanning 36 months of real sensor aging, a FlyWire-derived layer of 2,048 Kenyon cells reaches 52.4 percent while the same layer with shuffled wiring reaches 53.3 and the authors' own cosine tracker reaches 67.4. Their reading is that the sparse binary code discards geometry a floating-point unit could keep, so the mushroom body stays only for ablation.",
+    "description_ja": "マイコン上で動くガスセンサ用の喰覚前段で、ヒープ未使用の no-std Rust 実装。珍しいことに、主な結論は「ハエの回路が負けた」である。実センサの 36 ヶ月の劣化を含む UCI ガスセンサドリフトデータ 10 バッチ、未使用 13,535 サンプルでの評価で、FlyWire 由来のケニヨン細胞 2,048 層が 52.4%、配線をシャッフルした同じ層が 53.3%、作者自身の連続コサイン追尾が 67.4% 。疎な 2 値符号は浮動小数点演算器を持つプロセッサなら保てるベクトルの幾何を捨ててしまうという読みで、キノコ体モジュールは剥離実験用に残すだけとされた。同じ回路の対数変換と除算的正規化は採用されている。",
+    "sourceRefs": [
+      "https://raw.githubusercontent.com/Ali-Rashidi-80/bionose-edge/HEAD/README.md",
+      "https://github.com/Ali-Rashidi-80/bionose-edge"
+    ]
+  },
+  {
+    "id": "fly-cartpole",
+    "name": "fly-cartpole",
+    "url": "https://github.com/Curt-Park/fly-cartpole",
+    "repoUrl": "https://github.com/Curt-Park/fly-cartpole",
+    "category": "simulation",
+    "tags": [
+      "cartpole",
+      "mushroom-body",
+      "dopamine",
+      "preregistration",
+      "shuffled-control",
+      "reinforcement-learning",
+      "malecns"
+    ],
+    "datasets": [
+      "malecns"
+    ],
+    "org": "Curt Park (@Curt-Park)",
+    "license": "MIT",
+    "language": "Python",
+    "date": "2026-09-29",
+    "addedAt": "2026-10-01",
+    "stars": 0,
+    "starsUpdatedAt": "2026-10-01",
+    "description_en": "Two mushroom bodies wired from MaleCNS v1.0, one per push direction, learn to balance CartPole under a dopamine prediction error. They hold the pole for 392.5 steps on average over the last hundred episodes across 20 evaluation seeds, against 18.7 with plasticity off and 22.8 for random pushes. Shuffled wiring scores 390.3, which a permutation test puts at p = 0.48, so the layout rather than the exact synapse map is doing the work. The log of nineteen tested hypotheses is the real document: plasticity that can only weaken synapses exhausts them.",
+    "description_ja": "MaleCNS v1.0 から配線したキノコ体を左右の押し方向ごとに 1 つずつ置き、ドーパミンの予測誤差で CartPole の倒立を学ばせる。評価用 20 シードの最終 100 エピソード平均で 392.5 ステップ、可塑性を切ると 18.7、ランダムな押しは 22.8 で、46% のエピソードが上限の 500 ステップに達する。配線をシャッフルしても 390.3 で、置換検定で p = 0.48。効いているのはシナプスの地図そのものでなく配置だということになる。試した 19 仮説の記録こそが本体で、拑抗だけの可塑性はシナプスを使い切る、キノコ体 1 つでは行動符号が棒の状態を隠す、境界のあるシナプスが表せる範囲を超えた報酬は一部の場合を片側に固定してしまう、と報告されている。",
+    "sourceRefs": [
+      "https://raw.githubusercontent.com/Curt-Park/fly-cartpole/HEAD/README.md",
+      "https://github.com/Curt-Park/fly-cartpole"
+    ]
+  },
+  {
+    "id": "flyer-pixelabs",
+    "name": "Flyer",
+    "url": "https://flyer.pixelabs.net",
+    "repoUrl": "https://github.com/thepixelabs/flyer",
+    "category": "simulation",
+    "tags": [
+      "taste",
+      "feeding",
+      "mn9",
+      "screen",
+      "generative-art",
+      "shiu-model",
+      "flywire"
+    ],
+    "datasets": [
+      "flywire-fafb"
+    ],
+    "org": "PixeLabs (@thepixelabs)",
+    "license": "MIT",
+    "language": "JavaScript",
+    "date": "2026-09-29",
+    "addedAt": "2026-10-01",
+    "stars": 0,
+    "starsUpdatedAt": "2026-10-01",
+    "description_en": "Asks a whole-brain FlyWire model, run with the Shiu et al. 2024 equations, what it will eat. Sugar stays on and each of 63 other tastes and smells is added in turn while the proboscis motor neuron MN9 is measured, with promising channels re-tested and confirmed under fresh noise. Six searches from different noise gave the same answer: water, low salt and one pharyngeal channel, worth about 12 to 16 extra spikes per second. No smell was ever picked; of 53 smells, 18 pushed feeding down and 35 did nothing, which the authors call a result about eating, not about what a fly likes to smell.",
+    "description_ja": "Shiu ら 2024 の式で回す FlyWire 全脳モデルに「何を食うか」を聞く。砂糖を常に入れたまま、他の 63 チャンネルの味と匂いを 1 つずつ追加して口器運動ニューロン MN9 を測り、有望なチャンネルは再試行・組み合わせ・新しいノイズでの確認にかける。異なるノイズから 6 回探索して結果は同じで、水・低濃度の塩・咽頭の味覚 1 チャンネルで、砂糖だけのときより毎秒約 12〜16 スパイク多い。匂いは 1 つも選ばれなかった。53 の匂いのうち 18 は摂食を下げ、35 は何も起こさない。作者はこれを「食べさせる入力の話であって、ハエが好む香りの話ではない」と断る。発火した細胞は実際の位置に描かれ、絵のうちどれだけがデータに乗っているかの忠実度が付く。",
+    "sourceRefs": [
+      "https://raw.githubusercontent.com/thepixelabs/flyer/HEAD/README.md",
+      "https://flyer.pixelabs.net"
+    ]
   }
 ]
