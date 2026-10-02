@@ -11923,5 +11923,431 @@
     "sourceRefs": [
       "https://raw.githubusercontent.com/viniciosix/flylab-connectome/HEAD/README.md"
     ]
+  },
+  {
+    "id": "malecns-humanoid",
+    "name": "maleCNS fly brain → human body",
+    "url": "https://github.com/neomorrison/malecns-test",
+    "repoUrl": "https://github.com/neomorrison/malecns-test",
+    "category": "body",
+    "tags": [
+      "humanoid",
+      "mujoco",
+      "ppo",
+      "descending-neurons",
+      "negative-result",
+      "malecns"
+    ],
+    "datasets": [
+      "malecns"
+    ],
+    "org": "neomorrison (@neomorrison)",
+    "license": "unknown (code); CC-BY-4.0 (data)",
+    "language": "Python",
+    "date": "2026-09-27",
+    "addedAt": "2026-10-03",
+    "stars": 0,
+    "starsUpdatedAt": "2026-10-03",
+    "description_en": "Puts the male fly's CNS in charge of a 1.74 m, 72 kg humanoid. All 141,615 traced maleCNS brain neurons (86 M synapses) run as leaky integrate-and-fire cells and decide where to turn, when to jump and when to eat; a PPO policy over 23 joints does the walking fly motor neurons cannot. Senses enter on identified cells (LC10, LPLC2/LC4, LB3 sugar receptors) and a fixed decoder reads named descending neurons. Hunger is added by hand, being absent from the wiring. One failure is reported: odour input gave no reliable steering or walking command, so food is found by sight, not smell.",
+    "description_ja": "オスのハエの中枢神経系に身長 1.74 m・体重 72 kg のヒト型の体を操らせる。maleCNS の脳ニューロン 141,615 個（シナプス 8,600 万）を漏れ積分発火で回し、曲がる向き・跳ぶ時・食べる時を決めさせる。歩行自体は 23 関節への PPO の方策で、ハエの運動ニューロンでは動かせない体だからと切り分ける。感覚は同定済みのニューロン（LC10、LPLC2・LC4、LB3 の糖受容ニューロン）に入り、出力は名前の付いた下行ニューロンから固定デコーダで読む。空腹は配線に無い神経修飾なので手で足したと明記。否定的な結果もある。食物臭からは安定した旋回・歩行指令が出ず、餌は匂いでなく視覚で見つける。暴走を止めるためケニオン細胞間などのループを削り、腹部神経索は再現しない。README の状態欄では走りと跳躍は学習中とある。",
+    "sourceRefs": [
+      "https://raw.githubusercontent.com/neomorrison/malecns-test/HEAD/README.md"
+    ]
+  },
+  {
+    "id": "flyxenotype-rimworld",
+    "name": "Fly Xenotype",
+    "url": "https://github.com/whydew/FlyXenotype",
+    "repoUrl": "https://github.com/whydew/FlyXenotype",
+    "category": "demo",
+    "tags": [
+      "rimworld",
+      "game-mod",
+      "sleep-circuit",
+      "central-complex",
+      "deterministic",
+      "flywire"
+    ],
+    "datasets": [
+      "flywire-fafb"
+    ],
+    "org": "whydew (@whydew)",
+    "license": "unknown (code); CC-BY-NC-4.0 (FlyWire data)",
+    "language": "C#",
+    "date": "2026-09-27",
+    "addedAt": "2026-10-03",
+    "stars": 0,
+    "starsUpdatedAt": "2026-10-03",
+    "description_en": "A RimWorld 1.6 mod whose Fly colonists sleep on a circuit pulled from the FlyWire v783 connectome instead of a hard-coded bedtime. A build script extracts the circadian-to-sleep-homeostat pathway (36 cell types, 260 neurons, 192 connections, about 29,000 synapses: s-LNv/LNd/DN1p/DN1a clock cells, anterior-bulb TuBu, the ER5 ring homeostat, ExR1 helicon cells, ExR3, the dorsal fan-shaped body) into C#. The README says the wiring is measured but the game's couplings into it are modelling choices, and that neuropeptides and learning are not modelled.",
+    "description_ja": "RimWorld 1.6 の MOD。追加される「ハエ」ゼノタイプの入植者は、固定の就寝時刻ではなく FlyWire v783 コネクトームから取り出した回路で眠る。ビルド用スクリプトが概日時計から睡眠ホメオスタットまでの経路（36 細胞型・260 ニューロン・192 結合・約 29,000 シナプス。s-LNv・LNd・DN1p・DN1a の時計ニューロン、前葉球の TuBu、睡眠ホメオスタットの ER5 リングニューロン、ExR1 ヘリコン細胞、ExR3、睡眠を促す背側扇状体）を C# のソースへ書き出す。結合強度はシナプス数、符号は推定神経伝達物質。脳が 250 ティックごとに作業優先度を書き換えるので、プレイヤーは作業・スケジュールのタブを触れない。README は回路内部の配線は測定値だがゲームとの接続はモデル上の選択であり、神経ペプチドと学習は再現していないと明記する。",
+    "sourceRefs": [
+      "https://raw.githubusercontent.com/whydew/FlyXenotype/HEAD/README.md"
+    ]
+  },
+  {
+    "id": "melanograph",
+    "name": "MelanoGraph",
+    "url": "https://github.com/AkashaCorporation/FlyBrain",
+    "repoUrl": "https://github.com/AkashaCorporation/FlyBrain",
+    "category": "simulation",
+    "tags": [
+      "preregistration",
+      "rewiring-control",
+      "provenance",
+      "rust",
+      "reproducibility",
+      "flywire"
+    ],
+    "datasets": [
+      "flywire-fafb"
+    ],
+    "org": "Akasha Corporation (@AkashaCorporation)",
+    "license": "Apache-2.0 (code); CC-BY-NC-4.0 (FlyWire data)",
+    "language": "Python",
+    "date": "2026-09-28",
+    "addedAt": "2026-10-03",
+    "stars": 0,
+    "starsUpdatedAt": "2026-10-03",
+    "description_en": "A whole-brain simulation substrate built around preregistration and provenance, asking what circuit organisation adds to social learning. It loads the FlyWire-derived connectivity published with the Shiu et al. model, runs leaky integrate-and-fire dynamics, and pairs every experiment with a degree-preserving rewiring control. Each step was sealed by SHA-256 before it ran. The reproduction check is reported as partial, not rounded up: a whole-brain sugar run lands within 7% of the upstream output on active neurons and MN9-right but 21% high on MN9-left.",
+    "description_ja": "事前登録と来歴管理を軸にした全脳シミュレーションの基盤で、回路の構造が社会的学習に何を足すのかを問う。Shiu らのモデルとともに公開された FlyWire 由来の結合データを読み、漏れ積分発火で回し、どの実験にも次数・重み・興奮抑制比を保つ次数保存リワイヤリングの対照を付ける。3 段階はいずれも実行前に SHA-256 で封をし、文書が封と合わなければ実行を拒む。再現性の確認は切り上げずに「部分的」と書く。上流の著者自身の 30 試行の出力に対し、全脳での糖刺激 1 試行は活動ニューロン数と右 MN9 で 7% 以内、左 MN9 では 21% 高い。Rust カーネルは NumPy の参照実装とビット単位で一致。社会的課題の実験が全脳でなく 10,201 ニューロンの部分グラフである点も注意している。",
+    "sourceRefs": [
+      "https://raw.githubusercontent.com/AkashaCorporation/FlyBrain/HEAD/README.md"
+    ]
+  },
+  {
+    "id": "drosophila-lang",
+    "name": "Drosophila-Lang",
+    "url": "https://github.com/UniversidadCamiloJoseCela/drosophila-lang",
+    "repoUrl": "https://github.com/UniversidadCamiloJoseCela/drosophila-lang",
+    "category": "tool",
+    "tags": [
+      "esoteric-language",
+      "turing-complete",
+      "mushroom-body",
+      "interpreter",
+      "teaching",
+      "flywire"
+    ],
+    "datasets": [
+      "flywire-fafb"
+    ],
+    "org": "Universidad Camilo José Cela (@UniversidadCamiloJoseCela)",
+    "region": "ES",
+    "license": "unknown (code); CC-BY-NC-4.0 (FlyWire data)",
+    "language": "HTML",
+    "date": "2026-09-28",
+    "addedAt": "2026-10-03",
+    "stars": 0,
+    "starsUpdatedAt": "2026-10-03",
+    "description_en": "An esoteric, Turing-complete programming language whose runtime is a fly brain: FlyWire v783, 138,639 neurons and 2,700,513 connections of five synapses or more. There is no RAM and no clock. Each program state is assigned to a real identified neuron (an antennal-lobe projection neuron for a named glomerulus, Kenyon cells, MBONs, PAM and PPL1 dopamine cells, DNa02, the proboscis motor neuron MN9), each variable is the strength of a Kenyon-cell-to-MBON synapse, and the program ends when the giant fibre DNp01 fires. Anatomy sets the limits: 16 variables, because there are only 16 PPL1 neurons.",
+    "description_ja": "実行環境がハエの脳である、チューリング完全な難解プログラミング言語。使うのは FlyWire v783 の 138,639 ニューロンと、シナプス 5 個以上の結合 2,700,513 本。RAM もクロックも無い。プログラムの各状態は実在する同定済みニューロン（名前付き糸球体の触角葉投射ニューロン、ケニオン細胞、キノコ体出力ニューロン、PAM・PPL1 のドーパミンニューロン、DNa02、口吻の運動ニューロン MN9 など）に割り当てられ、変数はドーパミンが増減させるケニオン細胞から MBON へのシナプス強度そのもの、巨大繊維 DNp01 が発火するとプログラムが終わる。制約は解剖学から来る。PPL1 ニューロンが 16 個しか無いので変数は 16 個まで、条件分岐は 128 回まで。チューリング完全性をミンスキー機械への帰着で示す論文と 3D ビューアが付く。",
+    "sourceRefs": [
+      "https://raw.githubusercontent.com/UniversidadCamiloJoseCela/drosophila-lang/HEAD/README.md"
+    ]
+  },
+  {
+    "id": "fly-muaythai",
+    "name": "fly-muaythai",
+    "url": "https://github.com/klasinlapaprechar/fly-muaythai",
+    "repoUrl": "https://github.com/klasinlapaprechar/fly-muaythai",
+    "category": "demo",
+    "tags": [
+      "fighting",
+      "flybody",
+      "mujoco",
+      "recurrent-ppo",
+      "self-play",
+      "malecns"
+    ],
+    "datasets": [
+      "malecns"
+    ],
+    "org": "klasinlapaprechar (@klasinlapaprechar)",
+    "license": "unknown (code); CC-BY-4.0 (data)",
+    "language": "Python",
+    "date": "2026-09-28",
+    "addedAt": "2026-10-03",
+    "stars": 0,
+    "starsUpdatedAt": "2026-10-03",
+    "description_en": "Two simulated flies spar in a ring, and the fighter's brain is a 6,170-neuron circuit cut from the male CNS connectome via neuPrint: LC10 opponent trackers, LPLC2 and LC4 for incoming strikes, bristle and leg touch, Johnston's-organ balance, the pC1 aggression cluster, PAM reward cells and all 1,314 descending neurons. The wiring never changes; recurrent PPO learns 14,910 parameters of gains and a descending readout on a flybody fly in MuJoCo. By update 2,000 it netted +9.1 points per bout with 65% of strikes landing, after losing to the scripted veteran at updates 1,000 and 1,500.",
+    "description_ja": "リング上で 2 匹のハエが組み手をする。闘う側の脳は neuPrint 経由でオスの中枢神経系コネクトームから切り出した 6,170 ニューロンの回路で、相手の追跡に LC10、迫る打撃に LPLC2 と LC4、剛毛と脚の触覚、ジョンストン器官の平衡、攻撃性の pC1 クラスタ、報酬の PAM ニューロン、下行ニューロン 1,314 本すべてが入る。配線は固定で、学習するのは細胞型ごとのゲインと下行ニューロンの読み出しという 14,910 パラメータだけ。身体は MuJoCo 上の flybody のハエ。更新 2,000 回時点で混合段階の 48 試合平均 +9.1 点、打撃命中率 65%。更新 1,000 回と 1,500 回では台本ありの熟練相手に負けていた。実データとモデル部分を表で分け、学習中に見つけた報酬設計の不具合 7 件も公開している。",
+    "sourceRefs": [
+      "https://raw.githubusercontent.com/klasinlapaprechar/fly-muaythai/HEAD/README.md"
+    ]
+  },
+  {
+    "id": "flybrain-play-bike",
+    "name": "flybrain-play",
+    "url": "https://flybrain-play.vercel.app",
+    "repoUrl": "https://github.com/victory-c/flybrain-play",
+    "category": "simulation",
+    "tags": [
+      "bicycle",
+      "balance",
+      "slurm",
+      "gpu",
+      "negative-result",
+      "malecns"
+    ],
+    "datasets": [
+      "malecns"
+    ],
+    "org": "victory-c (@victory-c)",
+    "license": "unknown (code); CC-BY-4.0 (data)",
+    "language": "HTML",
+    "date": "2026-09-28",
+    "addedAt": "2026-10-03",
+    "stars": 0,
+    "starsUpdatedAt": "2026-10-03",
+    "description_en": "Takes the Fly Bar whole-CNS spiking simulator (sstamou03/fly_brain, vendored unmodified as this repo's first commit and credited as such) and asks it to ride a road bike. The interesting part is what did not work: the walking command neurons from the literature do not track the bike's lean, with MDN firing 5-19 Hz regardless, so steering had to come from flight-stabilisation descending neurons (DNp20, DNg46, DNp22) instead. A 71-parameter decoder fitted to a PD teacher at R-squared 0.75 keeps 16 riders up a mean 14.1 s of 15 s, 9 never falling. The connectome is never changed.",
+    "description_ja": "全中枢神経系のスパイキングシミュレータ Fly Bar（sstamou03/fly_brain を無改変のままこのリポジトリの最初のコミットに取り込み、その旨を明記）に、ロードバイクを走らせる。自転車の状態を実在の平衡・風・オプティックフロー・脚の感覚ニューロンの発火に変え、下行ニューロンの発火を操舵トルク・ペダリング・ブレーキにデコードする。面白いのは上手くいかなかった部分だ。文献にある歩行の指令ニューロンは車体の傾きを追わず、MDN は傾きに関係なく 5〜19 Hz で発火した。そこで操舵は飛行安定化の下行ニューロン（DNp20・DNg46・DNp22）から取ることになった。PD 制御の教師に R² 0.75 で当てはめた 71 パラメータのデコーダで、16 人の走者が 15 秒中平均 14.1 秒倒れず、9 人は一度も倒れない。コネクトームは変更しない。",
+    "sourceRefs": [
+      "https://raw.githubusercontent.com/victory-c/flybrain-play/HEAD/README.md",
+      "https://flybrain-play.vercel.app"
+    ]
+  },
+  {
+    "id": "malecns-embodied-fly",
+    "name": "MaleCNS embodied fly",
+    "url": "https://github.com/Ryans-sS/malecns-embodied-fly",
+    "repoUrl": "https://github.com/Ryans-sS/malecns-embodied-fly",
+    "category": "simulation",
+    "tags": [
+      "neuromechfly",
+      "metabolism",
+      "chemotaxis",
+      "control-arms",
+      "duckdb",
+      "malecns"
+    ],
+    "datasets": [
+      "malecns",
+      "flywire-fafb"
+    ],
+    "org": "Ryans-sS (@Ryans-sS)",
+    "license": "Apache-2.0 (code); CC-BY-4.0 (data); CC-BY-NC-4.0 (FlyWire data)",
+    "language": "Python",
+    "date": "2026-10-01",
+    "addedAt": "2026-10-03",
+    "stars": 0,
+    "starsUpdatedAt": "2026-10-03",
+    "description_en": "A declared fork of the Codex connectome explorer that adds MaleCNS v1.0 beside FlyWire FAFB 783 in one local app, then wires the male dataset up as a living animal. Its 166,700-neuron network runs as a leaky integrate-and-fire brain with a metabolism (energy, water, sodium, damage, cell death) in an arena where it must press pads to stay alive, on a NeuroMechFly body in MuJoCo. Every number comes from an assay with a control arm: odour on versus off gives 0.06 mm against 2.75 mm closest approach; rewarded versus sham depresses Kenyon-cell synapses by -0.4226 against 0.0000.",
+    "description_ja": "コネクトーム閲覧ツール Codex のフォークであることを明記した上で、MaleCNS v1.0 を FlyWire FAFB 783 と並べて 1 つのローカルアプリに載せ、さらにオス側のデータを生きた動物として動かす。166,700 ニューロンを漏れ積分発火で回し、エネルギー・水・ナトリウム・損傷・細胞死という代謝を付けて、生き延びるには要求パッドを探して押さねばならないアリーナに置く。身体は MuJoCo 上の NeuroMechFly で駆動脚関節 66、片眼 721 個眼。数値はすべて対照群付きのアッセイから出る。匂いあり・なしで最接近 0.06 mm 対 2.75 mm、パッド押し 8 回対 1 回。報酬対偽報酬では訓練した匂いのケニオン細胞シナプスが -0.4226 対 0.0000 で抑圧される。測定データとモデル層を一行ずつ分ける README も付く。",
+    "sourceRefs": [
+      "https://raw.githubusercontent.com/Ryans-sS/malecns-embodied-fly/HEAD/README.md"
+    ]
+  },
+  {
+    "id": "fly-brain-lab-swat",
+    "name": "Fly Brain Lab",
+    "url": "https://github.com/roanbrasil/fly-brain-lab",
+    "repoUrl": "https://github.com/roanbrasil/fly-brain-lab",
+    "category": "simulation",
+    "tags": [
+      "negative-result",
+      "shuffled-control",
+      "escape-circuit",
+      "ppo",
+      "zero-dependency",
+      "flywire"
+    ],
+    "datasets": [
+      "flywire-fafb"
+    ],
+    "org": "roanbrasil (@roanbrasil)",
+    "license": "MIT (code); CC-BY-NC-4.0 (FlyWire data)",
+    "language": "JavaScript",
+    "date": "2026-10-02",
+    "addedAt": "2026-10-03",
+    "stars": 0,
+    "starsUpdatedAt": "2026-10-03",
+    "description_en": "A controlled experiment, reported as a null result, on whether the fly's real escape wiring helps a simulated fly dodge a flip-flop swat. Five brains share one body and one training budget: a plain MLP, the escape circuit cut from FlyWire v783, the same wiring shuffled while keeping each neuron's degrees, and frozen-synapse versions of both. Five seeds each, 1.97 M steps, then 1,024 identical swats per seed. The trained brains tie within the seed spread (63.8% MLP, 62.2% fly, 59.7% shuffled), and with synapses frozen at the connectome's counts neither wiring solves the task (25.6%, 27.2%).",
+    "description_ja": "ハエの実際の逃避配線が、ビーチサンダルの一撃をよける課題で本当に役に立つのかを対照実験で調べ、否定的な結果として報告する。同じ身体・同じ学習予算で 5 種類の脳を比べる。素の MLP、FlyWire v783 から切り出した逃避回路、各ニューロンの入次数と出次数を保ったまま行き先をシャッフルした対照、そしてその両方のシナプス固定版。各 5 シード・学習 197 万ステップのあと、1 シードあたり同一の 1,024 回の一撃で評価する。学習した 3 つはシード間のばらつきの中で並ぶ（MLP 63.8%、ハエ配線 62.2%、シャッフル 59.7%）。シナプスをコネクトームのシナプス数で固定すると、どちらの配線も課題を解けない（25.6% と 27.2%）。回路は 698 ニューロン・92,612 シナプス。実装は依存ゼロの JavaScript。",
+    "sourceRefs": [
+      "https://raw.githubusercontent.com/roanbrasil/fly-brain-lab/HEAD/README.md"
+    ]
+  },
+  {
+    "id": "subject-783",
+    "name": "Subject 783",
+    "url": "https://rootvandal.github.io/subject-783/",
+    "repoUrl": "https://github.com/RootVandal/subject-783",
+    "category": "demo",
+    "tags": [
+      "browser",
+      "web-worker",
+      "whole-brain",
+      "bilingual",
+      "interactive",
+      "flywire"
+    ],
+    "datasets": [
+      "flywire-fafb"
+    ],
+    "org": "RootVandal (@RootVandal)",
+    "license": "MIT (code); CC-BY-NC-4.0 (FlyWire data)",
+    "language": "JavaScript",
+    "date": "2026-10-02",
+    "addedAt": "2026-10-03",
+    "stars": 0,
+    "starsUpdatedAt": "2026-10-03",
+    "description_en": "A bilingual browser piece that stages the whole FlyWire v783 brain (138,639 neurons, 54.5 M synapses, the Shiu et al. leaky integrate-and-fire model computed spike by spike in a Web Worker) as a subject strapped into a chair in an underground lab you operate from a dark booth. Fifteen experiments drive named sensory cells and the model answers: 32 labellar sugar GRNs push the proboscis motor neuron MN9 to about 75 Hz, while 42 bitter GRNs leave it silent and suppress feeding to 0 Hz even with sugar present. Overload the brain and the neurons burn out unless you reset.",
+    "description_ja": "FlyWire v783 の全脳（138,639 ニューロン・5,450 万シナプス、Shiu らの漏れ積分発火モデルを Web Worker でスパイク単位に計算）を、地下の実験室で椅子に固定された「被験体」として見せる二言語のブラウザ作品。暗いブースから操作するコンソールには 15 の実験が並ぶ。砂糖、苦味、手持ちの音楽や YouTube のリンク、触角への送風、くすぐり、ストロボ、レーザー、電気刺激、遠心機、窒素、のこぎり。ボタンは名前の付いた感覚ニューロンを駆動し、モデルが応答する。口肢の糖受容ニューロン 32 本は口吻の運動ニューロン MN9 を約 75 Hz まで押し上げ、苦味受容ニューロン 42 本では MN9 は沈黙し、砂糖を同時に与えても摂食が 0 Hz に抑えられる。追い込むとリセットしない限りニューロンが焼き切れる。",
+    "sourceRefs": [
+      "https://raw.githubusercontent.com/RootVandal/subject-783/HEAD/README.md",
+      "https://rootvandal.github.io/subject-783/"
+    ]
+  },
+  {
+    "id": "grey-leno-fly-brain",
+    "name": "Grey Leno Fly Brain",
+    "url": "https://spikecalls.github.io/grey-leno-fly-brain/",
+    "repoUrl": "https://github.com/SpikeCalls/grey-leno-fly-brain",
+    "category": "demo",
+    "tags": [
+      "browser",
+      "ragdoll",
+      "three-js",
+      "talk-show",
+      "whole-brain",
+      "flywire"
+    ],
+    "datasets": [
+      "flywire-fafb"
+    ],
+    "org": "SpikeCalls (@SpikeCalls)",
+    "license": "MIT (code); CC-BY-NC-4.0 (FlyWire data)",
+    "language": "JavaScript",
+    "date": "2026-09-30",
+    "addedAt": "2026-10-03",
+    "stars": 0,
+    "starsUpdatedAt": "2026-10-03",
+    "description_en": "A whole-brain fly model puppeteers a late-night talk-show host in the browser. The brain is all 138,639 FlyWire v783 neurons and 15.1 M signed connections, run as leaky integrate-and-fire cells with a 1.8 ms synaptic delay in a Web Worker in plain JavaScript; the body is a physics ragdoll on a three.js stage. Throw tomatoes, roses or sugar and each event becomes Poisson spikes on identified sensory cells. Nothing at the motor level is scripted: the host walks because P9 fired, backs off a heckler because MDN fired, and flinches when the giant fibre DNp01 crosses threshold.",
+    "description_ja": "全脳のハエのモデルが、ブラウザの中で深夜トーク番組の司会者を操る。脳は FlyWire v783 の 138,639 ニューロンと符号付き結合 1,510 万本すべてで、シナプス遅延 1.8 ms の漏れ積分発火として素の JavaScript の Web Worker で回る。身体は three.js のステージ上の物理ラグドール。トマトやバラや砂糖を投げると、各イベントが同定済みの感覚ニューロン（味覚・嗅覚の受容ニューロン、ジョンストン器官の聴覚、R1-6 光受容器）へのポアソン入力になる。運動レベルには一切台本が無い。司会者が歩くのは P9 が発火したからで、野次に後退するのはムーンウォーカー MDN が発火したから、びくつくのは巨大繊維 DNp01 が閾値を越えたから。複眼視点とスパイクラスターの表示も付く。",
+    "sourceRefs": [
+      "https://raw.githubusercontent.com/SpikeCalls/grey-leno-fly-brain/HEAD/README.md"
+    ]
+  },
+  {
+    "id": "neurofly-macos",
+    "name": "NeuroFly",
+    "url": "https://github.com/spicypunch/neurofly",
+    "repoUrl": "https://github.com/spicypunch/neurofly",
+    "category": "demo",
+    "tags": [
+      "desktop-pet",
+      "macos",
+      "swift",
+      "metal",
+      "control-arms",
+      "flywire"
+    ],
+    "datasets": [
+      "flywire-fafb"
+    ],
+    "org": "spicypunch (@spicypunch)",
+    "license": "unknown (code); CC-BY-NC-4.0 (FlyWire data)",
+    "language": "Swift",
+    "date": "2026-10-02",
+    "addedAt": "2026-10-03",
+    "stars": 0,
+    "starsUpdatedAt": "2026-10-03",
+    "description_en": "A macOS desktop pet that is unusually willing to be checked. A fly floats over the desktop, you drop food or cast a shadow from the menu bar, and a status window shows the sensory input, neuron activity and body output of that moment. Behind it 139,255 FlyWire v783 neurons and 15,091,983 directed connections are computed with Metal, from a pinned data version verified by SHA-256. The validation section is dated and specific: 29 core tests, PN firing 875.08 Hz when hungry against roughly 0.000037 Hz after satiety, and three sensory-blocked control arms matching the no-food run exactly.",
+    "description_ja": "検証に付き合う気のある、珍しい macOS のデスクトップペット。デスクトップにハエが 1 匹浮かび、メニューバーから餌を置いたり影を作ったりできる。状態ウィンドウにはその瞬間の感覚入力・ニューロン活動・身体出力に加え、空腹度と累積摂取量が並ぶ。背後では FlyWire v783 の 139,255 ニューロンと有向結合 15,091,983 本を Metal で計算し、取得スクリプトがデータのバージョンを固定してサイズと SHA-256 を検証する。検証の節は日付入りで具体的だ。コアテスト 29 件、投射ニューロンの発火は空腹時 875.08 Hz に対し満腹 2 秒後は約 0.000037 Hz、18 条件の餌グリッドでは感覚を遮断した対照 3 条件が餌なしの実行とダイジェストまで一致する。脳全体や実際の飛行の再現ではないとも明記する。",
+    "sourceRefs": [
+      "https://raw.githubusercontent.com/spicypunch/neurofly/HEAD/README.md"
+    ]
+  },
+  {
+    "id": "flywire-fpga-accelerator",
+    "name": "Systolic Neural Accelerator on FPGA",
+    "url": "https://github.com/duydat291007/flywire-fpga-accelerator",
+    "repoUrl": "https://github.com/duydat291007/flywire-fpga-accelerator",
+    "category": "tool",
+    "tags": [
+      "fpga",
+      "systemverilog",
+      "systolic-array",
+      "uvm",
+      "ablation-control",
+      "flywire"
+    ],
+    "datasets": [
+      "flywire-fafb"
+    ],
+    "org": "duydat291007 (@duydat291007)",
+    "license": "unknown (code); CC-BY-NC-4.0 (FlyWire data)",
+    "language": "SystemVerilog",
+    "date": "2026-10-02",
+    "addedAt": "2026-10-03",
+    "stars": 0,
+    "starsUpdatedAt": "2026-10-03",
+    "description_en": "Runs a 256-neuron subcircuit of the FlyWire FAFB v783 connectome on a Basys 3 board, closing the loop around a virtual fly that eats when sugar neurons reach the proboscis motor neurons and jumps when looming detectors reach the giant fibre. Weights are sign of transmitter times min(127, twice the synapse count) over 2,265 synapses, with no per-synapse tuning. Post-route at 100 MHz the 4x4 systolic array takes 28,937 cycles per update against 65,800 for a serial baseline. The ablation arm: over 40 trials the circuit eats 35 and escapes 39; removing all synapses gives 0 and 29.",
+    "description_ja": "FlyWire FAFB v783 コネクトームの 256 ニューロン部分回路を Basys 3 ボード上で走らせ、糖受容ニューロンが口吻の運動ニューロンに届けば食べ、ルーミング検出器が巨大繊維に届けば跳ぶ仮想のハエを閉ループで動かす。アクセラレータは SystemVerilog の重み固定型シストリックアレイ、ニューロンは整数の漏れ積分発火。重みは伝達物質の符号 × min(127, シナプス数の 2 倍) をシナプス 2,265 本に当てるだけで個別調整はしない。配置配線後 100 MHz で 4×4 アレイは 1 回の神経更新に 28,937 サイクル、直列 MAC の基準実装は 65,800 サイクル。行動の確認には除去実験の対照がある。各 40 試行で、FlyWire 回路は 35 回食べ 39 回逃げるが、全シナプスを取り除くと 0 回と 29 回になる。UVM 環境と変異テスト 27 件も付く。",
+    "sourceRefs": [
+      "https://raw.githubusercontent.com/duydat291007/flywire-fpga-accelerator/HEAD/README.md"
+    ]
+  },
+  {
+    "id": "fly-brain-dungeon",
+    "name": "Fly Brain Dungeon",
+    "url": "https://github.com/jasonfye2015/fly-brain-dungeon",
+    "repoUrl": "https://github.com/jasonfye2015/fly-brain-dungeon",
+    "category": "demo",
+    "tags": [
+      "roguelike",
+      "mushroom-body",
+      "dopamine",
+      "eligibility-trace",
+      "windows",
+      "malecns"
+    ],
+    "datasets": [
+      "malecns"
+    ],
+    "org": "jasonfye2015 (@jasonfye2015)",
+    "license": "unknown (code); CC-BY-4.0 (data)",
+    "language": "Python",
+    "date": "2026-10-01",
+    "addedAt": "2026-10-03",
+    "stars": 0,
+    "starsUpdatedAt": "2026-10-03",
+    "description_en": "A retro dungeon crawler where the monster hunting you has no scripted AI: its decisions come from 4,501 real mushroom-body neurons extracted from the MaleCNS v1.0 connectome, and it learns from dopamine while it hunts. Senses excite 4,064 Kenyon cells through random claws with only the top 5% firing, and those drive 97 MBONs through their real connectome synapses, each voting approach or avoid. The README is explicit that this direction is not programmed but falls out of the wiring. Dopamine updates only recently active KC-to-MBON synapses through a fading eligibility tag.",
+    "description_ja": "レトロなダンジョン探索ゲームで、追ってくるモンスターに台本の AI は無い。判断はすべて MaleCNS v1.0 コネクトームから取り出したキノコ体の実ニューロン 4,501 個から出て、狩りの最中にドーパミンで学習する。毎ターン、四方向への移動・攻撃・待機という各選択肢について、行き先のマスのにおい（プレイヤーの匂い、鍵・扉・戦利品、自分の足跡）と見通し、自分の体力を読む。感覚はランダムな「爪」を通してケニオン細胞 4,064 個を興奮させ、上位 5% だけが発火する。発火した細胞が実コネクトームのシナプスを通して MBON 97 本を駆動し、各 MBON が接近か回避に投票する。README はこの向きがプログラムされたものではなく配線から出てくるものだと明記する。ドーパミンは減衰する適格性タグで最近活動したシナプスだけを更新する。",
+    "sourceRefs": [
+      "https://raw.githubusercontent.com/jasonfye2015/fly-brain-dungeon/HEAD/README.md",
+      "https://raw.githubusercontent.com/jasonfye2015/fly-brain-dungeon/HEAD/dungeon/README.md"
+    ]
+  },
+  {
+    "id": "fly-reflex-fnf",
+    "name": "Fly Reflex",
+    "url": "https://github.com/murilopinho/fly-reflex",
+    "repoUrl": "https://github.com/murilopinho/fly-reflex",
+    "category": "demo",
+    "tags": [
+      "rhythm-game",
+      "screen-capture",
+      "keyboard",
+      "work-in-progress",
+      "negative-result",
+      "flywire"
+    ],
+    "datasets": [
+      "flywire-fafb"
+    ],
+    "org": "murilopinho (@murilopinho)",
+    "license": "unknown (code); CC-BY-NC-4.0 (FlyWire data)",
+    "language": "Python",
+    "date": "2026-10-02",
+    "addedAt": "2026-10-03",
+    "stars": 0,
+    "starsUpdatedAt": "2026-10-03",
+    "description_en": "A fly plays Friday Night Funkin' on a real Linux desktop, with its brain drawn live over the game. The screen is captured through a Wayland portal, the falling notes become visual stimulation, a 668-neuron FlyWire circuit with 18,968 real synapses runs as a spiking network at 1 kHz, and the motor side presses the actual arrow keys. Circuit, brain point cloud and sprite are reused from DesktopFly at a pinned commit and credited. The author keeps the limits in front: the project is labelled shelved, and at difficulty 5 the brain still goes into uncontrolled activity.",
+    "description_ja": "実機の Linux デスクトップで、ハエが Friday Night Funkin' を自分でプレイする。脳の様子はゲームの上に重ねて描かれる。画面は Wayland のポータル経由で取り込み、落ちてくるノーツを視覚刺激に変え、実シナプス 18,968 本を持つ FlyWire 由来の 668 ニューロン回路をスパイキングネットワークとして 1 kHz で回し、運動側が実際の矢印キーを押す。F9 で接続と切断を切り替え、キーボードが人間側かハエ側かは常に表示される。回路・脳の点群・スプライトは DesktopFly からコミットを固定して再利用し、出典を明記している。作者は限界を前に出す。プロジェクトは「進行中・棚上げ」と書かれ、難易度 5 では脳がいまだに制御不能な活動に入る。集団ごとの発火率を実際のハエの範囲と比べる健康診断も付く。",
+    "sourceRefs": [
+      "https://raw.githubusercontent.com/murilopinho/fly-reflex/HEAD/README.md",
+      "https://raw.githubusercontent.com/murilopinho/fly-reflex/HEAD/STATUS.md"
+    ]
   }
 ]
