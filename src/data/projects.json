@@ -12349,5 +12349,263 @@
       "https://raw.githubusercontent.com/murilopinho/fly-reflex/HEAD/README.md",
       "https://raw.githubusercontent.com/murilopinho/fly-reflex/HEAD/STATUS.md"
     ]
+  },
+  {
+    "id": "flight-test-the-fly",
+    "name": "Flight-test the fly",
+    "url": "https://github.com/aryawidjaja/flight-test-the-fly",
+    "repoUrl": "https://github.com/aryawidjaja/flight-test-the-fly",
+    "category": "simulation",
+    "tags": [
+      "yaw-damper",
+      "control-theory",
+      "bode",
+      "turbulence",
+      "lesion",
+      "shuffled-control",
+      "preregistered",
+      "jsbsim",
+      "flywire"
+    ],
+    "datasets": [
+      "flywire-fafb"
+    ],
+    "org": "aryawidjaja (@aryawidjaja)",
+    "license": "unknown",
+    "language": "Python",
+    "date": "2026-10-03",
+    "addedAt": "2026-10-04",
+    "stars": 0,
+    "starsUpdatedAt": "2026-10-04",
+    "description_en": "Tests the fly's T4/T5 to HS/VS to DNa02 steering pathway as an aircraft yaw damper, the way flight-control laws are tested: frequency response, loop margins, MIL-spec Dryden turbulence and neuron loss, all against degree- and sign-preserving shuffles, the bare airframe and a classical damper. Phase 1 is in. At 1 Hz the real wiring ranks first of twenty, with coherence 0.980 against a shuffle median of 0.31 and gain 0.666 against 0.075 Hz per deg/s. The plant is JSBSim's c172x. Later phases are re-running after an outside audit; FINDINGS.md marks every line as measured, cited or unchecked.",
+    "description_ja": "ハエの T4/T5 → HS/VS → DNa02 操舵経路を、航空機のヨーダンパとして飛行制御則の作法で試す。周波数応答・ループ余裕・MIL 規格の Dryden 乱気流・ニューロン欠損を、次数と符号を保つシャッフル、素の機体、古典的ヨーダンパと並べて測る。第 1 相の結果は出ていて、1 Hz で実配線が 20 本中 1 位。コヒーレンスは実配線 0.980 に対しシャッフル中位 0.31、利得は 0.666 対 0.075 Hz/(deg/s)。機体は JSBSim の c172x。以降の相は第三者の監査を受けて再実行中で、FINDINGS.md は各行を実測・文献・未検証に分けて記録している。",
+    "sourceRefs": [
+      "https://raw.githubusercontent.com/aryawidjaja/flight-test-the-fly/HEAD/README.md",
+      "https://raw.githubusercontent.com/aryawidjaja/flight-test-the-fly/HEAD/FINDINGS.md"
+    ]
+  },
+  {
+    "id": "flyaim",
+    "name": "FlyAim",
+    "url": "https://github.com/0Sakura721/flyaim",
+    "repoUrl": "https://github.com/0Sakura721/flyaim",
+    "category": "simulation",
+    "tags": [
+      "negative-result",
+      "preregistered",
+      "shuffled-control",
+      "aiming",
+      "lif",
+      "plasticity",
+      "gpu",
+      "malecns"
+    ],
+    "datasets": [
+      "malecns"
+    ],
+    "org": "0Sakura721 (@0Sakura721)",
+    "license": "MIT",
+    "language": "Python",
+    "date": "2026-10-03",
+    "addedAt": "2026-10-04",
+    "stars": 0,
+    "starsUpdatedAt": "2026-10-04",
+    "description_en": "Drives a closed-loop aiming task from MaleCNS v1.0, 166,700 neurons and 25,582,938 edges, against a degree-preserving shuffle, a PID ceiling and a random floor on matched seeds and frame budgets. The pre-registered verdict is that the wiring makes no causal contribution, and the result is stronger: both network arms end up significantly further from the target than random, 412.5 and 430.9 pixels against 251.7. Making the connectome weights learnable under a three-factor rule failed all three gates too. The README insists what is refuted is this LIF model with static weights, not the fly.",
+    "description_ja": "MaleCNS v1.0（166,700 ニューロン / 25,582,938 エッジ）で閉ループの照準課題を駆動し、次数を保つシャッフル・上限としての PID・下限としての一様乱数と、同じ seed・同じフレーム予算で比べる。予注録した判定は「配線図に因果的寄与なし」で、実測はそれより強い。ネットワーク 2 本はどちらも平均靶距が乱数より有意に悪く、412.5 / 430.9 px に対し乱数は 251.7 px だった。連接組の重みを三因子則で可塑にした追試も、予注録した 3 つの関門すべてを通らなかった。README は、否定されたのは静的重みの LIF モデルであってハエではないと明記している。",
+    "sourceRefs": [
+      "https://raw.githubusercontent.com/0Sakura721/flyaim/HEAD/README.md"
+    ]
+  },
+  {
+    "id": "flywire-pong",
+    "name": "FlyWire Pong",
+    "url": "https://zonzujiro.github.io/flywire-pong/",
+    "repoUrl": "https://github.com/zonzujiro/flywire-pong",
+    "category": "demo",
+    "tags": [
+      "pong",
+      "atari",
+      "ale",
+      "browser",
+      "ppo",
+      "inspector",
+      "parity-test",
+      "flywire"
+    ],
+    "datasets": [
+      "flywire-fafb"
+    ],
+    "org": "zonzujiro (@zonzujiro)",
+    "license": "GPL-2.0",
+    "language": "JavaScript",
+    "date": "2026-10-03",
+    "addedAt": "2026-10-04",
+    "stars": 0,
+    "starsUpdatedAt": "2026-10-04",
+    "description_en": "A page where 1,230 states from chosen FlyWire FAFB v783 neurons, joined by 8,515 exported directed edges, play real Atari Pong against the game's own opponent; the emulator is the official ALE WebAssembly build, run locally in the tab. An inspector pauses on the last decision, steps through its twelve recurrent updates, searches neurons by FlyWire ID and compares trained with pre-PPO weights. The README draws the lines: the checkpoint won 43 of 60 Python games, which it says does not establish a causal advantage of fly topology, and the encoder, dynamics and decoder are engineering choices.",
+    "description_ja": "FlyWire FAFB v783 から選んだニューロンに対応する 1,230 個の状態と、書き出した 8,515 本の有向エッジが、Atari の本物の Pong を相手側コンピュータと対戦する。エミュレータは公式 ALE の WebAssembly 版で、計算はすべてタブの中で走る。検査モードは直前の判断で停止し、12 回の再帰更新を 1 歩ずつ辿り、FlyWire ID でニューロンを検索して学習前後の重みを比べられる。README は境界を自分で引いていて、チェックポイントが Python で 60 戦 43 勝だったことは「ハエの位相構造に因果的な優位がある証明ではない」と書き、符号化・神経動力学・行動デコーダは自作だと明示する。",
+    "sourceRefs": [
+      "https://raw.githubusercontent.com/zonzujiro/flywire-pong/HEAD/README.md",
+      "https://zonzujiro.github.io/flywire-pong/"
+    ]
+  },
+  {
+    "id": "drosophila-cadet-pinball",
+    "name": "Drosophila Cadet",
+    "url": "https://seky443.github.io/3Dpinball-DrosophilaCadet/",
+    "repoUrl": "https://github.com/SEKY443/3Dpinball-DrosophilaCadet",
+    "category": "demo",
+    "tags": [
+      "pinball",
+      "giant-fiber",
+      "escape",
+      "untrained",
+      "shuffled-control",
+      "wasm",
+      "browser",
+      "malecns"
+    ],
+    "datasets": [
+      "malecns"
+    ],
+    "org": "SEKY443 (@SEKY443)",
+    "license": "MIT",
+    "language": "Python",
+    "date": "2026-10-03",
+    "addedAt": "2026-10-04",
+    "stars": 0,
+    "starsUpdatedAt": "2026-10-04",
+    "description_en": "The flippers of 3D Pinball Space Cadet, compiled to WebAssembly in a fake Windows XP desktop, are pressed by the fly's own looming-escape circuit from MaleCNS v1.0: 373 neurons, LC4 and LPLC2 into the two giant fibers, with real synapse counts and signs, nothing trained. Each looming cell watches its own spot along a flipper; a giant fiber that fires presses it. The untrained circuit plays about as well as a trained 444-neuron brain from the same data, and unlike that one it beats six degree-preserving shuffles over 96 paired lives each. Both stay a little below a hand-written reflex.",
+    "description_ja": "ブラウザ内の偽の Windows XP デスクトップで WebAssembly として動く 3D ピンボール（Space Cadet）のフリッパーを、MaleCNS v1.0 から取った逼近逃避回路が叩く。LC4 と LPLC2 が 2 本の巨大繊維に入る 373 ニューロンで、シナプス数と符号は実データのまま、学習は一切していない。各逼近検出細胞がフリッパー沿いの自分の持ち場を見ていて、発火した巨大繊維がそのフリッパーを押す。未学習のこの回路は同じデータから学習させた 444 ニューロンの脳とほぼ同じ成績を出し、学習版と違って次数を保つ 6 通りのシャッフルに（各 96 ライフの対応比較で）勝つ。どちらも手書きの反射には少し届かない。",
+    "sourceRefs": [
+      "https://raw.githubusercontent.com/SEKY443/3Dpinball-DrosophilaCadet/HEAD/README.md",
+      "https://seky443.github.io/3Dpinball-DrosophilaCadet/"
+    ]
+  },
+  {
+    "id": "flygate-demo",
+    "name": "FlyGateDemo",
+    "url": "https://github.com/ProfTAlent/FlyGateDemo",
+    "repoUrl": "https://github.com/ProfTAlent/FlyGateDemo",
+    "category": "demo",
+    "tags": [
+      "mushroom-body",
+      "olfaction",
+      "dopamine",
+      "baseline-comparison",
+      "web-logs",
+      "dotnet",
+      "malecns"
+    ],
+    "datasets": [
+      "malecns"
+    ],
+    "org": "Robert Troska (@ProfTAlent)",
+    "license": "MIT",
+    "language": "C#",
+    "date": "2026-10-03",
+    "addedAt": "2026-10-04",
+    "stars": 0,
+    "starsUpdatedAt": "2026-10-04",
+    "description_en": "Puts the fly's olfactory circuit from MaleCNS v1.0 on a real blog's gate, in C# on .NET 10: 2,635 receptor neurons, 686 projection neurons, 2,044 Kenyon cells, 49 output neurons and APL, with each request turned into an odour. 142,770 anonymized requests from the author's own site ship with the repo, so a run needs no download. The honest headline: the fly is not a better gatekeeper than plain cosine similarity, which catches 62-98% of probes where the fly catches 23-88%. Six punishments block almost all probes but two thirds of readers too, and three rewards bring readers back to 1.3%.",
+    "description_ja": "MaleCNS v1.0 から取り出したハエの嗅覚回路を、実際に公開されているブログの門番に据える。C# / .NET 10 で、受容器 2,635・投射ニューロン 686・キノコ体の Kenyon 細胞 2,044・出力ニューロン 49 と APL を使い、HTTP リクエストを匂いに変換する。著者自身のサイトに来た 142,770 件を匿名化して同梱しており、ダウンロード無しで走る。正直な結論が先に書かれていて、このトラフィックではハエは素のコサイン類似度に勝てない（ハエ 23〜88% に対しコサインは 62〜98% の探索を捕らえる）。罰を 6 回与えると探索はほぼ止まるが読者も 3 分の 2 を弾いてしまい、報酬を 3 回与えると読者側は 1.3% に戻る。",
+    "sourceRefs": [
+      "https://raw.githubusercontent.com/ProfTAlent/FlyGateDemo/HEAD/README.md"
+    ]
+  },
+  {
+    "id": "flybrain-flappy",
+    "name": "FlyBrain · Flappy",
+    "url": "https://github.com/programmingWTF/FlyBrain",
+    "repoUrl": "https://github.com/programmingWTF/FlyBrain",
+    "category": "demo",
+    "tags": [
+      "flappy-bird",
+      "zero-parameter",
+      "giant-fiber",
+      "ablation",
+      "shuffled-control",
+      "negative-result",
+      "flywire"
+    ],
+    "datasets": [
+      "flywire-fafb"
+    ],
+    "org": "programmingWTF (@programmingWTF)",
+    "license": "unknown",
+    "language": "Python",
+    "date": "2026-10-03",
+    "addedAt": "2026-10-04",
+    "stars": 0,
+    "starsUpdatedAt": "2026-10-04",
+    "description_en": "Runs the FlyWire FAFB v783 connectome, 144,837 neurons and 15,023,799 synapses, as a frozen network with zero learnable parameters, letting its looming-escape pathway, LC4 and LPLC2 into the DNp01 giant fibers, fly a Flappy Bird clone. The ablation carries the claim: cutting that pathway or shuffling it degree-preserving gives no wing flaps at all rather than a lower score, against 100.8 points for the real wiring over 40 games. A long table logs what failed: one-ply lookahead, ceiling boosts, every gating variant. The page lags the bench only because it cannot feed the brain fast enough.",
+    "description_ja": "FlyWire FAFB v783 の連接組（144,837 ニューロン / 15,023,799 シナプス）を、学習パラメータ 0 の完全に凍結したネットワークとして走らせ、その逼近逃避経路（LC4・LPLC2 → 巨大繊維 DNp01 2 細胞）に Flappy Bird 風のゲームを飛ばせる。主張を支えるのは消融実験で、その経路を切るか次数を保って繋ぎ直すと、点が下がるのではなく羽ばたきが 1 回も出なくなる（実配線は 40 局平均 100.8 点）。失敗した試みも長い表で正直に並べていて、1 手先読み・天井方向のブースト・門制御の各変種はいずれも悪化した。ブラウザ版が評測台より大幅に低いのは、ブラウザが脳に計算を供給しきれないためだと受制御の実験で特定している。",
+    "sourceRefs": [
+      "https://raw.githubusercontent.com/programmingWTF/FlyBrain/HEAD/README.md"
+    ]
+  },
+  {
+    "id": "buzzkill",
+    "name": "Buzzkill",
+    "url": "https://github.com/GhostInTheBus/buzzkill",
+    "repoUrl": "https://github.com/GhostInTheBus/buzzkill",
+    "category": "demo",
+    "tags": [
+      "desktop-pet",
+      "macos",
+      "giant-fiber",
+      "escape",
+      "johnstons-organ",
+      "derivative",
+      "malecns",
+      "flywire"
+    ],
+    "datasets": [
+      "flywire-fafb",
+      "malecns"
+    ],
+    "org": "GhostInTheBus (@GhostInTheBus)",
+    "license": "MIT",
+    "language": "Swift",
+    "date": "2026-10-03",
+    "addedAt": "2026-10-04",
+    "stars": 0,
+    "starsUpdatedAt": "2026-10-04",
+    "description_en": "Wraps DesktopFly's connectome-driven desktop fly in a game: crumbs you drop, flies that gather while you are away and scatter when you move, and a squish that is fair only because a fast cursor trips the real looming-to-giant-fiber reflex first. The brain and body are Denis Shiryaev's; new here are the world around them and a second extract of the same circuit from MaleCNS v1.0 (CC BY 4.0), 665 neurons against the FlyWire build's 668, with the differences written down: a sharper escape threshold, and a giant fiber that keeps firing through a sustained loom.",
+    "description_ja": "連接組で動くデスクトップのハエ（DesktopFly）を、ゲームとして囲い直したもの。餌を落とすと寄ってくる、離席している間に増えて動かすと散る、そして「速くカーソルを突っ込むと本物の逼近→巨大繊維反射が先に発火して逃げる」ので潰すのが公平になる。脳と体は Denis Shiryaev のもので、ここで足されたのは周囲の世界と、同じ回路を MaleCNS v1.0（CC BY 4.0）から取り直した第 2 の抽出である。FlyWire 版 668 ニューロンに対し 665 ニューロンで、違いも書き残されている（逃避閾値がより鋭い、持続的な逼近でも巨大繊維が発火し続ける）。どちらでも巨大繊維への最強の感覚入力は Johnston 器官の聴覚ニューロンだった。",
+    "sourceRefs": [
+      "https://raw.githubusercontent.com/GhostInTheBus/buzzkill/HEAD/README.md"
+    ]
+  },
+  {
+    "id": "spacefly",
+    "name": "spacefly",
+    "url": "https://github.com/cknisaac/spacefly",
+    "repoUrl": "https://github.com/cknisaac/spacefly",
+    "category": "simulation",
+    "tags": [
+      "mushroom-body",
+      "mbon",
+      "dopamine",
+      "plasticity",
+      "negative-result",
+      "preregistered",
+      "malecns"
+    ],
+    "datasets": [
+      "malecns"
+    ],
+    "org": "cknisaac (@cknisaac)",
+    "license": "unknown",
+    "language": "Python",
+    "date": "2026-10-02",
+    "addedAt": "2026-10-04",
+    "stars": 0,
+    "starsUpdatedAt": "2026-10-04",
+    "description_en": "Asks whether a small circuit chosen from MaleCNS v1.0, 32 Kenyon cells onto the output neuron MBON05 taught by anatomy-selected dopamine neurons, changes its response after a teaching signal, and reports a frozen failure. Teaching at the wrong region produced a first action at position 0.20 that persisted once teaching and learning were switched off, while teaching at the intended target near 0.70 produced none at all, so the declared behavioural test failed even though the plasticity mechanism itself ran. The repo calls that mechanistic success with behavioural robustness incomplete.",
+    "description_ja": "MaleCNS v1.0 から選んだ小さな回路（Kenyon 細胞 32 個が出力細胞 MBON05 に入り、解剖学的に選んだドーパミンニューロンが教師役）が、教示信号のあとで応答を変えるかを問い、失敗を凍結して報告している。意図しない位置で教えると x=0.20 で最初の動作が出て、教示と学習を切ってもそれが残り、狙った x=0.70 付近で教えると動作がまったく出なかった。宣言していた行動テストは不合格で、一方で解剖構造に依存する可塑機構そのものは動いた、という結果である。リポジトリはこれを「機構としては成功・行動の頑健性は未達」と呼び、位置符号化・ドーパミン刺激・可塑式・動作判定は自前の工学的仮定だと明記している。",
+    "sourceRefs": [
+      "https://raw.githubusercontent.com/cknisaac/spacefly/HEAD/README.md"
+    ]
   }
 ]
