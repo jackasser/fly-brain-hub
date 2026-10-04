@@ -12607,5 +12607,259 @@
     "sourceRefs": [
       "https://raw.githubusercontent.com/cknisaac/spacefly/HEAD/README.md"
     ]
+  },
+  {
+    "id": "flybrain-ios",
+    "name": "FlyBrain iOS",
+    "url": "https://github.com/pr4yhk6zt6-wq/flybrain-ios",
+    "repoUrl": "https://github.com/pr4yhk6zt6-wq/flybrain-ios",
+    "category": "simulation",
+    "tags": [
+      "ios",
+      "metal",
+      "iphone",
+      "leaky-integrate-and-fire",
+      "point-cloud",
+      "camera-input",
+      "flywire"
+    ],
+    "datasets": [
+      "flywire-fafb"
+    ],
+    "org": "pr4yhk6zt6-wq",
+    "license": "unknown",
+    "language": "Swift",
+    "date": "2026-10-04",
+    "addedAt": "2026-10-05",
+    "stars": 0,
+    "starsUpdatedAt": "2026-10-05",
+    "description_en": "Packs the whole FlyWire FAFB v783 brain into an iPhone: 139,255 proofread neurons and 2,700,513 directed connections as a leaky integrate-and-fire network in seven Metal compute kernels, drawn as a live point cloud, with the phone camera feeding the photoreceptors. The headline finding is a measurement: the brain needs about 21 MB of GPU memory, not the gigabytes expected, so no cropping or streaming is needed. The README corrects three numbers it started from, including that FAFB is a brain volume with no nerve cord, and says CI only proves the app compiles.",
+    "description_ja": "FlyWire FAFB v783 の脳をまるごと iPhone に載せる試み。139,255 個の校正済みニューロンと 2,700,513 本の有向結合を漏れ積分発火モデルとして Metal の計算カーネル 7 本で回し、139,255 点の点群として描き、本体カメラの映像を光受容器への入力にする。目玉は実測値で、脳の常駐に必要な GPU メモリは想定していた GB 単位ではなく約 21 MB。視覚葉だけに切り出す必要も配信する必要もなかった。README は出発点にした数値のうち 3 つを訂正しており（FAFB は脳の体積データで神経索を含まない点など）、CI が保証するのはビルドが通ることだけで実機では動かしていないと明記している。",
+    "sourceRefs": [
+      "https://raw.githubusercontent.com/pr4yhk6zt6-wq/flybrain-ios/HEAD/README.md"
+    ]
+  },
+  {
+    "id": "fly-vnc-walking-sim",
+    "name": "Fly VNC Walking Simulation",
+    "url": "https://github.com/sadiqkhzn/fly-vnc-walking-sim",
+    "repoUrl": "https://github.com/sadiqkhzn/fly-vnc-walking-sim",
+    "category": "simulation",
+    "tags": [
+      "ventral-nerve-cord",
+      "mujoco",
+      "neuromechfly",
+      "closed-loop",
+      "negative-result",
+      "walking",
+      "malecns"
+    ],
+    "datasets": [
+      "malecns"
+    ],
+    "org": "Sadiq Khan (@sadiqkhzn)",
+    "license": "MIT",
+    "language": "Python",
+    "date": "2026-10-04",
+    "addedAt": "2026-10-05",
+    "stars": 0,
+    "starsUpdatedAt": "2026-10-05",
+    "description_en": "Drives a NeuroMechFly body in MuJoCo from the male ventral nerve cord alone: 24,115 neurons and 1.77M edges pulled from male-cns:v1.0 over neuPrint, split by neurotransmitter into 1,026,234 excitatory and 693,369 inhibitory edges. Only a thin command interface is learned; the wiring is never touched. The validation table reports what fails: a moonwalker drive raises the motor pool 349-fold, but DNp09 suppresses walking by only 16 percent and tripod anti-phase never appears, which the author puts down to the missing proprioceptive loop.",
+    "description_ja": "雄の腹部神経索だけで MuJoCo の NeuroMechFly の身体を動かす。neuPrint 経由で male-cns:v1.0 から 24,115 ニューロンと 177 万本のエッジを取り、伝達物質で興奮性 1,026,234 本・抑制性 693,369 本に分け、速い・遅いシナプス時定数を分けた漏れ積分発火モデルとして回す。学習するのは薄いコマンド層だけで、配線そのものには手を入れない。見どころは検証表で、うまくいかなかったことも載っている。後退歩行の指令で運動ニューロン群は 349 倍に上がるが、DNp09 による歩行停止は 16% の抑制にとどまり、三脚歩行の逆位相はまったく出ない。著者はこれをパラメータ調整で消さず、自己受容感覚のループが無いためだと書いている。",
+    "sourceRefs": [
+      "https://raw.githubusercontent.com/sadiqkhzn/fly-vnc-walking-sim/HEAD/README.md"
+    ]
+  },
+  {
+    "id": "fly-brain-bot",
+    "name": "Fly Brain Bot",
+    "url": "https://github.com/kh-serhii-ai/fly-brain-bot",
+    "repoUrl": "https://github.com/kh-serhii-ai/fly-brain-bot",
+    "category": "demo",
+    "tags": [
+      "telegram-bot",
+      "ukrainian",
+      "shiu-model",
+      "numba",
+      "lesion",
+      "llm-explains",
+      "flywire"
+    ],
+    "datasets": [
+      "flywire-fafb"
+    ],
+    "org": "Serhii (@kh-serhii-ai)",
+    "license": "MIT",
+    "language": "Python",
+    "date": "2026-10-04",
+    "addedAt": "2026-10-05",
+    "stars": 0,
+    "starsUpdatedAt": "2026-10-05",
+    "description_en": "A Ukrainian-language Telegram bot that runs the whole 138,639-neuron FlyWire v783 brain per message and reports what the fly did, computed by code from three validated output neurons rather than narrated by a language model. The speed trick is exact, not approximate: a neuron whose closed-form voltage maximum stays below threshold is skipped until new input arrives, and a test checks the result is spike-for-spike identical to naive stepping. It reproduces the published sugar dose-response, bitter suppression and grooming results.",
+    "description_ja": "FlyWire v783 の 138,639 ニューロン全体をメッセージごとに走らせるウクライナ語の Telegram ボット。「ハエが何をしたか」は検証済みの出力ニューロン 3 本からコードが判定し、言語モデルは説明しかしない。速度の工夫は近似ではない。閉じた式で求めた膜電位の最大値が閾値に届かないニューロンは新しい入力が来るまで一切更新せず、素朴な逐次計算とスパイク単位で一致することをテストで確認している。これで全脳 1 回が秒単位になる。砂糖の用量反応・苦味による摂食抑制・毛づくろいの既発表結果を再現し、2026 年の再アノテーションで元モデルの水受容ニューロン 18 本のうち 7 本が砂糖側に移ったことも注記している。",
+    "sourceRefs": [
+      "https://raw.githubusercontent.com/kh-serhii-ai/fly-brain-bot/HEAD/README.md",
+      "https://raw.githubusercontent.com/kh-serhii-ai/fly-brain-bot/HEAD/LICENSE"
+    ]
+  },
+  {
+    "id": "flywiregba",
+    "name": "FlyWireGBA",
+    "url": "https://github.com/LakoMoor/FlyWireGBA",
+    "repoUrl": "https://github.com/LakoMoor/FlyWireGBA",
+    "category": "demo",
+    "tags": [
+      "game-boy-advance",
+      "homebrew",
+      "tamagotchi",
+      "mn9",
+      "sugar-sensing",
+      "flybody",
+      "flywire"
+    ],
+    "datasets": [
+      "flywire-fafb"
+    ],
+    "org": "LakoMoor",
+    "license": "MIT",
+    "language": "C",
+    "date": "2026-10-04",
+    "addedAt": "2026-10-05",
+    "stars": 5,
+    "starsUpdatedAt": "2026-10-05",
+    "description_en": "A Game Boy Advance ROM with a fly you can keep as a pet, and the unusual constraint is the hardware: 256 KiB of work RAM means a 128-neuron, 2,048-edge subgraph from FlyWire FAFB v783 rather than a whole brain. The extracted circuit runs sugar sensing through to MN9 and gates feeding; walking, flight and grooming are a hand-written heuristic controller, and the scope section says so. It also states that its 33.3 ms integer steps do not reproduce the calibrated timing of the model it borrows from.",
+    "description_ja": "ペットとして飼えるハエが入ったゲームボーイアドバンスの ROM。制約が面白く、作業 RAM 256 KiB のため全脳ではなく FlyWire FAFB v783 から切り出した 128 ニューロン・2,048 エッジの部分グラフを載せている。切り出した回路は砂糖の感覚から MN9 までをつなぎ、摂食のゲートを担う。歩行・飛行・毛づくろいは手書きのヒューリスティック制御で、その区別は README の「科学的な範囲」節に明記されている。整数演算の代償（33.3 ms 刻みなので借用元モデルの校正済みタイミングは再現しない）や、21 個の砂糖感覚ニューロンのうち 1 個と 2 本目の MN9 が v783 の表に無く除いたことも書いてある。検証はエミュレータで、実機のカートリッジは未確認。",
+    "sourceRefs": [
+      "https://raw.githubusercontent.com/LakoMoor/FlyWireGBA/HEAD/README.md",
+      "https://raw.githubusercontent.com/LakoMoor/FlyWireGBA/HEAD/LICENSE"
+    ]
+  },
+  {
+    "id": "flomb",
+    "name": "Flomb",
+    "url": "https://overfitters.space/proyectos/moscas/buscaminas",
+    "repoUrl": "https://github.com/FelipeJackFox/Flomb",
+    "category": "demo",
+    "tags": [
+      "minesweeper",
+      "mushroom-body",
+      "kenyon-cells",
+      "dopamine",
+      "negative-result",
+      "spanish",
+      "malecns"
+    ],
+    "datasets": [
+      "malecns"
+    ],
+    "org": "Felipe (@FelipeJackFox), LEIA",
+    "license": "unknown",
+    "language": "Python",
+    "date": "2026-10-04",
+    "addedAt": "2026-10-05",
+    "stars": 0,
+    "starsUpdatedAt": "2026-10-05",
+    "description_en": "A mushroom body taken from the MaleCNS connectome - 4,064 Kenyon cells, 97 output neurons, PAM and PPL1 dopamine - learns Minesweeper from two signals only: heat on a mine, sugar on a safe tile. It wins 78.4 percent of 9x9 boards with 12 mines over 2,000 unseen boards, and the write-up notes that a hand-written single-point rule wins 81.8 percent on the same boards. Two findings are stated as negatives: the advantage is sample efficiency over a plain table that ties given unlimited play, and shuffling the real wiring changes nothing.",
+    "description_ja": "MaleCNS コネクトームから取った茸状体（ケニヨン細胞 4,064 個・出力ニューロン 97 本・PAM と PPL1 のドーパミン）が、機雷を踏んだときの「熱」と安全な升を踏んだときの「砂糖」という 2 信号だけでマインスイーパを覚える。未見の 2,000 盤面で 9x9・機雷 12 個の勝率 78.4%。ただし同じ盤面で手書きの「一点確定」ルールは 81.8% 勝つ、と報告がすぐ断っている。否定的な結果も 2 つ明記されている。脳が効くのはサンプル効率（脳なしの表より約 4 分の 1 の経験で済むが、経験が無制限なら表に並ばれる）であり、実際の配線を混ぜても結果は変わらない。効いているのは測定された結合ではなくアーキテクチャだという。",
+    "sourceRefs": [
+      "https://raw.githubusercontent.com/FelipeJackFox/Flomb/HEAD/README.md"
+    ]
+  },
+  {
+    "id": "fly-plays-nes",
+    "name": "FLYBRAIN · NES",
+    "url": "https://github.com/arpanguria68-ui/fly-plays-nes",
+    "repoUrl": "https://github.com/arpanguria68-ui/fly-plays-nes",
+    "category": "demo",
+    "tags": [
+      "nes",
+      "emulator",
+      "lobula-columnar",
+      "descending-neurons",
+      "scrambled-control",
+      "negative-result",
+      "malecns"
+    ],
+    "datasets": [
+      "malecns"
+    ],
+    "org": "arpanguria68-ui",
+    "license": "MIT",
+    "language": "Python",
+    "date": "2026-10-04",
+    "addedAt": "2026-10-05",
+    "stars": 0,
+    "starsUpdatedAt": "2026-10-05",
+    "description_en": "Wires a frozen MaleCNS v1.0 nervous system - 166,700 neurons, 25.6M connections - to an NES emulator: twenty times a second the game picture enters the fly's own motion and object detectors, and its descending neurons press the controller, with a small learner paid in score and punished by lost lives. It ships the control experiment, not just the demo. Real against scrambled wiring on Super Mario Bros., five runs each, covered 3,214 against 563 pixels of new ground; holding right with no brain covered none.",
+    "description_ja": "凍結した MaleCNS v1.0 の神経系（166,700 ニューロン・2,560 万結合）を NES エミュレータにつなぐ。毎秒 20 回、ゲーム画面がハエ自身の運動検出ニューロンと物体検出ニューロンに入り、下行ニューロンの出力がコントローラのボタンを押す。その上に小さな学習器が乗り、得点で報酬、残機を失うと罰を受ける。デモだけでなく対照実験まで同梱しているのが良い。スーパーマリオブラザーズで本物の配線と混ぜた配線を各 5 回走らせ、新規に進んだ距離は 3,214 ピクセル対 563 ピクセル。脳なしで右を押し続けた場合は 0。自作の追加要素 2 つ（ゲームイベントからの報酬と n ステップ学習器）は既定の単純な設定に勝てなかったとし、実験用に残している。ROM は同梱していない。",
+    "sourceRefs": [
+      "https://raw.githubusercontent.com/arpanguria68-ui/fly-plays-nes/HEAD/README.md",
+      "https://raw.githubusercontent.com/arpanguria68-ui/fly-plays-nes/HEAD/LICENSE"
+    ]
+  },
+  {
+    "id": "fly-protein",
+    "name": "fly-protein",
+    "url": "https://fly-protein.vercel.app",
+    "repoUrl": "https://github.com/srikarjy/fly-protein",
+    "category": "tool",
+    "tags": [
+      "protein-engineering",
+      "proteingym",
+      "flyhash",
+      "mushroom-body",
+      "benchmark",
+      "negative-result",
+      "hemibrain"
+    ],
+    "datasets": [
+      "hemibrain"
+    ],
+    "org": "Srikar Jy (@srikarjy)",
+    "license": "MIT",
+    "language": "TypeScript",
+    "date": "2026-10-02",
+    "addedAt": "2026-10-05",
+    "stars": 0,
+    "starsUpdatedAt": "2026-10-05",
+    "description_en": "Asks whether a mushroom-body sparse code, built on real projection-neuron to Kenyon-cell edges from the hemibrain, can find high-fitness protein variants on a small measurement budget, and answers no. Across 10 ProteinGym assays and 20 seeds at matched budgets, the fly learner reaches the top 1 percent in 30.5 percent of runs at 50 measurements against 54.5 for an evolutionary search and 40.0 for plain random search. An ablation finds real hemibrain wiring slightly worse than random wiring.",
+    "description_ja": "hemibrain の実際の投射ニューロン→ケニヨン細胞の結合から作った茸状体のスパース符号で、少ない測定回数でも高適応度のタンパク質変異を見つけられるかを問い、答えは「できない」。ProteinGym の 10 アッセイ・20 シードを同じ測定予算で比べると、測定 50 回で上位 1% に到達した試行の割合はハエの学習器が 30.5%、進化的探索が 54.5%、素の無作為探索が 40.0% で、同じグラフ上のランダムウォークと同水準だった。アブレーションでは本物の hemibrain の配線はランダム配線よりわずかに悪く、探索上の利点は無い。サイトでは記録した 1 回の実行を 1 手ずつ再生し、重み更新をブラウザで検算できる。",
+    "sourceRefs": [
+      "https://raw.githubusercontent.com/srikarjy/fly-protein/HEAD/README.md",
+      "https://raw.githubusercontent.com/srikarjy/fly-protein/HEAD/LICENSE"
+    ]
+  },
+  {
+    "id": "flypet",
+    "name": "Flypet",
+    "url": "https://github.com/AdeliyaLeleytner/flypet",
+    "repoUrl": "https://github.com/AdeliyaLeleytner/flypet",
+    "category": "simulation",
+    "tags": [
+      "brian2",
+      "llm-interface",
+      "qwen3",
+      "conditioning",
+      "research-platform",
+      "failed-runs-preserved",
+      "flywire"
+    ],
+    "datasets": [
+      "flywire-fafb",
+      "malecns"
+    ],
+    "org": "Adelya Leleytner (@AdeliyaLeleytner)",
+    "license": "MIT",
+    "language": "Python",
+    "date": "2026-10-02",
+    "addedAt": "2026-10-05",
+    "stars": 0,
+    "starsUpdatedAt": "2026-10-05",
+    "description_en": "A handoff release of a research platform that keeps a Brian2 fly simulation running and wires it to a language model through a learned writer and a neural-token reader, so instructions go in as stimulation and the model answers from neural state. A sensory garden runs from one Docker command with no account or key. What makes it worth reading is the bookkeeping: failed, partial and superseded runs are kept rather than pruned, the reader is reported as not passing its own gate, and earlier experiments are marked as leaky.",
+    "description_ja": "研究基盤の引き継ぎ版リリース。Brian2 によるハエのシミュレーションを走らせ続けたまま、学習済みの書き込み器と神経トークン読み取り器を介して言語モデルにつなぐ。指示は刺激として脳に入り、モデルは神経活動の状態から答える。感覚の「庭」はアカウントも API キーも要らず Docker コマンド 1 つで動く。読む価値があるのは記録の扱いで、失敗した実行・途中の実行・置き換えられた実行を捨てずに保存し、読み取り器は自前のゲートを通っていない（厳密な中立の分類が 9 件中 0 件）と報告し、以前の実験には訓練・評価データの重複と前処理の漏れがあったと明記し、これは論文として主張できる段階ではないと断っている。",
+    "sourceRefs": [
+      "https://raw.githubusercontent.com/AdeliyaLeleytner/flypet/HEAD/README.md",
+      "https://raw.githubusercontent.com/AdeliyaLeleytner/flypet/HEAD/LICENSE"
+    ]
   }
 ]
