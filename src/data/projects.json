@@ -13372,5 +13372,283 @@
       "https://raw.githubusercontent.com/aymen-000/flynn-robot-navigation/HEAD/README.md",
       "https://arxiv.org/abs/2607.00025"
     ]
+  },
+  {
+    "id": "wiretype",
+    "name": "WireType",
+    "url": "https://github.com/JamieWilson0209/WireType",
+    "repoUrl": "https://github.com/JamieWilson0209/WireType",
+    "category": "tool",
+    "tags": [
+      "neurotransmitter-prediction",
+      "transformer",
+      "transfer-learning",
+      "fafb",
+      "malecns",
+      "research-code"
+    ],
+    "datasets": [
+      "flywire-fafb",
+      "malecns"
+    ],
+    "org": "Jamie Wilson (@JamieWilson0209)",
+    "license": "MIT",
+    "language": "Python",
+    "date": "2026-10-05",
+    "addedAt": "2026-10-07",
+    "stars": 0,
+    "starsUpdatedAt": "2026-10-07",
+    "description_en": "Research code for a preprint that asks whether wiring alone identifies a neuron well enough to guess its transmitter, and whether that carries from one fly volume to another. Each neuron becomes 31 connectivity numbers (degree, weights, random-walk return, trophic level, local motifs), the neuron and its 64 strongest partners become 65 tokens, and a four-block attention encoder is trained on one volume's labels then applied frozen to the other. It runs FlyWire v783 and MaleCNS v1.0 in both directions and keeps two control arms: the encoder at initialisation, and a probe on the training target.",
+    "description_ja": "配線だけでニューロンを特定でき、伝達物質を当てられるか、そしてそれが別個体のボリュームへ移るかを問う査読前論文の解析コード。各ニューロンを 31 個の接続特徴（次数・結合重み・ランダムウォーク復帰・栄養段階・局所モチーフ）で表し、本体と結合の強い 64 本を合わせた 65 トークンを 4 ブロックの注意機構で符号化する。片方のボリュームのラベルで学習し、凍結したまま他方へ適用する。FlyWire v783 と MaleCNS v1.0 を双方向で回し、初期化したままの符号化器と学習目標そのものを読む probe を対照として残している。",
+    "sourceRefs": [
+      "https://raw.githubusercontent.com/JamieWilson0209/WireType/HEAD/README.md",
+      "https://github.com/JamieWilson0209/WireType"
+    ]
+  },
+  {
+    "id": "flappy-fly-malecns",
+    "name": "Flappy Fly",
+    "url": "https://github.com/CROmartin/flappy-fly",
+    "repoUrl": "https://github.com/CROmartin/flappy-fly",
+    "category": "demo",
+    "tags": [
+      "flappy",
+      "malecns",
+      "descending-neurons",
+      "negative-result",
+      "dagger",
+      "baselines"
+    ],
+    "datasets": [
+      "malecns"
+    ],
+    "org": "@CROmartin",
+    "license": "unknown",
+    "language": "Python",
+    "date": "2026-10-06",
+    "addedAt": "2026-10-07",
+    "stars": 0,
+    "starsUpdatedAt": "2026-10-07",
+    "description_en": "A Flappy-style game whose flap decision is read out of a frozen MaleCNS simulation of 166,700 neurons and 25,582,938 connections: hand-designed channels drive the looming and position cells, 1,314 descending traces go through PCA and logistic regression, and only that readout learns. The measured table is the point. Over 30 unseen seeds the fly readout cleared 0.07 pipes on average against 0.23 for random and 6.70 for the scripted oracle, and one DAgger round took both the fly and a three-input logistic baseline to 0.00.",
+    "description_ja": "MaleCNS（16 万 6700 ニューロン・2558 万 2938 結合）を凍結して走らせ、その活動から読み出した判断でフラッピー風ゲームを操作する。接近と位置の細胞へは自作のチャンネルで入力し、下行ニューロン 1314 本のトレースを PCA とロジスティック回帰にかける。学習するのは読み出しだけ。価値は測定結果の側にある。未知の 30 シードで平均通過パイプ数はハエの読み出し 0.07、ランダム 0.23、台本どおりのオラクル 6.70。DAgger を 1 周回すと、ハエも入力 3 個のロジスティック対照もそろって 0.00 に落ちた。",
+    "sourceRefs": [
+      "https://raw.githubusercontent.com/CROmartin/flappy-fly/HEAD/README.md",
+      "https://github.com/CROmartin/flappy-fly"
+    ]
+  },
+  {
+    "id": "fly-ears",
+    "name": "fly-ears",
+    "url": "https://arpanguria68-ui.github.io/fly-ears/",
+    "repoUrl": "https://github.com/arpanguria68-ui/fly-ears",
+    "category": "simulation",
+    "tags": [
+      "audio",
+      "video",
+      "johnstons-organ",
+      "photoreceptors",
+      "preregistered",
+      "malecns"
+    ],
+    "datasets": [
+      "malecns"
+    ],
+    "org": "@arpanguria68-ui",
+    "license": "MIT",
+    "language": "Python",
+    "date": "2026-10-06",
+    "addedAt": "2026-10-07",
+    "stars": 0,
+    "starsUpdatedAt": "2026-10-07",
+    "description_en": "Feeds a video or a song into the MaleCNS connectome, 166,700 neurons and 25.6 M connections, frame by frame: light reaches 6,006 photoreceptors at their own eye columns and the soundtrack reaches 138 Johnston's organ neurons, with nothing after the receptors trained. On a test clip the looming cells rose to 2.92 spikes per neuron per second for an approaching disc against 0.53 while still. The music test, with its four questions fixed before running, checks the brain against its own ear input and against a degree-preserving rewired copy.",
+    "description_ja": "動画や曲を MaleCNS コネクトーム（16 万 6700 ニューロン・2560 万結合）へ 1 フレームずつ入力する。光は眼の各コラムに置かれた 6006 個の光受容器へ、音は 138 個の Johnston 器官ニューロンへ届き、受容器より先は一切学習しない。テスト映像では接近する円盤に対し looming の細胞が 1 秒あたり 2.92 スパイク／ニューロンまで上がり、静止時は 0.53 だった。音楽の判別課題は実行前に 4 つの問いを固定し、脳の応答を自身の耳の入力と、次数を保って配線を入れ替えた複製の両方と比べる。",
+    "sourceRefs": [
+      "https://raw.githubusercontent.com/arpanguria68-ui/fly-ears/HEAD/README.md",
+      "https://arpanguria68-ui.github.io/fly-ears/"
+    ]
+  },
+  {
+    "id": "fly-abstraction-lab",
+    "name": "Fly Abstraction Lab",
+    "url": "https://github.com/maggogerka/fly-abstraction-lab",
+    "repoUrl": "https://github.com/maggogerka/fly-abstraction-lab",
+    "category": "tool",
+    "tags": [
+      "reservoir",
+      "graph-controls",
+      "protocol",
+      "reproducibility",
+      "flywire"
+    ],
+    "datasets": [
+      "flywire-fafb"
+    ],
+    "org": "@maggogerka",
+    "license": "MIT",
+    "language": "Python",
+    "date": "2026-10-01",
+    "addedAt": "2026-10-07",
+    "stars": 0,
+    "starsUpdatedAt": "2026-10-07",
+    "description_en": "A bench for one question: does connectome topology change how a reservoir transfers numeric abstractions, compared with matched graph controls and ordinary networks. Four controls sit beside the real FAFB v783 graph, degree-preserving, weight-shuffled, direction-shuffled and Erdos-Renyi, each keeping the same input and output node mappings, and the baselines are a random-graph reservoir, a GRU and an MLP. Splits are deterministic manifests with hashes, the pilot dataset is a 768-row UCI table, and the README says plainly that a model difference would not establish animal cognition.",
+    "description_ja": "問いは一つ。コネクトームの形は、リザバーが数の抽象を転移する仕方を変えるのか。条件を揃えたグラフ対照や普通のネットワークと比べて測る。実データの FAFB v783 グラフの横に、次数保存・重みシャッフル・向きシャッフル・Erdős–Rényi の 4 種の対照を置き、いずれも入出力ノードの対応は同じに保つ。比較相手はランダムグラフのリザバー・GRU・MLP。分割はハッシュ付きの決定的マニフェストで残し、試験データは 768 行の UCI 表。差が出ても動物の認知の証明にはならないと README が明言している。",
+    "sourceRefs": [
+      "https://raw.githubusercontent.com/maggogerka/fly-abstraction-lab/HEAD/README.md",
+      "https://github.com/maggogerka/fly-abstraction-lab"
+    ]
+  },
+  {
+    "id": "duth-x-stepmania",
+    "name": "duth-x-stepmania",
+    "url": "https://github.com/abstractionthief/duth-x-stepmania",
+    "repoUrl": "https://github.com/abstractionthief/duth-x-stepmania",
+    "category": "demo",
+    "tags": [
+      "stepmania",
+      "escape-circuit",
+      "looming",
+      "rewired-control",
+      "malecns"
+    ],
+    "datasets": [
+      "malecns"
+    ],
+    "org": "@abstractionthief",
+    "license": "MIT",
+    "language": "Python",
+    "date": "2026-10-06",
+    "addedAt": "2026-10-07",
+    "stars": 0,
+    "starsUpdatedAt": "2026-10-07",
+    "description_en": "The looming-escape circuit of the MaleCNS connectome, exported as a 766-neuron model, stands in as StepMania's second player: each arrow becomes a threat from one direction and a fixed readout of descending neurons picks the key. On the sample charts the circuit took 100% of the notes on the three easiest and 97% on a 152-note chart, while three rewired copies of the same circuit managed 35 to 47%. The README is blunt that this is not a fly playing the game: the arrow-to-threat mapping is hand-made, there is no vision, and model time is not biological time.",
+    "description_ja": "MaleCNS コネクトームの接近回避回路を 766 ニューロンのモデルとして書き出し、StepMania の 2 人目のプレイヤーに据えた。各矢印をいずれかの方向から迫る脅威に変え、下行ニューロンの固定の読み出しが押すキーを決める。付属譜面では易しい 3 譜面で 100%、152 ノートの譜面で 97% を取り、同じ回路を配線し直した 3 つの複製は 35〜47% にとどまった。README は「ハエがゲームを遊んでいるのではない」と明言する。矢印と脅威の対応は人の手で決めたもので、視覚は無く、モデル内の時間は生物の時間ではない。",
+    "sourceRefs": [
+      "https://raw.githubusercontent.com/abstractionthief/duth-x-stepmania/HEAD/README.md",
+      "https://github.com/abstractionthief/duth-x-stepmania"
+    ]
+  },
+  {
+    "id": "let-it-flyppen",
+    "name": "Let It Flyppen",
+    "url": "https://github.com/GiuseppeBellamacina/let-it-flyppen",
+    "repoUrl": "https://github.com/GiuseppeBellamacina/let-it-flyppen",
+    "category": "demo",
+    "tags": [
+      "music",
+      "johnstons-organ",
+      "recursive-least-squares",
+      "frozen-connectome",
+      "flywire",
+      "threejs"
+    ],
+    "datasets": [
+      "flywire-fafb"
+    ],
+    "org": "Giuseppe Bellamacina (@GiuseppeBellamacina)",
+    "license": "unknown",
+    "language": "JavaScript",
+    "date": "2026-10-06",
+    "addedAt": "2026-10-07",
+    "stars": 1,
+    "starsUpdatedAt": "2026-10-07",
+    "description_en": "Five copies of the FlyWire v783 brain, one per instrument, rehearse a song on a 3D stage in the browser. Each gets the bar and beat position as spikes into 1,055 Johnston's organ neurons; a startup probe finds the roughly 1,700 neurons the input can actually drive and simulates only those, at about 80 ms of compute per sixteenth note. The connectome stays frozen and only a linear readout over 616 output neurons is fitted online by recursive least squares, which takes the drum part from 0.47 F1 on the first rehearsal to 1.00 on the second.",
+    "description_ja": "FlyWire v783 の脳を 5 つ複製し、楽器ごとに 1 体ずつ、ブラウザの 3D ステージで曲をリハーサルさせる。各体は小節と拍の位置をスパイク列として 1055 個の Johnston 器官ニューロンから受け取る。起動時の探索で入力が実際に動かせる約 1700 ニューロンを見つけ、そこだけを 16 分音符あたり約 80 ミリ秒の計算で回す。コネクトームは凍結したままで、学習するのは出力ニューロン 616 本にかけた線形の読み出しだけ。再帰最小二乗で逐次当てはめ、ドラムの F1 は 1 回目 0.47 から 2 回目 1.00 になる。",
+    "sourceRefs": [
+      "https://raw.githubusercontent.com/GiuseppeBellamacina/let-it-flyppen/HEAD/README.md",
+      "https://github.com/GiuseppeBellamacina/let-it-flyppen"
+    ]
+  },
+  {
+    "id": "flybrain-webgpu-go",
+    "name": "flybrain (Go + WebGPU)",
+    "url": "https://github.com/dsbaha/flybrain",
+    "repoUrl": "https://github.com/dsbaha/flybrain",
+    "category": "simulation",
+    "tags": [
+      "golang",
+      "webgpu",
+      "vulkan",
+      "lif",
+      "replication",
+      "tcp-protocol",
+      "flywire"
+    ],
+    "datasets": [
+      "flywire-fafb"
+    ],
+    "org": "@dsbaha",
+    "license": "unknown",
+    "language": "Go",
+    "date": "2026-10-06",
+    "addedAt": "2026-10-07",
+    "stars": 0,
+    "starsUpdatedAt": "2026-10-07",
+    "description_en": "A leaky integrate-and-fire simulator of the FlyWire wiring, 138,639 neurons and 54.5 M synapses, written in Go against WebGPU on Vulkan, with a pure-Go CPU backend whose arithmetic is bit-identical and a self-test that checks it. It reports its replication rather than claiming it: the reference sugar experiment gives 0.12 Hz and 457 active neurons in Brian2 and 0.13 Hz with 369 active here, at a 1 ms step instead of 0.1 ms. A brain server speaks a small TCP protocol so a separate 3D arena can run up to four embodied flies in one odour world.",
+    "description_ja": "FlyWire の配線（13 万 8639 ニューロン・5450 万シナプス）を Leaky Integrate-and-Fire で回すシミュレータ。Go で書かれ Vulkan 上の WebGPU を使い、演算がビット単位で一致する純 Go の CPU バックエンドと、それを突き合わせる自己検査を備える。再現性は主張ではなく数字で報告される。参照実装の砂糖刺激実験は Brian2 で 0.12 Hz・活動 457 ニューロン、こちらは 0.13 Hz・369 ニューロン（刻みは 0.1 ms ではなく 1 ms）。脳をサーバとして小さな TCP プロトコルで公開し、別プログラムの 3D アリーナが匂いの世界で最大 4 匹を動かす。",
+    "sourceRefs": [
+      "https://raw.githubusercontent.com/dsbaha/flybrain/HEAD/README.md",
+      "https://github.com/dsbaha/flybrain"
+    ]
+  },
+  {
+    "id": "brainlab-audits",
+    "name": "brainlab",
+    "url": "https://github.com/githabideri/brainlab",
+    "repoUrl": "https://github.com/githabideri/brainlab",
+    "category": "tool",
+    "tags": [
+      "audit",
+      "evaluation-method",
+      "reports",
+      "replication",
+      "flywire"
+    ],
+    "datasets": [
+      "flywire-fafb"
+    ],
+    "org": "@githabideri",
+    "license": "MIT",
+    "language": "Python",
+    "date": "2026-10-06",
+    "addedAt": "2026-10-07",
+    "stars": 0,
+    "starsUpdatedAt": "2026-10-07",
+    "description_en": "A repository that examines other people's connectome projects instead of adding another one. It keeps a written evaluation method, an index of circuit files with their provenance, and dated frozen reports. The first report audits FlyBridge, a third party's trained connectome agent built on a 1,536-neuron, 42,921-connection olfactory pathway of FAFB v783, grading each claim as real, assisted or untested from the transcript, the key frames and above all the repository, and noting where the video and the repository disagree.",
+    "description_ja": "コネクトームの事例をもう一つ足すのではなく、他者の事例を検証する側に立つリポジトリ。評価の手順を文章で固定し、使った回路ファイルとその出所の索引、日付を打って凍結した報告を残す。最初の報告は、第三者が FAFB v783 の嗅覚経路（1536 ニューロン・4 万 2921 結合）を学習させて作ったエージェント FlyBridge を対象に、各主張を「実データどおり」「足場に支えられている」「未検証」のいずれかに判定する。根拠は動画の書き起こしと代表フレーム、そして何よりリポジトリ本体で、動画と食い違う箇所も書き留めている。",
+    "sourceRefs": [
+      "https://raw.githubusercontent.com/githabideri/brainlab/HEAD/README.md",
+      "https://raw.githubusercontent.com/githabideri/brainlab/main/reports/2026-10-04-flybridge-audit.md"
+    ]
+  },
+  {
+    "id": "neuropest",
+    "name": "NeuroPest",
+    "url": "https://github.com/IrohAmca/NeuroPest",
+    "repoUrl": "https://github.com/IrohAmca/NeuroPest",
+    "category": "demo",
+    "tags": [
+      "desktop-pet",
+      "screen-vision",
+      "ommatidia",
+      "mushroom-body",
+      "metabolism",
+      "flywire"
+    ],
+    "datasets": [
+      "flywire-fafb"
+    ],
+    "org": "@IrohAmca",
+    "license": "PolyForm-Noncommercial-1.0.0",
+    "language": "Python",
+    "date": "2026-10-03",
+    "addedAt": "2026-10-07",
+    "stars": 0,
+    "starsUpdatedAt": "2026-10-07",
+    "description_en": "A desktop fly whose behaviour comes out of a leaky integrate-and-fire run of the FlyWire v783 wiring, with a 146-neuron toy circuit as the lightweight fallback. The cursor becomes three sensory streams: approach speed drives backward walking through MDN or escape through the giant fibre DNp01, bearing drives the DNa02 turns, and hunger feeds tonic current into DNp09. What sets it apart from other desktop flies is an optional vision mode sampling real screen pixels through ommatidia and medulla columns, and screen-edge collisions that punish via PPL1 so the mushroom body learns the edges.",
+    "description_ja": "デスクトップを歩くハエで、振る舞いは FlyWire v783 の配線を Leaky Integrate-and-Fire で回した結果から出る。軽量動作用に 146 ニューロンの簡易回路も選べる。マウスカーソルは 3 つの感覚入力になる。接近の速さは MDN 経由の後退、速ければ巨大繊維 DNp01 の逃避跳躍を引き起こし、方位は DNa02 の旋回を、空腹は DNp09 への持続入力を駆動する。他のデスクトップのハエと違うのは、画面の実ピクセルを個眼とメデュラのコラム越しに取り込む視覚モードと、画面端への衝突を PPL1 の罰信号にしてキノコ体に端を学習させる点。",
+    "sourceRefs": [
+      "https://raw.githubusercontent.com/IrohAmca/NeuroPest/HEAD/README.md",
+      "https://github.com/IrohAmca/NeuroPest"
+    ]
   }
 ]
