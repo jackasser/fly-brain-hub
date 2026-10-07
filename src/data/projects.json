@@ -13650,5 +13650,186 @@
       "https://raw.githubusercontent.com/IrohAmca/NeuroPest/HEAD/README.md",
       "https://github.com/IrohAmca/NeuroPest"
     ]
+  },
+  {
+    "id": "synaptera",
+    "name": "Synaptera",
+    "url": "https://github.com/omeruk/synaptera",
+    "repoUrl": "https://github.com/omeruk/synaptera",
+    "category": "simulation",
+    "tags": [
+      "pre-registered",
+      "negative-result",
+      "flight",
+      "neuromechfly",
+      "flygym",
+      "mn9",
+      "dnp15",
+      "ablation"
+    ],
+    "datasets": [
+      "flywire-fafb"
+    ],
+    "org": "omeruk (@omeruk)",
+    "license": "MIT",
+    "language": "Python",
+    "date": "2026-10-07",
+    "addedAt": "2026-10-08",
+    "stars": 2,
+    "starsUpdatedAt": "2026-10-08",
+    "description_en": "A whole-brain leaky integrate-and-fire model of the FlyWire v783 connectome (138,639 neurons, 54,492,922 synapses, Brian2) flown in closed loop on a NeuroMechFly/FlyGym MuJoCo body, against criteria committed before the runs they decide. The conclusion stays narrow: the only behavioural decision coming from the connectome is feeding, read out as MN9 above 10 Hz, and its trigger is a hand-made shortcut because the leg sugar neurons chosen by connectivity leave MN9 at 0 Hz. DNp15 failed its own validation, DNg02 never spiked, and no brain-only run landed.",
+    "description_ja": "FlyWire v783 コネクトーム（138,639 ニューロン・54,492,922 シナプス、Brian2）の全脳 LIF モデルを NeuroMechFly/FlyGym の MuJoCo 身体と閉ループでつなぎ、離陸・塔の通過・着地・摂食の課題を、判定される実行より前にリポジトリへ固定した基準で採点する。結論は控えめで、コネクトーム由来と言える行動判断は摂食だけ（MN9 が 10 Hz 超）。しかもその引き金は自作の近道で、配線から選んだ脚の糖受容ニューロンでは MN9 が 0 Hz のままだった。操舵・高度・着地・頭部反射は手書き。DNp15 の読み出しは自前の検証に落ち、DNg02 は一度も発火せず、脳だけの条件はどれも着地できなかった。",
+    "sourceRefs": [
+      "https://raw.githubusercontent.com/omeruk/synaptera/HEAD/README.md"
+    ]
+  },
+  {
+    "id": "fly-distill",
+    "name": "fly-distill",
+    "url": "https://github.com/michelangeloromerochisco/fly-distill",
+    "repoUrl": "https://github.com/michelangeloromerochisco/fly-distill",
+    "category": "simulation",
+    "tags": [
+      "larval",
+      "language-model",
+      "controlled-study",
+      "degree-preserving-shuffle",
+      "erdos-renyi-control",
+      "hub-cap",
+      "pre-registered"
+    ],
+    "datasets": [
+      "larval"
+    ],
+    "org": "michelangeloromerochisco (@michelangeloromerochisco)",
+    "license": "MIT",
+    "language": "Python",
+    "date": "2026-10-07",
+    "addedAt": "2026-10-08",
+    "stars": 0,
+    "starsUpdatedAt": "2026-10-08",
+    "description_en": "A controlled study that freezes the larval Drosophila connectome of Winding et al. 2023 (2,952 neurons, 38,401 edges at the three-synapse threshold) as the recurrent substrate of a byte-level language model, against degree-preserving shuffles, Erdos-Renyi graphs, weight erasure and a hub-capping arm. Decision rules were written before the data, four seeds ran to 150M training bytes, and the whole thing fits in roughly 277 GPU-hours on one 4 GB laptop GPU. The paper title carries the finding: at this scale, hub concentration masks the benefit of the biological wiring.",
+    "description_ja": "Winding ら 2023 の幼虫コネクトーム（2,952 ニューロン、3 シナプス以上で 38,401 辺）を凍結した再帰層として使い、バイト単位の言語モデルを学習させる対照実験。次数を保ったシャッフル、Erdős–Rényi グラフ、重みの消去、ハブに上限を設けた条件と並べて比べる。判定規則はデータを見る前に書き、4 シードを 150M バイトまで回し、全体で約 277 GPU 時間を 4 GB のノート PC の GPU 1 枚に収めている。同梱論文の題がそのまま結論で、この規模ではハブの集中が生物的な配線の利点を覆い隠す。",
+    "sourceRefs": [
+      "https://raw.githubusercontent.com/michelangeloromerochisco/fly-distill/HEAD/README.md"
+    ]
+  },
+  {
+    "id": "fly-garden",
+    "name": "Fly Garden",
+    "url": "https://github.com/carsonshicks2016-beep/FlyGarden",
+    "repoUrl": "https://github.com/carsonshicks2016-beep/FlyGarden",
+    "category": "simulation",
+    "tags": [
+      "neuromechfly",
+      "brian2",
+      "failed-gates",
+      "dnp09",
+      "mbon",
+      "audit",
+      "local-only"
+    ],
+    "datasets": [
+      "flywire-fafb"
+    ],
+    "org": "carsonshicks2016-beep (@carsonshicks2016-beep)",
+    "license": "GPL-2.0-or-later",
+    "language": "Python",
+    "date": "2026-10-07",
+    "addedAt": "2026-10-08",
+    "stars": 0,
+    "starsUpdatedAt": "2026-10-08",
+    "description_en": "A local 3D arena for one fly that persists between sessions, its brain the full FlyWire v783 import (138,639 neurons, 54,492,922 represented synapses, no threshold and no reduced substitute) run in Brian2 on a NeuroMechFly 2.1 body at a 100 microsecond physics step. The boundaries section is why to read it: odour-guided action selection is not established, the gait generator and escape reflex are engineered, and learning is explicitly not demonstrated. A staged report records 60 full-brain trials against 40 physical controls where the away-directed criterion failed and DNp09 stayed silent.",
+    "description_ja": "全脳 FlyWire v783（138,639 ニューロン・54,492,922 シナプス、しきい値も縮約も無し）を Brian2 で回し、NeuroMechFly 2.1 の身体（物理ステップ 100 µs）に載せた、1 匹のハエが住み続けるローカル 3D 実験室。読む価値は境界の節にある。匂いに導かれた行動選択は未確立、歩容生成器と逃避反射は作り物、視覚の脅威入力は網膜回路ではなく幾何特徴、行動の学習は示せていないと明記する。段階別の報告には全脳 60 試行と物理対照 40 試行があり、遠ざかる動きの基準は不合格、選んだ DNp09 は無発火で、次の段階を自ら止めている。",
+    "sourceRefs": [
+      "https://raw.githubusercontent.com/carsonshicks2016-beep/FlyGarden/HEAD/README.md"
+    ]
+  },
+  {
+    "id": "flybrainlab-agentic",
+    "name": "FlyBrainLab (Agentic Scientific Discovery)",
+    "url": "https://github.com/JonasMayerDev/FlyBrainLab",
+    "repoUrl": "https://github.com/JonasMayerDev/FlyBrainLab",
+    "category": "simulation",
+    "tags": [
+      "llm-agents",
+      "dng02",
+      "sham-control",
+      "disconnection",
+      "flybody",
+      "neuromechfly",
+      "hackathon"
+    ],
+    "datasets": [
+      "flywire-fafb"
+    ],
+    "org": "JonasMayerDev (@JonasMayerDev)",
+    "license": "unknown",
+    "date": "2026-10",
+    "addedAt": "2026-10-08",
+    "description_en": "A hackathon entry for the Databricks \"Agentic Scientific Discovery\" challenge (Munich, October 2026) that hands an LLM agent team the experiment loop: plan a test on the DNg02 descending neurons, run sham, stimulation and disconnection arms over seeds 42 to 44 on the full FAFB FlyWire v783 graph (138,639 neurons, 15,091,983 processed connection rows) with pinned Shiu et al. code in Brian2, then pick the next test from the outcome. Parameters and targets were sealed beforehand, and the README states that an existing RL policy holds the body up in the 200 ms window tested.",
+    "description_ja": "Databricks の課題「Agentic Scientific Discovery」（2026 年 10 月、ミュンヘン）のハッカソン作で、実験の輪を LLM エージェント群に任せる。下行ニューロン DNg02 を標的に、シード 42〜44 で sham・刺激・切断の 3 条件を、FAFB FlyWire v783 の全グラフ（138,639 ニューロン、15,091,983 接続行）と固定した Shiu ら のコードで Brian2 上に流し、結果を一次文献と突き合わせ、返ってきた結果から次の試験を選ぶ。パラメータと標的は事前に封印。README は運動アダプタが仮定であることと、検証した 200 ms の窓では既存の RL ポリシーが身体を支えており、コネクトームだけによる飛行は示せていないことを明言する。",
+    "sourceRefs": [
+      "https://raw.githubusercontent.com/JonasMayerDev/FlyBrainLab/HEAD/README.md"
+    ]
+  },
+  {
+    "id": "fly-brain-tetris-fafb",
+    "name": "Fly Brain Tetris",
+    "url": "https://github.com/alexeygrigorev/fly-brain-tetris",
+    "repoUrl": "https://github.com/alexeygrigorev/fly-brain-tetris",
+    "category": "demo",
+    "tags": [
+      "tetris",
+      "linear-readout",
+      "cross-entropy-method",
+      "pinned-checksums",
+      "stated-limits"
+    ],
+    "datasets": [
+      "flywire-fafb"
+    ],
+    "org": "alexeygrigorev (@alexeygrigorev)",
+    "license": "unknown",
+    "language": "HTML",
+    "date": "2026-10-07",
+    "addedAt": "2026-10-08",
+    "stars": 0,
+    "starsUpdatedAt": "2026-10-08",
+    "description_en": "A Brick Game handheld in the browser where a fly works the buttons, with a second panel showing responses of a simplified linear model derived from the FAFB v783 connectome. Only a 32-channel readout learns, fitted by cross-entropy optimisation over 24 generations with 64 candidates, four games each and ten elites; the compiled 32x6 transform stays fixed. That transform, its pseudoinverse, the neuron IDs and the graph provenance are committed as JSON and pinned by SHA-256. The overview ends by saying what it is not: an artificial policy over engineered board features.",
+    "description_ja": "ブラウザのブロックゲーム機のボタンをハエが押し、別の画面に FAFB v783 コネクトームから導いた簡略な線形モデルの応答が出る。学習するのは 32 チャネルの読み出しだけで、交差エントロピー最適化（24 世代・候補 64・1 候補あたり 4 ゲーム・エリート 10）で合わせ、コンパイルした 32×6 の変換は固定したまま。変換行列・その擬逆行列・入出力ニューロンの ID・グラフの出どころは JSON として同梱し、SHA-256 で固定する。概要の最後が誠実で、これは設計した盤面特徴の上の人工的な方策であり、生物のハエの模擬でも、視覚や脚の制御を示したものでもない、と作者自身が書いている。",
+    "sourceRefs": [
+      "https://raw.githubusercontent.com/alexeygrigorev/fly-brain-tetris/HEAD/README.md"
+    ]
+  },
+  {
+    "id": "fly-poker",
+    "name": "Fly Poker",
+    "url": "https://github.com/EvanGruhlkey/fly-poker",
+    "repoUrl": "https://github.com/EvanGruhlkey/fly-poker",
+    "category": "demo",
+    "tags": [
+      "poker",
+      "self-play",
+      "imitation-learning",
+      "browser-worker",
+      "data-licensing",
+      "unresolved-checksum"
+    ],
+    "datasets": [
+      "flywire-fafb"
+    ],
+    "org": "EvanGruhlkey (@EvanGruhlkey)",
+    "license": "unknown",
+    "language": "Python",
+    "date": "2026-10-06",
+    "addedAt": "2026-10-08",
+    "stars": 0,
+    "starsUpdatedAt": "2026-10-08",
+    "description_en": "Heads-up no-limit Hold em against a fly in a full-screen casino: both sides start at 100 big blinds, blinds are 0.5 and 1, stacks carry between hands and the button alternates. The opponent is a network derived from the checksum-pinned FlyWire graph, trained on a rented L4 by first copying an equity teacher and then by self-play, running locally in a browser worker. Raw connectome tables and weights are kept out of git, the FlyWire terms (CC BY-NC 4.0) are stated as separate from the MIT reference code, and the MaleCNS manifest is flagged as carrying an unresolved checksum.",
+    "description_ja": "全画面のカジノでハエと 1 対 1 のノーリミット・ホールデム。双方 100BB 持ち、ブラインドは 0.5／1、スタックはハンド間で引き継ぎ、ボタンは交互に移る。相手はチェックサムで固定した FlyWire グラフから作ったネットワークで、借りた L4 上でまずエクイティ教師を真似させ、次に自己対戦で訓練し、ブラウザのワーカーでローカルに走る。データの扱いが丁寧で、生のコネクトーム表と学習済み重みは git に入れず、FlyWire の条件（CC BY-NC 4.0）を MIT の参照コードとは別物として明記し、MaleCNS のマニフェストはチェックサムが未解決なので検証済みデータセットとして扱うなと断っている。",
+    "sourceRefs": [
+      "https://raw.githubusercontent.com/EvanGruhlkey/fly-poker/HEAD/README.md"
+    ]
   }
 ]
